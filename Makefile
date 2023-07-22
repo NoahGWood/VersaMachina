@@ -9,14 +9,17 @@ ifndef verbose
 endif
 
 ifeq ($(config),debug)
+  Glad_config = debug
   VersaLib_config = debug
   VersaEditor_config = debug
 
 else ifeq ($(config),release)
+  Glad_config = release
   VersaLib_config = release
   VersaEditor_config = release
 
 else ifeq ($(config),dist)
+  Glad_config = dist
   VersaLib_config = dist
   VersaEditor_config = dist
 
@@ -24,27 +27,36 @@ else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := VersaLib VersaEditor
+PROJECTS := Glad VersaLib VersaEditor
 
-.PHONY: all clean help $(PROJECTS) 
+.PHONY: all clean help $(PROJECTS) Dependencies
 
 all: $(PROJECTS)
 
-VersaLib:
+Dependencies: Glad
+
+Glad:
+ifneq (,$(Glad_config))
+	@echo "==== Building Glad ($(Glad_config)) ===="
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f Makefile config=$(Glad_config)
+endif
+
+VersaLib: Glad
 ifneq (,$(VersaLib_config))
 	@echo "==== Building VersaLib ($(VersaLib_config)) ===="
-	@${MAKE} --no-print-directory -C VersaLib -f Makefile config=$(VersaLib_config)
+	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile config=$(VersaLib_config)
 endif
 
 VersaEditor: VersaLib
 ifneq (,$(VersaEditor_config))
 	@echo "==== Building VersaEditor ($(VersaEditor_config)) ===="
-	@${MAKE} --no-print-directory -C VersaEditor -f Makefile config=$(VersaEditor_config)
+	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile config=$(VersaEditor_config)
 endif
 
 clean:
-	@${MAKE} --no-print-directory -C VersaLib -f Makefile clean
-	@${MAKE} --no-print-directory -C VersaEditor -f Makefile clean
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f Makefile clean
+	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile clean
+	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile clean
 
 help:
 	@echo "Usage: make [config=name] [target]"
@@ -57,6 +69,7 @@ help:
 	@echo "TARGETS:"
 	@echo "   all (default)"
 	@echo "   clean"
+	@echo "   Glad"
 	@echo "   VersaLib"
 	@echo "   VersaEditor"
 	@echo ""

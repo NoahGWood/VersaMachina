@@ -1,27 +1,39 @@
 #include "Versa.h"
-#include "entry.h"
 #include <iostream>
-namespace VersaMachina
-{
 
-class Sandbox : public VersaMachina::Application
+class ExampleLayer : public VersaMachina::Layer
+{
+    ExampleLayer()
+    : Layer("Example") {}
+
+    public:
+        void OnUpdate() override
+        {
+            VM_INFO("ExampleLayer::Update");
+        }
+
+        void OnEvent(VersaMachina::Event& event) override
+        {
+//            VM_TRACE("{0}", event);
+        }
+};
+
+
+class VersaEditor : public VersaMachina::Application
 {
     public:
-        Sandbox()
+        VersaEditor()
         {
-            std::cout << "Hello, VersaMachina World" << std::endl;
+//            PushLayer(new ExampleLayer());
+            VM_INFO("Hello, VersaMachina World");
         }
-        ~Sandbox()
+        ~VersaEditor()
         {
 
         }
 };
 
-Application* CreateApplication()
+VersaMachina::Application* VersaMachina::CreateApplication()
 {
-    return new Sandbox();
+    return new VersaEditor();
 }
-
-
-} // namespace VersaMachina
-

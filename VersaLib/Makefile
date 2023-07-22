@@ -19,12 +19,13 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -Iinclude
+PCH = include/pch.h
+PCH_PLACEHOLDER = $(OBJDIR)/$(notdir $(PCH))
+GCH = $(PCH_PLACEHOLDER).gch
+INCLUDES += -Iinclude -Iplatforms -Ivendor/spdlog/include -Ivendor/glfw/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS +=
-LDDEPS +=
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 define PREBUILDCMDS
 endef
@@ -37,27 +38,33 @@ ifeq ($(config),debug)
 TARGETDIR = ../bin/Debug-linux-x86_64/VersaLib
 TARGET = $(TARGETDIR)/libVersaLib.a
 OBJDIR = ../build/Debug-linux-x86_64/VersaLib
-DEFINES += -DVM_PLATFORM_LINUX -DVM_DEBUG
+DEFINES += -D_CRT_SECURE_NO_WARNINGS -DGLFW_INCLUDE_NONE -DVM_PLATFORM_LINUX -DVM_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
+LIBS += ../bin/Debug-linux-x86_64/GLFW/libGLFW.a ../bin/Debug-linux-x86_64/Glad/libGlad.a
+LDDEPS += ../bin/Debug-linux-x86_64/GLFW/libGLFW.a ../bin/Debug-linux-x86_64/Glad/libGlad.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/VersaLib
 TARGET = $(TARGETDIR)/libVersaLib.a
 OBJDIR = ../build/Release-linux-x86_64/VersaLib
-DEFINES += -DVM_PLATFORM_LINUX -DVM_RELEASE
+DEFINES += -D_CRT_SECURE_NO_WARNINGS -DGLFW_INCLUDE_NONE -DVM_PLATFORM_LINUX -DVM_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
+LIBS += ../bin/Release-linux-x86_64/GLFW/libGLFW.a ../bin/Release-linux-x86_64/Glad/libGlad.a
+LDDEPS += ../bin/Release-linux-x86_64/GLFW/libGLFW.a ../bin/Release-linux-x86_64/Glad/libGlad.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
 TARGETDIR = ../bin/Dist-linux-x86_64/VersaLib
 TARGET = $(TARGETDIR)/libVersaLib.a
 OBJDIR = ../build/Dist-linux-x86_64/VersaLib
-DEFINES += -DVM_PLATFORM_LINUX -DVM_DIST
+DEFINES += -D_CRT_SECURE_NO_WARNINGS -DGLFW_INCLUDE_NONE -DVM_PLATFORM_LINUX -DVM_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
+LIBS += ../bin/Dist-linux-x86_64/GLFW/libGLFW.a ../bin/Dist-linux-x86_64/Glad/libGlad.a
+LDDEPS += ../bin/Dist-linux-x86_64/GLFW/libGLFW.a ../bin/Dist-linux-x86_64/Glad/libGlad.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
@@ -72,8 +79,18 @@ endif
 GENERATED :=
 OBJECTS :=
 
-GENERATED += $(OBJDIR)/application.o
-OBJECTS += $(OBJDIR)/application.o
+GENERATED += $(OBJDIR)/Application.o
+GENERATED += $(OBJDIR)/Layer.o
+GENERATED += $(OBJDIR)/LayerStack.o
+GENERATED += $(OBJDIR)/Log.o
+GENERATED += $(OBJDIR)/OpenGLWindow.o
+GENERATED += $(OBJDIR)/pch.o
+OBJECTS += $(OBJDIR)/Application.o
+OBJECTS += $(OBJDIR)/Layer.o
+OBJECTS += $(OBJDIR)/LayerStack.o
+OBJECTS += $(OBJDIR)/Log.o
+OBJECTS += $(OBJDIR)/OpenGLWindow.o
+OBJECTS += $(OBJDIR)/pch.o
 
 # Rules
 # #############################################
@@ -137,9 +154,24 @@ endif
 # File Rules
 # #############################################
 
-$(OBJDIR)/application.o: src/application.cpp
+$(OBJDIR)/OpenGLWindow.o: platforms/OpenGL/src/OpenGLWindow.cpp
 	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Application.o: src/Core/Application.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Layer.o: src/Core/Layer.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/LayerStack.o: src/Core/LayerStack.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Log.o: src/Core/Log.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/pch.o: src/pch.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)
 ifneq (,$(PCH))

@@ -10,110 +10,27 @@ workspace "VersaMachina"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
-project "VersaLib"
-        location "VersaLib"
-        kind "StaticLib"
-        language "C++"
-        cppdialect "C++17"
-        staticruntime "Off"
-        systemversion "latest"
-    
-        targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-        objdir ("build/" .. outputdir .. "/%{prj.name}")
-        
-        files
-        {
-            "%{prj.name}/src/**.h",
-            "%{prj.name}/src/**.cpp"
-        }
-    
-        includedirs
-        {
-            "%{prj.name}/include"
-        }
-   
-        filter "system:windows"
-    
-            defines
-            {
-                "VM_PLATFORM_WINDOWS"
-            }
-    
-        filter "system:linux"
-            defines
-            {
-                "VM_PLATFORM_LINUX"
-            }
-    
-        filter "configurations:Debug"
-            defines "VM_DEBUG"
-            symbols "On"
-    
-    
-        filter "configurations:Release"
-            defines "VM_RELEASE"
-            optimize "On"
-    
-        filter "configurations:Dist"
-            defines "VM_DIST"
-            optimize "On"
-    
-    
-project "VersaEditor"
-    location "VersaEditor"
-    kind "ConsoleApp"
-    language "C++"
-    cppdialect "C++17"
-    staticruntime "off"
-    systemversion "latest"
+-- This function includes GLFW's header files
+function includeGLFW()
+    includedirs "VersaLib/vendor/glfw/include"
+end
 
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("build/" .. outputdir .. "/%{prj.name}")
-    
-    files
-    {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
-    }
+-- This function links statically against GLFW
+function linkGLFW()
+	libdirs "Libraries/GLFW/Lib"
 
-    includedirs
-    {
-        "%{prj.name}/include",
-        "%{wks.location}/VersaLib/include"
-    }
+	-- Our static lib should not link against GLFW
+	filter "kind:not StaticLib"
+		links "glfw"
+	filter {}
+end
 
+group "Dependencies"
+    include "depends"
+    -- include "VersaLib/vendor/glfw"
+    include "VersaLib/vendor/glad"
 
-    links
-    {
-        "VersaLib"
-    }
+group ""
 
-    filter "system:windows"
-
-        defines
-        {
-            "VM_PLATFORM_WINDOWS",
-            "VM_BUILD_DLL"
-        }
-
-    filter "system:linux"
-        pic "On"
-
-        defines
-        {
-            "VM_PLATFORM_LINUX",
-            "VM_BUILD_SHARED"
-        }
-
-    filter "configurations:Debug"
-        defines "VM_DEBUG"
-        symbols "On"
-
-
-    filter "configurations:Release"
-        defines "VM_RELEASE"
-        optimize "On"
-
-    filter "configurations:Dist"
-        defines "VM_DIST"
-        optimize "On"
+include "VersaLib"
+include "VersaEditor"

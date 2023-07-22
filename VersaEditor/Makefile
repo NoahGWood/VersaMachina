@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -Iinclude -I../VersaLib/include
+INCLUDES += -Iinclude -I../VersaLib/include -I../VersaLib/vendor/spdlog/include -I../VersaLib/vendor/glfw/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -35,7 +35,7 @@ ifeq ($(config),debug)
 TARGETDIR = ../bin/Debug-linux-x86_64/VersaEditor
 TARGET = $(TARGETDIR)/VersaEditor
 OBJDIR = ../build/Debug-linux-x86_64/VersaEditor
-DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DEBUG
+DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -D_GLFW_X11 -DVM_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
 LIBS += ../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a
@@ -46,7 +46,7 @@ else ifeq ($(config),release)
 TARGETDIR = ../bin/Release-linux-x86_64/VersaEditor
 TARGET = $(TARGETDIR)/VersaEditor
 OBJDIR = ../build/Release-linux-x86_64/VersaEditor
-DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_RELEASE
+DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -D_GLFW_X11 -DVM_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
 LIBS += ../bin/Release-linux-x86_64/VersaLib/libVersaLib.a
@@ -57,7 +57,7 @@ else ifeq ($(config),dist)
 TARGETDIR = ../bin/Dist-linux-x86_64/VersaEditor
 TARGET = $(TARGETDIR)/VersaEditor
 OBJDIR = ../build/Dist-linux-x86_64/VersaEditor
-DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DIST
+DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -D_GLFW_X11 -DVM_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
 LIBS += ../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a

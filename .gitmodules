@@ -1,0 +1,6 @@
+[submodule "VersaLib/vendor/spdlog"]
+	path = VersaLib/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "VersaLib/vendor/glfw"]
+	path = VersaLib/vendor/glfw
+	url = https://github.com/glfw/glfw.git
