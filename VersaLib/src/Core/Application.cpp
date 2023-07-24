@@ -50,6 +50,8 @@ namespace VersaMachina
             {
                 (*it)->OnUpdate();
             }
+            auto[x,y] = Input::Input::GetMousePos();
+            VM_CORE_CRITICAL("{0}, {1}", x,y);
             m_Window->OnUpdate();
         }
     }

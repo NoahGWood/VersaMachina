@@ -5,6 +5,7 @@
 #include "Core/LayerStack.h"
 #include "Events/Event.h"
 #include "Events/WindowEvent.h"
+#include "Core/Input.h"
 
 namespace VersaMachina
 {

@@ -81,6 +81,7 @@ GENERATED += $(OBJDIR)/ImGUILayer.o
 GENERATED += $(OBJDIR)/Layer.o
 GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/Log.o
+GENERATED += $(OBJDIR)/OpenGLInput.o
 GENERATED += $(OBJDIR)/OpenGLWindow.o
 GENERATED += $(OBJDIR)/imgui_impl_glfw.o
 GENERATED += $(OBJDIR)/imgui_impl_opengl3.o
@@ -90,6 +91,7 @@ OBJECTS += $(OBJDIR)/ImGUILayer.o
 OBJECTS += $(OBJDIR)/Layer.o
 OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/Log.o
+OBJECTS += $(OBJDIR)/OpenGLInput.o
 OBJECTS += $(OBJDIR)/OpenGLWindow.o
 OBJECTS += $(OBJDIR)/imgui_impl_glfw.o
 OBJECTS += $(OBJDIR)/imgui_impl_opengl3.o
@@ -157,6 +159,9 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/OpenGLInput.o: ../platforms/OpenGL/src/OpenGLInput.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLWindow.o: ../platforms/OpenGL/src/OpenGLWindow.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"

@@ -21,11 +21,8 @@ namespace VersaMachina
             inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
             void SetVSync(bool enabled);
             bool IsVSync() const;
-
-//            inline void InitBackend() const override {
-//                // Setup Platform/Renderer backends
-//                ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
-//            }
+            
+            inline virtual void* GetNativeWindow() const { return m_Window; }
 
         private:
             virtual void Init(const WindowProps& props);
