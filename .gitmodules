@@ -7,3 +7,6 @@
 [submodule "VersaLib/vendor/imgui"]
 	path = VersaLib/vendor/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "VersaLib/vendor/glm"]
+	path = VersaLib/vendor/glm
+	url = https://github.com/g-truc/glm.git
