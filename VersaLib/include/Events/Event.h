@@ -1,12 +1,6 @@
 #pragma once
 
-#ifndef BIT
-    #define BIT(x) (1<<x)
-#endif 
-
-#include <functional>
-#include <sstream>
-#include <string>
+#include "pch.h"
 
 namespace VersaMachina
 {
@@ -15,7 +9,7 @@ namespace VersaMachina
         None = 0,
         WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMove,
         AppTick, AppUpdate, AppRender,
-        KeyPressed, KeyReleased,
+        KeyPressed, KeyReleased, KeyTyped,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
         NetworkTick,
     };
@@ -33,11 +27,10 @@ namespace VersaMachina
     };
 
     #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
-								virtual EventType GetEventType() const override { return GetStaticType(); }\
-								virtual const char* GetName() const override { return #type; }
+                                                                    virtual EventType GetEventType() const override { return GetStaticType(); }\
+                                                                    virtual const char* GetName() const override { return #type; }
 
     #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
-
     class Event
     {
 
@@ -53,35 +46,37 @@ namespace VersaMachina
                 return GetCategoryFlags() & category;
             }
 
-            inline bool IsHandled() {
-                return __handled;
-            }
-        protected:
-            bool __handled = false;
+//            inline bool IsHandled() {
+//                return m_Handled;
+//            }
+//        protected:
+            bool m_Handled = false;
     };
     
     class EventDispatcher
     {
-        public:
 
-    		template<typename T>
-            using EventFn = std::function<bool(T&)>;
+    	template<typename T>
+        using EventFn = std::function<bool(T&)>;
+
+        public:
             EventDispatcher(Event& event)
-             : __Event(event)
+             : m_Event(event)
             {
             }
 
     		template<typename T>
             bool Dispatch(EventFn<T> func)
             {
-                if(__Event.GetEventType() == T::GetStaticType()){
-                    __Event.__handled |= func(*(T*)&__Event);
+                if(m_Event.GetEventType() == T::GetStaticType())
+                {
+                    m_Event.m_Handled = func(*(T*)&m_Event);
                     return true;
                 }
                 return false;
             }
         private:
-            Event& __Event;
+            Event& m_Event;
 
     };
 

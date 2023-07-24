@@ -1,13 +1,6 @@
 #pragma once
 #include "Core/Window.h"
 
-//#include "OpenGL/include/OpenGLWindow.h"
-//#include "Events/WindowEvent.h"
-//#include "Events/MouseEvent.h"
-//#include "Events/KeyEvent.h"
-//#define _GLFW_X11 1
-//#include <GLFW/glfw3.h>
-
 // Forward declare GLFWwindow to avoid including glfw3.h
 struct GLFWwindow;
 //#include <glad/glad.h>
@@ -28,6 +21,11 @@ namespace VersaMachina
             inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
             void SetVSync(bool enabled);
             bool IsVSync() const;
+
+//            inline void InitBackend() const override {
+//                // Setup Platform/Renderer backends
+//                ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
+//            }
 
         private:
             virtual void Init(const WindowProps& props);

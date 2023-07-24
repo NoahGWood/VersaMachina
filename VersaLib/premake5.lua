@@ -3,7 +3,7 @@ project "VersaLib"
         kind "StaticLib"
         language "C++"
         cppdialect "C++17"
-        staticruntime "on"
+        staticruntime "off"
         systemversion "latest"
     
         targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
@@ -16,37 +16,42 @@ project "VersaLib"
 	    defines
 	    {
 	    	"_CRT_SECURE_NO_WARNINGS",
-	    	"GLFW_INCLUDE_NONE"
+	    	--"GLFW_INCLUDE_NONE"
 	    }
 
         files
         {
-            "src/**.h",
-            "src/**.cpp",
-            "platforms/**.h",
-            "platforms/**.cpp"
+            "%{wks.location}/VersaLib/src/**.h",
+            "%{wks.location}/VersaLib/src/**.cpp",
+            "%{wks.location}/VersaLib/platforms/**.h",
+            "%{wks.location}/VersaLib/platforms/**.cpp"
         }
     
         includedirs
         {
             "include",
             "platforms",
-            "vendor/spdlog/include"       
+            "vendor/spdlog/include",
+            "%{IncludeDir.Glad}",
+            "%{IncludeDir.ImGUI}",
         }
 
     	-- We need GLFW, so we include it
-    	includeGLFW()
+    	--includeGLFW()
 
         links
         {
+            "glfw",
             "Glad",
+            "ImGui"
         }
-
+        flags { "NoPCH" }
         filter "system:windows"
     
             defines
             {
-                "VM_PLATFORM_WINDOWS"
+                "VM_PLATFORM_WINDOWS",
+                "IMGUI_IMPL_OPENGL_LOADER_CUSTOM"
             }
     
         filter "system:linux"

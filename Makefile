@@ -10,16 +10,19 @@ endif
 
 ifeq ($(config),debug)
   Glad_config = debug
+  ImGui_config = debug
   VersaLib_config = debug
   VersaEditor_config = debug
 
 else ifeq ($(config),release)
   Glad_config = release
+  ImGui_config = release
   VersaLib_config = release
   VersaEditor_config = release
 
 else ifeq ($(config),dist)
   Glad_config = dist
+  ImGui_config = dist
   VersaLib_config = dist
   VersaEditor_config = dist
 
@@ -27,34 +30,41 @@ else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := Glad VersaLib VersaEditor
+PROJECTS := Glad ImGui VersaLib VersaEditor
 
 .PHONY: all clean help $(PROJECTS) Dependencies
 
 all: $(PROJECTS)
 
-Dependencies: Glad
+Dependencies: Glad ImGui
 
 Glad:
 ifneq (,$(Glad_config))
 	@echo "==== Building Glad ($(Glad_config)) ===="
-	@${MAKE} --no-print-directory -C VersaLib/vendor -f Makefile config=$(Glad_config)
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f Glad.make config=$(Glad_config)
 endif
 
-VersaLib: Glad
+ImGui:
+ifneq (,$(ImGui_config))
+	@echo "==== Building ImGui ($(ImGui_config)) ===="
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f ImGui.make config=$(ImGui_config)
+endif
+
+VersaLib: Glad ImGui
 ifneq (,$(VersaLib_config))
 	@echo "==== Building VersaLib ($(VersaLib_config)) ===="
 	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile config=$(VersaLib_config)
 endif
 
-VersaEditor: VersaLib
+VersaEditor: VersaLib Glad ImGui
 ifneq (,$(VersaEditor_config))
 	@echo "==== Building VersaEditor ($(VersaEditor_config)) ===="
 	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile config=$(VersaEditor_config)
 endif
 
 clean:
-	@${MAKE} --no-print-directory -C VersaLib/vendor -f Makefile clean
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f Glad.make clean
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f ImGui.make clean
 	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile clean
 	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile clean
 
@@ -70,6 +80,7 @@ help:
 	@echo "   all (default)"
 	@echo "   clean"
 	@echo "   Glad"
+	@echo "   ImGui"
 	@echo "   VersaLib"
 	@echo "   VersaEditor"
 	@echo ""

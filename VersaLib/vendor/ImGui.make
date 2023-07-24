@@ -19,11 +19,14 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -Iinclude -I../VersaLib/include -I../VersaLib/vendor/spdlog/include -I../VersaLib/vendor/glfw/include
+DEFINES +=
+INCLUDES += -Iimgui
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
+LIBS +=
+LDDEPS +=
+LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 define PREBUILDCMDS
 endef
 define PRELINKCMDS
@@ -32,36 +35,27 @@ define POSTBUILDCMDS
 endef
 
 ifeq ($(config),debug)
-TARGETDIR = ../bin/Debug-linux-x86_64/VersaEditor
-TARGET = $(TARGETDIR)/VersaEditor
-OBJDIR = ../build/Debug-linux-x86_64/VersaEditor
-DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -D_GLFW_X11 -DVM_DEBUG
+TARGETDIR = ../../bin/Debug-linux-x86_64/ImGui
+TARGET = $(TARGETDIR)/libImGui.a
+OBJDIR = ../../build/Debug-linux-x86_64/ImGui
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
-LIBS += ../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a
-LDDEPS += ../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
-TARGETDIR = ../bin/Release-linux-x86_64/VersaEditor
-TARGET = $(TARGETDIR)/VersaEditor
-OBJDIR = ../build/Release-linux-x86_64/VersaEditor
-DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -D_GLFW_X11 -DVM_RELEASE
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
-LIBS += ../bin/Release-linux-x86_64/VersaLib/libVersaLib.a
-LDDEPS += ../bin/Release-linux-x86_64/VersaLib/libVersaLib.a
+TARGETDIR = ../../bin/Release-linux-x86_64/ImGui
+TARGET = $(TARGETDIR)/libImGui.a
+OBJDIR = ../../build/Release-linux-x86_64/ImGui
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -std=c++17
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
-TARGETDIR = ../bin/Dist-linux-x86_64/VersaEditor
-TARGET = $(TARGETDIR)/VersaEditor
-OBJDIR = ../build/Dist-linux-x86_64/VersaEditor
-DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -D_GLFW_X11 -DVM_DIST
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
-LIBS += ../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a
-LDDEPS += ../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a
+TARGETDIR = ../../bin/Dist-linux-x86_64/ImGui
+TARGET = $(TARGETDIR)/libImGui.a
+OBJDIR = ../../build/Dist-linux-x86_64/ImGui
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -std=c++17
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
@@ -76,8 +70,16 @@ endif
 GENERATED :=
 OBJECTS :=
 
-GENERATED += $(OBJDIR)/main.o
-OBJECTS += $(OBJDIR)/main.o
+GENERATED += $(OBJDIR)/imgui.o
+GENERATED += $(OBJDIR)/imgui_demo.o
+GENERATED += $(OBJDIR)/imgui_draw.o
+GENERATED += $(OBJDIR)/imgui_tables.o
+GENERATED += $(OBJDIR)/imgui_widgets.o
+OBJECTS += $(OBJDIR)/imgui.o
+OBJECTS += $(OBJDIR)/imgui_demo.o
+OBJECTS += $(OBJDIR)/imgui_draw.o
+OBJECTS += $(OBJDIR)/imgui_tables.o
+OBJECTS += $(OBJDIR)/imgui_widgets.o
 
 # Rules
 # #############################################
@@ -87,7 +89,7 @@ all: $(TARGET)
 
 $(TARGET): $(GENERATED) $(OBJECTS) $(LDDEPS) | $(TARGETDIR)
 	$(PRELINKCMDS)
-	@echo Linking VersaEditor
+	@echo Linking ImGui
 	$(SILENT) $(LINKCMD)
 	$(POSTBUILDCMDS)
 
@@ -108,7 +110,7 @@ else
 endif
 
 clean:
-	@echo Cleaning VersaEditor
+	@echo Cleaning ImGui
 ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -f  $(TARGET)
 	$(SILENT) rm -rf $(GENERATED)
@@ -141,7 +143,19 @@ endif
 # File Rules
 # #############################################
 
-$(OBJDIR)/main.o: src/main.cpp
+$(OBJDIR)/imgui.o: imgui/imgui.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/imgui_demo.o: imgui/imgui_demo.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/imgui_draw.o: imgui/imgui_draw.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/imgui_tables.o: imgui/imgui_tables.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/imgui_widgets.o: imgui/imgui_widgets.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/PlatformDetection.h"
 #include <memory>
+#include <functional>
 
 #ifdef VM_DEBUG
     #if defined(VM_PLATFORM_WINDOWS)
@@ -19,7 +20,9 @@
 #define VM_EXPAND_MACRO(x) x
 #define VM_STRINGIFY_MACRO(x) #x
 
-#define VM_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
+// #define VM_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
+
+#define VM_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
 
 namespace VersaMachina
 {

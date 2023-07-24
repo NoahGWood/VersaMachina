@@ -9,7 +9,7 @@ namespace VersaMachina
     class WindowCloseEvent : public Event
     {
     public:
-        WindowCloseEvent() = default;
+        WindowCloseEvent(){}
 
         EVENT_CLASS_TYPE(WindowClose)
         EVENT_CLASS_CATEGORY(EventCategoryWindow)
@@ -17,24 +17,29 @@ namespace VersaMachina
 
     // WindowResize,
 
-    class WindowResizeEvent : public Event
+    class WindowResizedEvent : public Event
     {
     public:
-        WindowResizeEvent(unsigned int width, unsigned int height)
-            : __Width(width), __Height(height) {}
+        WindowResizedEvent(unsigned int width, unsigned int height)
+            : m_Width(width), m_Height(height) {}
 
-        unsigned int GetWidth() const { return __Width; }
-        unsigned int GetHeight() const { return __Height; }
+
+        unsigned int GetWidth() const { return m_Width; }
+        unsigned int GetHeight() const { return m_Height; }
 
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << "WindowResizeEvent: " << __Width << ", " << __Height;
+            ss << "WindowResizedEvent: " << m_Width << ", " << m_Height;
             return ss.str();
         }
 
+
+        EVENT_CLASS_TYPE(WindowResize)
+        EVENT_CLASS_CATEGORY(EventCategoryWindow)
+
     private:
-        unsigned int __Width, __Height;
+        unsigned int m_Width, m_Height;
     };
 
     // WindowFocus,

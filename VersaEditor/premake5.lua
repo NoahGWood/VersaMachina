@@ -24,8 +24,7 @@ includedirs
     "include",
     "%{wks.location}/VersaLib/include",
     "%{wks.location}/VersaLib/platforms",
-    "%{wks.location}/VersaLib/vendor/spdlog/include",
-    "%{IncludeDir.GLFW}"   
+    "%{wks.location}/VersaLib/vendor/spdlog/include"
 }
 
 links
@@ -57,7 +56,10 @@ filter "system:linux"
     links
     {
         "glfw",
-        "GL"                
+        "Glad",
+        "dl",
+        "GL",
+        "ImGUI"
     }
 
 filter "configurations:Debug"

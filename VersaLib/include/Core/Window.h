@@ -12,8 +12,8 @@ namespace VersaMachina
         uint32_t Height;
 
         WindowProps(const std::string& title="VersaMachina",
-        uint32_t width = 1600,
-        uint32_t height = 900)
+        uint32_t width = 700,
+        uint32_t height = 400)
             : Title(title), Width(width), Height(height) {}
     };
 
@@ -23,9 +23,7 @@ namespace VersaMachina
             using EventCallbackFn = std::function<void(Event&)>;
 
             virtual ~Window() = default;
-//            virtual void PreUpdate() = 0;
             virtual void OnUpdate() = 0;
-//            virtual void PostUpdate() = 0;
 
             virtual uint32_t GetWidth() const = 0;
             virtual uint32_t GetHeight() const = 0;
@@ -33,12 +31,9 @@ namespace VersaMachina
             // Window Attributes
             virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
             virtual void SetVSync(bool enabled) = 0;
-//            virtual bool IsVSync() const = 0;
 
-//            virtual void* GetNativeWindow() const = 0;
             static Window* Create(const WindowProps& props = WindowProps());
 
-//            static Scope<Window> Create(const WindowProps& props = WindowProps());
     };
 } // namespace VersaMachina
 

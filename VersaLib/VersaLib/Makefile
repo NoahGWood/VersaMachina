@@ -19,10 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-PCH = ../include/pch.h
-PCH_PLACEHOLDER = $(OBJDIR)/$(notdir $(PCH))
-GCH = $(PCH_PLACEHOLDER).gch
-INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -Ivendor/glfw/include
+INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -38,33 +35,33 @@ ifeq ($(config),debug)
 TARGETDIR = ../../bin/Debug-linux-x86_64/VersaLib
 TARGET = $(TARGETDIR)/libVersaLib.a
 OBJDIR = ../../build/Debug-linux-x86_64/VersaLib
-DEFINES += -D_CRT_SECURE_NO_WARNINGS -DGLFW_INCLUDE_NONE -DVM_PLATFORM_LINUX -DVM_DEBUG
+DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++17
-LIBS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a
-LDDEPS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a
+LIBS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a -lglfw
+LDDEPS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
 TARGETDIR = ../../bin/Release-linux-x86_64/VersaLib
 TARGET = $(TARGETDIR)/libVersaLib.a
 OBJDIR = ../../build/Release-linux-x86_64/VersaLib
-DEFINES += -D_CRT_SECURE_NO_WARNINGS -DGLFW_INCLUDE_NONE -DVM_PLATFORM_LINUX -DVM_RELEASE
+DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-LIBS += ../../bin/Release-linux-x86_64/Glad/libGlad.a
-LDDEPS += ../../bin/Release-linux-x86_64/Glad/libGlad.a
+LIBS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a -lglfw
+LDDEPS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
 TARGETDIR = ../../bin/Dist-linux-x86_64/VersaLib
 TARGET = $(TARGETDIR)/libVersaLib.a
 OBJDIR = ../../build/Dist-linux-x86_64/VersaLib
-DEFINES += -D_CRT_SECURE_NO_WARNINGS -DGLFW_INCLUDE_NONE -DVM_PLATFORM_LINUX -DVM_DIST
+DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++17
-LIBS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a
-LDDEPS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a
+LIBS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a -lglfw
+LDDEPS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
@@ -80,16 +77,22 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/Application.o
+GENERATED += $(OBJDIR)/ImGUILayer.o
 GENERATED += $(OBJDIR)/Layer.o
 GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/Log.o
 GENERATED += $(OBJDIR)/OpenGLWindow.o
+GENERATED += $(OBJDIR)/imgui_impl_glfw.o
+GENERATED += $(OBJDIR)/imgui_impl_opengl3.o
 GENERATED += $(OBJDIR)/pch.o
 OBJECTS += $(OBJDIR)/Application.o
+OBJECTS += $(OBJDIR)/ImGUILayer.o
 OBJECTS += $(OBJDIR)/Layer.o
 OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/Log.o
 OBJECTS += $(OBJDIR)/OpenGLWindow.o
+OBJECTS += $(OBJDIR)/imgui_impl_glfw.o
+OBJECTS += $(OBJDIR)/imgui_impl_opengl3.o
 OBJECTS += $(OBJDIR)/pch.o
 
 # Rules
@@ -156,22 +159,31 @@ endif
 
 $(OBJDIR)/OpenGLWindow.o: ../platforms/OpenGL/src/OpenGLWindow.cpp
 	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/imgui_impl_glfw.o: ../platforms/OpenGL/src/imgui_impl_glfw.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/imgui_impl_opengl3.o: ../platforms/OpenGL/src/imgui_impl_opengl3.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Application.o: ../src/Core/Application.cpp
 	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Layer.o: ../src/Core/Layer.cpp
 	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/LayerStack.o: ../src/Core/LayerStack.cpp
 	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: ../src/Core/Log.cpp
 	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ImGUILayer.o: ../src/UI/ImGUILayer.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pch.o: ../src/pch.cpp
 	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) -include $(PCH_PLACEHOLDER) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)
 ifneq (,$(PCH))

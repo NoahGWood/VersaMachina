@@ -4,3 +4,6 @@
 [submodule "VersaLib/vendor/glfw"]
 	path = VersaLib/vendor/glfw
 	url = https://github.com/glfw/glfw.git
+[submodule "VersaLib/vendor/imgui"]
+	path = VersaLib/vendor/imgui
+	url = https://github.com/ocornut/imgui.git

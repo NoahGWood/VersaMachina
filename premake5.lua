@@ -29,6 +29,7 @@ group "Dependencies"
     include "depends"
     -- include "VersaLib/vendor/glfw"
     include "VersaLib/vendor/glad"
+    include "VersaLib/vendor/imgui"
 
 group ""
 

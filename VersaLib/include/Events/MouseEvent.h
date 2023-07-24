@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Events/Event.h"
+#include "Core/MouseCodes.h"
 
 namespace VersaMachina
 {

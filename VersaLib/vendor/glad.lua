@@ -8,14 +8,14 @@ project "Glad"
 
 	files
 	{
-		"%{wks.location}/VersaLib/vendor/glad/include/glad/glad.h",
-		"%{wks.location}/VersaLib/vendor/glad/include/KHR/khrplatform.h",
-		"%{wks.location}/VersaLib/vendor/glad/src/glad.c"
+		"glad/include/glad/glad.h",
+		"glad/include/KHR/khrplatform.h",
+		"glad/src/glad.c"
 	}
 
 	includedirs
 	{
-		"%{wks.location}/VersaLib/vendor/glad/include"
+		"glad/include"
 	}
 
 	filter "system:linux"
@@ -26,11 +26,3 @@ project "Glad"
 	filter "system:windows"
 		systemversion "latest"
 		staticruntime "On"
-
-	filter "configurations:Debug"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		runtime "Release"
-		optimize "on"

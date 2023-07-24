@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../include -I../../VersaLib/include -I../../VersaLib/platforms -I../../VersaLib/vendor/spdlog/include -I../../VersaLib/vendor/glfw/include
+INCLUDES += -I../include -I../../VersaLib/include -I../../VersaLib/platforms -I../../VersaLib/vendor/spdlog/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -38,8 +38,8 @@ OBJDIR = ../../build/Debug-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
-LIBS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a -lglfw -lGL
-LDDEPS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a
+LIBS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
+LDDEPS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
@@ -49,8 +49,8 @@ OBJDIR = ../../build/Release-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
-LIBS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a -lglfw -lGL
-LDDEPS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a
+LIBS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
+LDDEPS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
@@ -60,8 +60,8 @@ OBJDIR = ../../build/Dist-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
-LIBS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a -lglfw -lGL
-LDDEPS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a
+LIBS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
+LDDEPS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
