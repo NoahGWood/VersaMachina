@@ -47,6 +47,11 @@ class VersaEditor : public VersaMachina::Application
             PushLayer(new ExampleLayer());
 //            PushOverlay(new ImGUILayer());
             VM_INFO("Hello, VersaMachina World");
+            VM_TRACE("Trace");
+            VM_INFO("Info");
+            VM_WARN("Warn");
+            VM_ERROR("Error");
+            VM_CRITICAL("Critical");
         }
         ~VersaEditor()
         {
