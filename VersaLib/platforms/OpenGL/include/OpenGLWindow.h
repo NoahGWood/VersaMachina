@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/Window.h"
-
+#include "OpenGL/include/OpenGLRenderContext.h"
+ 
 // Forward declare GLFWwindow to avoid including glfw3.h
 struct GLFWwindow;
 //#include <glad/glad.h>
@@ -30,6 +31,7 @@ namespace VersaMachina
 
         private:
             GLFWwindow* m_Window;
+            Render::OpenGLRenderContext* m_Context;
 
             struct WindowData
             {

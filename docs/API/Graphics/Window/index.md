@@ -1,3 +1,85 @@
+# Windows
+
+Windows in VersaMachina are implemented as an abstract class which is then subclassed for each target platform.
+
+## Window Properties
+
+- Title
+- Width
+- Height
+
+## Window Functions
+
+- OnUpdate()
+    - The main update loop.
+- GetWidth()
+    - Returns the width of the window
+- GetHeight()
+    - Returns the height of the window
+- SetEventCallback(const EventCallbackFn& callback)
+    - Takes in an Event callback function reference allowing you to hook your window into the [Events](../../Events/index.md) system.
+- SetVSync(bool enabled)
+    - Used to enable/disable VSync
+- GetNativeWindow()
+    - Returns a pointer to the native window (e.g. OpenGL, Vulkan)
+- Create(const WindowProps& props = WindowProps())
+    - Used to create a new window instance.
+
+## Examples
+
+### OpenGLWindow.h
+
+```
+#pragma once
+#include "Core/Window.h"
+#include "OpenGL/include/OpenGLRenderContext.h"
+ 
+// Forward declare GLFWwindow to avoid including glfw3.h
+struct GLFWwindow;
+//#include <glad/glad.h>
+
+namespace VersaMachina
+{
+    class OpenGLWindow : public Window
+    {
+        public:
+            OpenGLWindow(const WindowProps& props);
+            virtual ~OpenGLWindow();
+
+            void OnUpdate() override;
+
+            inline unsigned int GetWidth() const override { return m_Data.Width; }
+            inline unsigned int GetHeight() const override { return m_Data.Height; }
+
+            inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
+            void SetVSync(bool enabled);
+            bool IsVSync() const;
+            
+            inline virtual void* GetNativeWindow() const { return m_Window; }
+
+        private:
+            virtual void Init(const WindowProps& props);
+            virtual void Shutdown();
+
+        private:
+            GLFWwindow* m_Window;
+            Render::OpenGLRenderContext* m_Context;
+
+            struct WindowData
+            {
+                std::string Title;
+                unsigned int Width, Height;
+                EventCallbackFn EventCallback;
+                /* data */
+            };
+            WindowData m_Data;
+            
+    };
+} // namespace VersaMachina
+```
+
+### OpenGLWindow.cpp
+```
 #include "pch.h"
 #include "OpenGL/include/OpenGLWindow.h"
 #include "OpenGL/include/OpenGLRenderContext.h"
@@ -160,3 +242,8 @@ namespace VersaMachina
     }
 
 } // namespace VersaMachina
+
+```
+
+[DearImGUI](https://github.com/ocornut/imgui) is used in the backend to render windows.
+

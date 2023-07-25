@@ -83,7 +83,9 @@ GENERATED += $(OBJDIR)/Layer.o
 GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/Log.o
 GENERATED += $(OBJDIR)/OpenGLInput.o
+GENERATED += $(OBJDIR)/OpenGLRenderContext.o
 GENERATED += $(OBJDIR)/OpenGLWindow.o
+GENERATED += $(OBJDIR)/RenderContext.o
 GENERATED += $(OBJDIR)/pch.o
 OBJECTS += $(OBJDIR)/Application.o
 OBJECTS += $(OBJDIR)/ImGUIBuild.o
@@ -92,7 +94,9 @@ OBJECTS += $(OBJDIR)/Layer.o
 OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/Log.o
 OBJECTS += $(OBJDIR)/OpenGLInput.o
+OBJECTS += $(OBJDIR)/OpenGLRenderContext.o
 OBJECTS += $(OBJDIR)/OpenGLWindow.o
+OBJECTS += $(OBJDIR)/RenderContext.o
 OBJECTS += $(OBJDIR)/pch.o
 
 # Rules
@@ -160,6 +164,9 @@ endif
 $(OBJDIR)/OpenGLInput.o: ../platforms/OpenGL/src/OpenGLInput.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/OpenGLRenderContext.o: ../platforms/OpenGL/src/OpenGLRenderContext.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLWindow.o: ../platforms/OpenGL/src/OpenGLWindow.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -173,6 +180,9 @@ $(OBJDIR)/LayerStack.o: ../src/Core/LayerStack.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: ../src/Core/Log.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/RenderContext.o: ../src/Render/RenderContext.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ImGUIBuild.o: ../src/UI/ImGUIBuild.cpp

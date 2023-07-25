@@ -1,12 +1,51 @@
 site_name: VersaMachina
+theme:
+  name: material
 
+  palette:
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+
+
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
 nav:
     - Home: index.md
     - Getting Started: start.md
     - API Reference:
       - Audio: API/Audio/index.md
-      - Core: API/Core/index.md
-      - Graphics: API/Graphics/index.md
+      - Events: API/Events/index.md
+      - Graphics:
+        - Platform Agnostic:
+          - 2D Graphics: API/Graphics/2D/index.md
+          - 3D Graphics: API/Graphics/3D/index.md
+        - Platform Specific:
+          - Window: API/Graphics/Window/index.md
+          - Renderer: API/Graphics/Renderer/index.md
+          - Swap Chain: API/Graphics/Renderer/index.md
+          - Frame Buffer: API/Graphics/Renderer/index.md
+          - Vertex Buffer: API/Graphics/Renderer/index.md
+          - Index Buffer: API/Graphics/Renderer/index.md
+          - Shader: API/Graphics/Renderer/index.md
+          - States: API/Graphics/Renderer/index.md
+          - Pipelines: API/Graphics/Renderer/index.md
+          - Render Passes: API/Graphics/Renderer/index.mds
       - Input: API/Input/index.md
       - Logging: API/Logging/index.md
       - Networking: API/Networking/index.md
@@ -15,9 +54,8 @@ nav:
       - Scripting: API/Scripting/index.md
       - Sensors: API/Sensor/index.md
       - Serialization: API/Serialization/index.md
-    - Tutorials: Tutorials/index.md
     - Releases: Release/index.md
+    - References: References/index.md
     - Troubleshooting: Troubleshooting/index.md
+    - Tutorials: Tutorials/index.md
     - Glossary: Glossary/index.md
-
-theme: readthedocs

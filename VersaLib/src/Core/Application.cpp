@@ -47,7 +47,7 @@ namespace VersaMachina
         VM_PROFILE_FUNCTION();
         while(m_Running)
         {
-            glClearColor(1,0,1,1);
+//            glClearColor(1,0,1,1);
             glClear(GL_COLOR_BUFFER_BIT);
             for(auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
             {
