@@ -28,6 +28,8 @@ theme:
 nav:
     - Home: index.md
     - Getting Started: start.md
+    - Tutorials: Tutorials/index.md
+    - Glossary: Glossary/index.md
     - API Reference:
       - Audio: API/Audio/index.md
       - Events: API/Events/index.md
@@ -36,16 +38,19 @@ nav:
           - 2D Graphics: API/Graphics/2D/index.md
           - 3D Graphics: API/Graphics/3D/index.md
         - Platform Specific:
-          - Window: API/Graphics/Window/index.md
+          - Frame Buffer: API/Graphics/Renderer/FrameBuffer/index.md
+          - Index Buffer: API/Graphics/Renderer/IndexBuffer/index.md
+          - Pipelines: API/Graphics/Renderer/Pipelines/index.md
           - Renderer: API/Graphics/Renderer/index.md
-          - Swap Chain: API/Graphics/Renderer/index.md
-          - Frame Buffer: API/Graphics/Renderer/index.md
-          - Vertex Buffer: API/Graphics/Renderer/index.md
-          - Index Buffer: API/Graphics/Renderer/index.md
-          - Shader: API/Graphics/Renderer/index.md
-          - States: API/Graphics/Renderer/index.md
-          - Pipelines: API/Graphics/Renderer/index.md
-          - Render Passes: API/Graphics/Renderer/index.mds
+          - Render Commands: API/Graphics/Renderer/RenderCommands/index.md
+          - Render Context: API/Graphics/Renderer/RenderContext/index.md
+          - Render Passes: API/Graphics/Renderer/RenderPasses/index.md
+          - Shader: API/Graphics/Renderer/Shader/index.md
+          - States: API/Graphics/Renderer/States/index.md
+          - Swap Chain: API/Graphics/Renderer/Swap/index.md
+          - Texture: API/Graphics/Renderer/Texture/index.md
+          - Vertex Buffer: API/Graphics/Renderer/VertexBuffer/index.md
+          - Window: API/Graphics/Window/index.md
       - Input: API/Input/index.md
       - Logging: API/Logging/index.md
       - Networking: API/Networking/index.md
@@ -57,7 +62,5 @@ nav:
     - Releases: Release/index.md
     - References: References/index.md
     - Troubleshooting: Troubleshooting/index.md
-    - Tutorials: Tutorials/index.md
-    - Glossary: Glossary/index.md
 
 docs_dir: docs
