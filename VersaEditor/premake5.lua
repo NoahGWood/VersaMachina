@@ -24,7 +24,9 @@ includedirs
     "include",
     "%{wks.location}/VersaLib/include",
     "%{wks.location}/VersaLib/platforms",
-    "%{wks.location}/VersaLib/vendor/spdlog/include"
+    "%{wks.location}/VersaLib/vendor",
+    "%{wks.location}/VersaLib/vendor/spdlog/include",
+    "%{IncludeDir.glm}"
 }
 
 links

@@ -1,5 +1,12 @@
 # VersaMachina
 
+## Introduction
+
+## Purpose & Goals
+
+## Features & Capabilities
+
+## Getting Started
 
 ## Commands
 

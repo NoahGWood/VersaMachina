@@ -17,6 +17,9 @@ namespace VersaMachina
         VM_PROFILE_FUNCTION();
         m_Window = std::unique_ptr<Window>(Window::Create());
         m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+
+        m_ImGUILayer = new UI::ImGUILayer();
+        PushOverlay(m_ImGUILayer);
     }
     Application::~Application()
     {
@@ -50,8 +53,15 @@ namespace VersaMachina
             {
                 (*it)->OnUpdate();
             }
-            auto[x,y] = Input::Input::GetMousePos();
-            VM_CORE_CRITICAL("{0}, {1}", x,y);
+
+            m_ImGUILayer->Begin();
+            for(auto it = m_LayerStack.rbegin(); it!=m_LayerStack.rend(); ++it)
+            {
+                (*it)->OnImGuiRender();
+            }
+            m_ImGUILayer->End();
+//            auto[x,y] = Input::Input::GetMousePos();
+//            VM_CORE_CRITICAL("{0}, {1}", x,y);
             m_Window->OnUpdate();
         }
     }

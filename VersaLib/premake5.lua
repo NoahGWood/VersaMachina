@@ -24,7 +24,10 @@ project "VersaLib"
             "%{wks.location}/VersaLib/src/**.h",
             "%{wks.location}/VersaLib/src/**.cpp",
             "%{wks.location}/VersaLib/platforms/**.h",
-            "%{wks.location}/VersaLib/platforms/**.cpp"
+            "%{wks.location}/VersaLib/platforms/**.cpp",
+            "%{wks.location}/VersaLib/vendor/glm/glm/**.hpp",
+            "%{wks.location}/VersaLib/vendor/glm/glm/**.inl",
+            
         }
     
         includedirs
@@ -34,6 +37,7 @@ project "VersaLib"
             "vendor/spdlog/include",
             "%{IncludeDir.Glad}",
             "%{IncludeDir.ImGUI}",
+            "%{IncludeDir.glm}",
         }
 
     	-- We need GLFW, so we include it

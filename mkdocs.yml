@@ -1,1 +1,22 @@
 site_name: VersaMachina
+
+nav:
+    - Home: index.md
+    - Getting Started: start.md
+    - API Reference:
+      - Audio: API/Audio/index.md
+      - Core: API/Core/index.md
+      - Graphics: API/Graphics/index.md
+      - Input: API/Input/index.md
+      - Networking: API/Networking/index.md
+      - Physics: API/Physics/index.md
+      - Robotics: API/Robotics/index.md
+      - Scripting: API/Scripting/index.md
+      - Sensors: API/Sensor/index.md
+      - Serialization: API/Serialization/index.md
+    - Tutorials: Tutorials/index.md
+    - Releases: Release/index.md
+    - Troubleshooting: Troubleshooting/index.md
+    - Glossary: Glossary/index.md
+
+theme: readthedocs

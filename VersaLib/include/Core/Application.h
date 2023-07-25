@@ -6,6 +6,7 @@
 #include "Events/Event.h"
 #include "Events/WindowEvent.h"
 #include "Core/Input.h"
+#include "UI/ImGUILayer.h"
 
 namespace VersaMachina
 {
@@ -29,6 +30,7 @@ namespace VersaMachina
         private:
             // Layers
             LayerStack m_LayerStack;
+            UI::ImGUILayer* m_ImGUILayer; 
             // Windows
             bool OnWindowClose(WindowCloseEvent& e);
             std::unique_ptr<Window> m_Window;

@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui
+INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui -I../vendor/glm
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -77,24 +77,22 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/Application.o
+GENERATED += $(OBJDIR)/ImGUIBuild.o
 GENERATED += $(OBJDIR)/ImGUILayer.o
 GENERATED += $(OBJDIR)/Layer.o
 GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/Log.o
 GENERATED += $(OBJDIR)/OpenGLInput.o
 GENERATED += $(OBJDIR)/OpenGLWindow.o
-GENERATED += $(OBJDIR)/imgui_impl_glfw.o
-GENERATED += $(OBJDIR)/imgui_impl_opengl3.o
 GENERATED += $(OBJDIR)/pch.o
 OBJECTS += $(OBJDIR)/Application.o
+OBJECTS += $(OBJDIR)/ImGUIBuild.o
 OBJECTS += $(OBJDIR)/ImGUILayer.o
 OBJECTS += $(OBJDIR)/Layer.o
 OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/Log.o
 OBJECTS += $(OBJDIR)/OpenGLInput.o
 OBJECTS += $(OBJDIR)/OpenGLWindow.o
-OBJECTS += $(OBJDIR)/imgui_impl_glfw.o
-OBJECTS += $(OBJDIR)/imgui_impl_opengl3.o
 OBJECTS += $(OBJDIR)/pch.o
 
 # Rules
@@ -165,12 +163,6 @@ $(OBJDIR)/OpenGLInput.o: ../platforms/OpenGL/src/OpenGLInput.cpp
 $(OBJDIR)/OpenGLWindow.o: ../platforms/OpenGL/src/OpenGLWindow.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/imgui_impl_glfw.o: ../platforms/OpenGL/src/imgui_impl_glfw.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/imgui_impl_opengl3.o: ../platforms/OpenGL/src/imgui_impl_opengl3.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Application.o: ../src/Core/Application.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -181,6 +173,9 @@ $(OBJDIR)/LayerStack.o: ../src/Core/LayerStack.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: ../src/Core/Log.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ImGUIBuild.o: ../src/UI/ImGUIBuild.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/ImGUILayer.o: ../src/UI/ImGUILayer.cpp
