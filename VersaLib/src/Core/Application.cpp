@@ -1,5 +1,10 @@
 #include "pch.h"
 #include "Core/Application.h"
+#include "Render/Renderer.h"
+#include "Render/BufferLayout.h"
+#include "Render/RendererAPI.h"
+
+#include "Camera/Camera.h"
 
 #include <GLFW/glfw3.h>
 
@@ -7,7 +12,8 @@
 
 namespace VersaMachina
 {
-    Application* Application::s_Instance = nullptr;
+
+    Application *Application::s_Instance = nullptr;
 
     Application::Application()
     {
@@ -20,6 +26,7 @@ namespace VersaMachina
 
         m_ImGUILayer = new UI::ImGUILayer();
         PushOverlay(m_ImGUILayer);
+
     }
     Application::~Application()
     {
@@ -27,7 +34,7 @@ namespace VersaMachina
     }
 
     // Layers
-    void Application::PushLayer(Layer* layer)
+    void Application::PushLayer(Layer *layer)
     {
         VM_PROFILE_FUNCTION();
 
@@ -35,47 +42,47 @@ namespace VersaMachina
         layer->OnAttach();
     }
 
-    void Application::PushOverlay(Layer* overlay)
+    void Application::PushOverlay(Layer *overlay)
     {
         VM_PROFILE_FUNCTION();
 
         m_LayerStack.PushOverlay(overlay);
-        overlay->OnAttach();                
+        overlay->OnAttach();
     }
 
-    void Application::Run() {
+    void Application::Run()
+    {
         VM_PROFILE_FUNCTION();
-        while(m_Running)
+        while (m_Running)
         {
-//            glClearColor(1,0,1,1);
-            glClear(GL_COLOR_BUFFER_BIT);
-            for(auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
+            float time = (float)glfwGetTime()*1000.0f; // Platform::GetTime();
+            Timestep timestep = time - m_LastFrameTime;
+            m_LastFrameTime = time;
+            for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
             {
-                (*it)->OnUpdate();
+                (*it)->OnUpdate(timestep);
             }
 
             m_ImGUILayer->Begin();
-            for(auto it = m_LayerStack.rbegin(); it!=m_LayerStack.rend(); ++it)
+            for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
             {
                 (*it)->OnImGuiRender();
             }
             m_ImGUILayer->End();
-//            auto[x,y] = Input::Input::GetMousePos();
-//            VM_CORE_CRITICAL("{0}, {1}", x,y);
+            //            auto[x,y] = Input::Input::GetMousePos();
+            //            VM_CORE_CRITICAL("{0}, {1}", x,y);
             m_Window->OnUpdate();
         }
     }
 
-
-    void Application::OnEvent(Event& e)
+    void Application::OnEvent(Event &e)
     {
         VM_PROFILE_FUNCTION();
-        VM_CORE_TRACE("{0}", e);
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
-        for(auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
+        for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
         {
-            if(e.m_Handled)
+            if (e.m_Handled)
             {
                 break;
             }
@@ -83,7 +90,7 @@ namespace VersaMachina
         }
     }
 
-    bool Application::OnWindowClose(WindowCloseEvent& e)
+    bool Application::OnWindowClose(WindowCloseEvent &e)
     {
         m_Running = false;
         return true;

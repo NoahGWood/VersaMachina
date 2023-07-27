@@ -12,8 +12,8 @@ namespace VersaMachina
         uint32_t Height;
 
         WindowProps(const std::string& title="VersaMachina",
-        uint32_t width = 700,
-        uint32_t height = 400)
+        uint32_t width = 1280,
+        uint32_t height = 720)
             : Title(title), Width(width), Height(height) {}
     };
 

@@ -1,11 +1,15 @@
 #pragma once
-
+// Core
 #include "Core/Log.h"
 #include "Core/Window.h"
 #include "Core/LayerStack.h"
+#include "Core/Input.h"
+#include "Core/Timestep.h"
+
+// Events
 #include "Events/Event.h"
 #include "Events/WindowEvent.h"
-#include "Core/Input.h"
+// Layers
 #include "UI/ImGUILayer.h"
 
 namespace VersaMachina
@@ -28,16 +32,19 @@ namespace VersaMachina
             inline static Application& Get() { return *s_Instance; }
             inline Window& GetWindow() { return *m_Window; }
         private:
+            bool OnWindowClose(WindowCloseEvent& e);
+            
+        private:
+            static Application* s_Instance;
+            float m_LastFrameTime = 0.0f;
             // Layers
             LayerStack m_LayerStack;
             UI::ImGUILayer* m_ImGUILayer; 
             // Windows
-            bool OnWindowClose(WindowCloseEvent& e);
             std::unique_ptr<Window> m_Window;
             // Stats
             bool m_Running = true;
 
-            static Application* s_Instance;
     };
     
     // Defined in client

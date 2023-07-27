@@ -1,6 +1,8 @@
 #pragma once
+
 #include "spdlog/spdlog.h"
 #include <spdlog/fmt/ostr.h>
+
 namespace VersaMachina
 {
     class Log
@@ -16,6 +18,7 @@ namespace VersaMachina
     };
 
 } // namespace VersaMachina
+
 
 // Core logging macros
 

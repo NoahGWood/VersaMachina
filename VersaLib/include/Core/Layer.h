@@ -1,6 +1,7 @@
 #pragma once
-#include "Events/Event.h"
+#include "Core/Timestep.h"
 
+#include "Events/Event.h"
 #include "Events/MouseEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/WindowEvent.h"
@@ -15,7 +16,7 @@ namespace VersaMachina
         
             virtual void OnAttach() {}
             virtual void OnDetach() {}
-            virtual void OnUpdate() {}
+            virtual void OnUpdate(Timestep timestep) {}
 
             virtual void OnEvent(Event& event) {}
       		virtual void OnImGuiRender() {}
