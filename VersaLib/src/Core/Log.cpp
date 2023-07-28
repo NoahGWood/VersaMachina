@@ -4,8 +4,8 @@
 
 namespace VersaMachina
 {
-    std::shared_ptr<spdlog::logger> Log::__CoreLogger;
-    std::shared_ptr<spdlog::logger> Log::__ClientLogger;
+    Ref<spdlog::logger> Log::__CoreLogger;
+    Ref<spdlog::logger> Log::__ClientLogger;
     
     void Log::Init()
     {

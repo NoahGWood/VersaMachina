@@ -6,11 +6,11 @@ namespace VersaMachina
 {
     namespace Render
     {
-        class OpenGLVertexArray: public VertexArray
+        class WebGLVertexArray: public VertexArray
         {
             public:
-                OpenGLVertexArray();
-                virtual ~OpenGLVertexArray() override;
+                WebGLVertexArray();
+                virtual ~WebGLVertexArray() override;
 
                 virtual void Bind() const override;
                 virtual void UnBind() const override;

@@ -9,12 +9,12 @@ namespace VersaMachina
     {
         public:
             static void Init();
-            inline static std::shared_ptr<spdlog::logger>& GetCoreLogger()  { return __CoreLogger; }
-            inline static std::shared_ptr<spdlog::logger>& GetClientLogger()  { return __ClientLogger; }
+            inline static Ref<spdlog::logger>& GetCoreLogger()  { return __CoreLogger; }
+            inline static Ref<spdlog::logger>& GetClientLogger()  { return __ClientLogger; }
 
         private:
-            static std::shared_ptr<spdlog::logger> __CoreLogger;
-            static std::shared_ptr<spdlog::logger> __ClientLogger;
+            static Ref<spdlog::logger> __CoreLogger;
+            static Ref<spdlog::logger> __ClientLogger;
     };
 
 } // namespace VersaMachina

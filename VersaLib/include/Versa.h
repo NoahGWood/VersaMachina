@@ -1,6 +1,7 @@
 #pragma once
 
 // For use by Versa Applications
+#include "Core/Base.h"
 #include "Core/Layer.h"
 #include "Core/LayerStack.h"
 #include "Core/Application.h"

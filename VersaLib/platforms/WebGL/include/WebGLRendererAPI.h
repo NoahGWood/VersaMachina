@@ -6,7 +6,7 @@ namespace VersaMachina
 {
     namespace Render
     {
-        class OpenGLRendererAPI : public RendererAPI
+        class WebGLRendererAPI : public RendererAPI
         {
             public:
                 virtual void SetClearColor(const glm::vec4& color) override;

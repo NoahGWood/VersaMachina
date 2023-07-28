@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "OpenGL/include/OpenGLVertexArray.h"
+#include "WebGL/include/WebGLVertexArray.h"
 
 #include <glad/glad.h>
 
@@ -8,7 +8,7 @@ namespace VersaMachina
     namespace Render
     {
 
-        static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+        static GLenum ShaderDataTypeToWebGLBaseType(ShaderDataType type)
         {
             switch(type)
             {
@@ -28,24 +28,24 @@ namespace VersaMachina
             return 0;
         }
 
-        OpenGLVertexArray::OpenGLVertexArray()
+        WebGLVertexArray::WebGLVertexArray()
         {
             glCreateVertexArrays(1, &m_RendererID);
         }
-        OpenGLVertexArray::~OpenGLVertexArray()
+        WebGLVertexArray::~WebGLVertexArray()
         {
             glDeleteVertexArrays(1, &m_RendererID);
         }
 
-        void OpenGLVertexArray::Bind() const
+        void WebGLVertexArray::Bind() const
         {
             glBindVertexArray(m_RendererID);
         }
-        void OpenGLVertexArray::UnBind() const
+        void WebGLVertexArray::UnBind() const
         {
             glBindVertexArray(0);
         }
-        void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
+        void WebGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
         {
             glBindVertexArray(m_RendererID);
             vertexBuffer->Bind();
@@ -59,7 +59,7 @@ namespace VersaMachina
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(
                     index, element.GetComponentCount(), 
-                    ShaderDataTypeToOpenGLBaseType(element.Type),
+                    ShaderDataTypeToWebGLBaseType(element.Type),
                     element.Normalized ? GL_TRUE : GL_FALSE,
                     layout.GetStride(),
                     (const void*)element.Offset
@@ -70,7 +70,7 @@ namespace VersaMachina
 
             m_VertexBuffers.push_back(vertexBuffer);
         }
-        void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
+        void WebGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
         {
             glBindVertexArray(m_RendererID);
             indexBuffer->Bind();

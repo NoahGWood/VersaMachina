@@ -1,13 +1,12 @@
 #include "pch.h"
-#include "OpenGL/include/OpenGLShader.h"
+#include "WebGL/include/WebGLShader.h"
 #include "glad/glad.h"
-#include <glm/gtc/type_ptr.hpp>
 
 namespace VersaMachina
 {
     namespace Render
     {
-        OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+        WebGLShader::WebGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
         {
             // Create an empty vertex shader handle
             GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -34,7 +33,7 @@ namespace VersaMachina
                 // We don't need the shader anymore.
                 glDeleteShader(vertexShader);
 
-                VM_CORE_ERROR("Vertex Shader: {0}, {1}", vertexSrc, infoLog.data());
+                VM_CORE_ERROR("{0}", infoLog.data());
                 VM_CORE_ASSERT(false, "Vertex shader compilation failure!");
                 return;
             }
@@ -67,7 +66,7 @@ namespace VersaMachina
 
                 // Use the infoLog as you see fit.
                 
-                VM_CORE_ERROR("Fragment Shader: {0}, {1}", fragmentSrc, infoLog.data());
+                VM_CORE_ERROR("{0}", infoLog.data());
                 VM_CORE_ASSERT(false, "Fragment shader compilation failure!");
                 // In this simple program, we'll just leave
                 return;
@@ -116,89 +115,18 @@ namespace VersaMachina
             glDetachShader(program, vertexShader);
             glDetachShader(program, fragmentShader);
         }
-        
-        OpenGLShader::~OpenGLShader()
+        WebGLShader::~WebGLShader()
         {
             glDeleteProgram(m_RendererID);
         }
 
-        void OpenGLShader::Bind() const
+        void WebGLShader::Bind() const
         {
             glUseProgram(m_RendererID);
         }
-        void OpenGLShader::UnBind() const
+        void WebGLShader::UnBind() const
         {
             glUseProgram(0);
-        }
-
-        void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& value)
-        {
-            GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-            if(location == -1)
-            {
-                VM_CORE_CRITICAL("Uniform location {0} not found!", name);
-            }
-            glUniform4f(location, value.x, value.y, value.z, value.w);
-        }
-        void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value)
-        {
-            GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-            if(location == -1)
-            {
-                VM_CORE_CRITICAL("Uniform location {0} not found!", name);
-            }
-            glUniform3f(location, value.x, value.y, value.z);
-
-        }
-        void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value)
-        {
-            GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-            if(location == -1)
-            {
-                VM_CORE_CRITICAL("Uniform location {0} not found!", name);
-            }
-            glUniform2f(location, value.x, value.y);
-
-        }
-        void OpenGLShader::UploadUniformFloat(const std::string& name, const float& value)
-        {
-            GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-            if(location == -1)
-            {
-                VM_CORE_CRITICAL("Uniform location {0} not found!", name);
-            }
-            glUniform1f(location, value);
-        }
-
-        void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
-        {
-            GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-            if(location == -1)
-            {
-                VM_CORE_CRITICAL("Uniform location {0} not found!", name);
-                return;
-            }
-            glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
-        }
-        void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
-        {
-            GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-            if(location == -1)
-            {
-                VM_CORE_CRITICAL("Uniform location {0} not found!", name);
-                return;
-            }
-            glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
-        }
-
-        void OpenGLShader::UploadUniformInt(const std::string& name, const int& value)
-        {
-            GLint location = glGetUniformLocation(m_RendererID, name.c_str());
-            if(location == -1)
-            {
-                VM_CORE_CRITICAL("Uniform location {0} not found!", name);
-            }
-            glUniform1i(location, value);
         }
 
     } // namespace Render
