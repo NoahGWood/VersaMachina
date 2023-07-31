@@ -1,3 +1,4 @@
+#include <Core/Base.h>
 #include <iostream>
 #include <memory>
 #include <utility>
@@ -15,7 +16,7 @@
 
 #include "Core/Log.h"
 
-//#include "Hazel/Debug/Instrumentor.h"
+#include "Profiler/Profiler.h"
 
 #ifndef BIT
     #define BIT(x) (1<<x)
@@ -24,9 +25,3 @@
 #ifdef VM_PLATFORM_WINDOWS
     #include <Windows.h>
 #endif
-
-#ifdef VM_PLATFORM_LINUX
-
-#endif
-
-#define VM_PROFILE_FUNCTION()

@@ -27,6 +27,8 @@ project "VersaLib"
             "%{wks.location}/VersaLib/platforms/**.cpp",
             "%{wks.location}/VersaLib/vendor/glm/glm/**.hpp",
             "%{wks.location}/VersaLib/vendor/glm/glm/**.inl",
+            "%{wks.location}/VersaLib/vendor/stb_image/**.h",
+            "%{wks.location}/VersaLib/vendor/stb_image/**.cpp",
             
         }
     
@@ -38,6 +40,7 @@ project "VersaLib"
             "%{IncludeDir.Glad}",
             "%{IncludeDir.ImGUI}",
             "%{IncludeDir.glm}",
+            "%{IncludeDir.stb_image}"
         }
 
     	-- We need GLFW, so we include it
@@ -57,7 +60,6 @@ project "VersaLib"
                 "VM_PLATFORM_WINDOWS",
                 "IMGUI_IMPL_OPENGL_LOADER_CUSTOM"
             }
-    
         filter "system:linux"
             defines
             {

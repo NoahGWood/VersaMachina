@@ -31,10 +31,14 @@
 #include "Render/RenderCommand.h"
 #include "Render/RenderContext.h"
 #include "Render/Renderer.h"
+#include "Render/Renderer2D.h"
 #include "Render/RendererAPI.h"
 
 // Shaders
 #include "Render/Shader.h"
+
+// Textures
+#include "Render/Texture.h"
 
 // Vertex
 #include "Render/VertexArray.h"
@@ -43,7 +47,10 @@
 
 // Camera
 #include "Camera/Camera.h"
+#include "Camera/CameraController.h"
 #include "Camera/CameraSettings.h"
 
+// Profiler
+#include "Profiler/Profiler.h"
 // Entry point
-#include "Core/Entry.h"
+// #include "Core/Entry.h"

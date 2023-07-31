@@ -15,7 +15,7 @@ namespace VersaMachina
                 inline static float GetMouseX() {  return s_Instance->GetMouseXImpl();}
                 inline static float GetMouseY() {  return s_Instance->GetMouseYImpl();}
             private:
-                static Input* s_Instance;
+                static Scope<Input> s_Instance;
 
             protected:
                 virtual bool IsKeyPressedImpl(int keycode) = 0;

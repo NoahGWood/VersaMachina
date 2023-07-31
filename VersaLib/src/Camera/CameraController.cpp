@@ -1,0 +1,98 @@
+#include "Camera/CameraController.h"
+#include "Core/Input.h"
+
+namespace VersaMachina
+{
+    namespace Camera
+    {
+        CameraController::CameraController()
+            : m_Settings(std::make_shared<CameraSettings>()), m_Camera(m_Settings)
+        {
+            VM_PROFILE_FUNCTION();
+        }
+        CameraController::~CameraController()
+        {
+            VM_PROFILE_FUNCTION();
+        }
+        void CameraController::OnUpdate(Timestep ts)
+        {
+            VM_PROFILE_FUNCTION();
+    
+            bool changed = false;
+            if(Input::Input::IsKeyPressed(Key::A))
+            {
+                m_Settings->Position.x -= m_Settings->MoveSpeed * ts;
+                changed=true;
+            }
+            else if(Input::Input::IsKeyPressed(Key::D))
+            {
+                m_Settings->Position.x += m_Settings->MoveSpeed * ts;
+                changed=true;
+            }
+            if(Input::Input::IsKeyPressed(Key::W))
+            {
+                m_Settings->Position.y += m_Settings->MoveSpeed * ts;
+                changed=true;
+            }
+            else if(Input::Input::IsKeyPressed(Key::S))
+            {
+                m_Settings->Position.y -= m_Settings->MoveSpeed * ts;
+                changed=true;
+            }
+            if(Input::Input::IsKeyPressed(Key::Q))
+            {
+                m_Settings->Rotation.z += m_Settings->MoveSpeed * ts;
+                changed=true;
+            }
+            else if(Input::Input::IsKeyPressed(Key::E))
+            {
+                m_Settings->Rotation.z -= m_Settings->MoveSpeed * ts;
+                changed=true;
+            }
+            
+            if(changed)
+            {
+                m_Camera.RecalculateViewMatrix();
+            }
+        }
+        void CameraController::OnEvent(Event& e)
+        {
+            VM_PROFILE_FUNCTION();
+
+            EventDispatcher dispatcher(e);
+            dispatcher.Dispatch<MouseScrolledEvent>(VM_BIND_EVENT_FN(CameraController::OnMouseScrolledEvent));
+            dispatcher.Dispatch<WindowResizedEvent>(VM_BIND_EVENT_FN(CameraController::OnWindowResized));
+        }
+        bool CameraController::OnMouseScrolledEvent(MouseScrolledEvent& e)
+        {
+            VM_PROFILE_FUNCTION();
+            
+            m_Settings->ZoomLevel -= e.GetYOffset() * 0.1f;
+            m_Settings->ZoomLevel = std::max(m_Settings->ZoomLevel, 0.1f);
+            m_Settings->Viewport[0] = -m_Settings->AspectRatio * m_Settings->ZoomLevel; // Left
+            m_Settings->Viewport[1] = m_Settings->AspectRatio * m_Settings->ZoomLevel; // Right
+            m_Settings->Viewport[2] = -m_Settings->ZoomLevel; // Top
+            m_Settings->Viewport[3] = m_Settings->ZoomLevel; // Bottom
+
+            m_Camera.SetProjectionMatrix();
+            m_Camera.RecalculateViewMatrix();
+            return false;
+        }
+        bool CameraController::OnWindowResized(WindowResizedEvent& e)
+        {
+            VM_PROFILE_FUNCTION();
+
+            m_Settings->AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
+            m_Settings->Viewport[0] = -m_Settings->AspectRatio * m_Settings->ZoomLevel * e.GetWidth(); // Left
+            m_Settings->Viewport[1] = m_Settings->AspectRatio * m_Settings->ZoomLevel * e.GetWidth(); // Right
+            m_Settings->Viewport[2] = -m_Settings->ZoomLevel * e.GetHeight(); // Top
+            m_Settings->Viewport[3] = m_Settings->ZoomLevel * e.GetHeight(); // Bottom
+            m_Camera.SetProjectionMatrix();
+            m_Camera.RecalculateViewMatrix();
+            return false;
+        }
+
+   
+    } // namespace Camera
+
+} // namespace VersaMachina

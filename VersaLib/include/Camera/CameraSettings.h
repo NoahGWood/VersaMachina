@@ -28,8 +28,6 @@ namespace VersaMachina
             // Base Settings
             std::string Name = "Main Camera";
             CameraType Type = CameraType::Orthographic;
-            glm::vec3 Transform = {0,0,0};
-            glm::vec3 Rotation = {0,0,0};
             glm::vec4 Viewport = {-1.6,1.6,-0.9f,0.9f}; // Left, Right, Bottom, Top
             // Field of View.
             float FieldOfView = 60.0f;
@@ -41,6 +39,14 @@ namespace VersaMachina
 //            float FarClip = 1000.0f;
             float NearClip = -1.0f;
             float FarClip = 1.0f;
+            // Positional
+            glm::vec3 Position = {0,0,0};
+            glm::vec3 Rotation = {0,0,0};
+            // Zoom
+            float ZoomLevel = .01f;
+            // Speeds
+            float MoveSpeed = 0.01f;
+            float RotateSpeed = 1.0f;
         };
     } // namespace Camera
     

@@ -31,7 +31,7 @@ namespace VersaMachina
                 virtual void Bind() const override;
                 virtual void UnBind() const override;
 
-                virtual uint32_t GetCount() const override { return m_Count; }
+                virtual uint32_t GetCount() const override { VM_PROFILE_FUNCTION(); return m_Count; }
 
             private:
                 uint32_t m_RendererID;

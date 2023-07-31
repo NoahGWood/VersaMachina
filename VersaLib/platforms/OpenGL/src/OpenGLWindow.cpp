@@ -25,6 +25,8 @@ namespace VersaMachina
 
     OpenGLWindow::OpenGLWindow(const WindowProps& props)
     {
+        VM_PROFILE_FUNCTION();
+
         Init(props);
     }
 
@@ -35,6 +37,8 @@ namespace VersaMachina
 
     void OpenGLWindow::Init(const WindowProps& props)
     {
+        VM_PROFILE_FUNCTION();
+
         m_Data.Title = props.Title;
         m_Data.Width = props.Width;
         m_Data.Height = props.Height;
@@ -53,7 +57,7 @@ namespace VersaMachina
         // Setup window
         m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
-        m_Context = new Render::OpenGLRenderContext(m_Window);
+        m_Context = CreateScope<Render::OpenGLRenderContext>(m_Window);
         m_Context->Init();
         glfwSetWindowUserPointer(m_Window, &m_Data);
         SetVSync(true);
@@ -138,12 +142,13 @@ namespace VersaMachina
 
     void OpenGLWindow::Shutdown()
     {
+        VM_PROFILE_FUNCTION();
         glfwDestroyWindow(m_Window);
     }
 
     void OpenGLWindow::OnUpdate()
     {
-        
+        VM_PROFILE_FUNCTION();
         if(!glfwWindowShouldClose(m_Window))
         {
             glfwPollEvents();
@@ -153,6 +158,7 @@ namespace VersaMachina
 
     void OpenGLWindow::SetVSync(bool enabled)
     {
+        VM_PROFILE_FUNCTION();
         if(enabled)
             glfwSwapInterval(1);
         else

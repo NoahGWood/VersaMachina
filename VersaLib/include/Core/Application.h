@@ -33,6 +33,7 @@ namespace VersaMachina
             inline Window& GetWindow() { return *m_Window; }
         private:
             bool OnWindowClose(WindowCloseEvent& e);
+            bool OnWindowResize(WindowResizedEvent& e);
             
         private:
             static Application* s_Instance;
@@ -44,6 +45,7 @@ namespace VersaMachina
             std::unique_ptr<Window> m_Window;
             // Stats
             bool m_Running = true;
+            bool m_Minimized = false;
 
     };
     

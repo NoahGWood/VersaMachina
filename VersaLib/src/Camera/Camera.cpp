@@ -6,83 +6,83 @@ namespace VersaMachina
 {
     namespace Camera
     {
-        Camera::Camera()
-            : m_ViewMatrix(1.0f)
-        {
-            m_SettingsPtr = new CameraSettings(); // Create new camera with default values
-            m_Settings = *m_SettingsPtr;
-            m_Settings.Name = "Default Camera";
-            SetType();
-            RecalculateViewMatrix();
-            m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
-        }
-        Camera::Camera(std::string name)
-            : m_ViewMatrix(1.0f)
-        {
-            m_SettingsPtr = new CameraSettings(); // Create new camera with default values
-            m_Settings = *m_SettingsPtr;
-            m_Settings.Name = name;
-            SetType();
-            RecalculateViewMatrix();
-            m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
-        }
-        Camera::Camera(CameraSettings& settings)
+        Camera::Camera(Ref<CameraSettings> settings)
             : m_Settings(settings), m_ViewMatrix(1.0f)
         {
-            m_SettingsPtr = nullptr;
-            SetType();
+            VM_PROFILE_FUNCTION();
+
+            SetProjectionMatrix();
             RecalculateViewMatrix();
             m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
         }
-        // Rotation
-        void Camera::Rotate(glm::vec3 rotation)
+        void Camera::SetProjectionMatrix()
         {
-            f_RotateX(rotation.x);
-            f_RotateY(rotation.y);
-            f_RotateZ(rotation.z);
-            RecalculateViewMatrix();
-        }
-        void Camera::RotateX(float x)
-        {
-            f_RotateX(x);
-            RecalculateViewMatrix();
-        }
-        void Camera::RotateY(float y)
-        {
-            f_RotateY(y);
-            RecalculateViewMatrix();
-        }
-        void Camera::RotateZ(float z)
-        {
-            f_RotateZ(z);
-            RecalculateViewMatrix();
-        }
-        // Translation
+            VM_PROFILE_FUNCTION();
 
-        void Camera::Translate(glm::vec3 translation)
-        {
-            f_TranslateX(translation.x);
-            f_TranslateY(translation.y);
-            f_TranslateZ(translation.z);
-            RecalculateViewMatrix();
-        }
-        void Camera::TranslateX(float x)
-        {
-            f_TranslateX(x);
-            RecalculateViewMatrix();
-        }
-        void Camera::TranslateY(float y)
-        {
-            f_TranslateY(y);
-            RecalculateViewMatrix();
+            switch (m_Settings->Type)
+            {
+                case CameraType::None : VM_ASSERT(false, "Camera must have a CameraType!"); break;
+                case CameraType::Orthographic :
+                {
+                    m_ProjectionMatrix = glm::ortho(
+                        m_Settings->Viewport[0], // Left
+                        m_Settings->Viewport[1], // Right
+                        m_Settings->Viewport[2], // Bottom
+                        m_Settings->Viewport[3], // Top
+                        m_Settings->NearClip,    // Near
+                        m_Settings->FarClip     // Far
+                        );
+                    break;
+                }
+                case CameraType::Perspective :
+                {
+                    m_ProjectionMatrix = glm::perspective(
+                        glm::radians(m_Settings->FieldOfView),
+                        m_Settings->AspectRatio,
+                        m_Settings->NearClip,
+                        m_Settings->FarClip
+                        );
+                    break;
+                }
+                case CameraType::Physical :
+                {
+                    VM_CORE_ASSERT(false, "CameraType::Physical not implemented!");
+                    break;
+                }
+                default: VM_ASSERT(false, "Camera must have a CameraType!"); break;
+            }
         }
 
-        void Camera::TranslateZ(float z)
+        // Calculations
+        void Camera::RecalculateViewMatrix()
         {
-            f_TranslateZ(z);
-            RecalculateViewMatrix();
-        }
+            VM_PROFILE_FUNCTION();
 
+            glm::mat4 position;
+            switch (m_Settings->Type)
+            {
+                case CameraType::None : VM_ASSERT(false, "Camera must have a CameraType!"); break;
+                case CameraType::Orthographic :
+                {
+                    position = glm::translate(glm::mat4(1.0f), m_Settings->Position)
+                    * glm::rotate(glm::mat4(1.0f), glm::radians(m_Settings->Rotation.z), glm::vec3(0,0,1));
+                    break;
+                }
+                case CameraType::Perspective :
+                {
+                    position = glm::translate(glm::mat4(1.0f), -m_Settings->Position)
+                    * glm::rotate(glm::mat4(1.0f), glm::radians(m_Settings->Rotation.x), glm::vec3(1,0,0))
+                    * glm::rotate(glm::mat4(1.0f), glm::radians(m_Settings->Rotation.y), glm::vec3(0,1,0))
+                    * glm::rotate(glm::mat4(1.0f), glm::radians(m_Settings->Rotation.z), glm::vec3(0,0,1));
+                    break;
+                }
+                default:
+                    VM_ASSERT(false, "CameraType not implemented.");
+            }
+
+            m_ViewMatrix = glm::inverse(position);
+            m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+        }
     } // namespace Camera
     
 } // namespace VersaMachina

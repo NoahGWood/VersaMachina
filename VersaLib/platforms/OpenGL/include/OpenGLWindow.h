@@ -31,7 +31,7 @@ namespace VersaMachina
 
         private:
             GLFWwindow* m_Window;
-            Render::OpenGLRenderContext* m_Context;
+            Scope<Render::OpenGLRenderContext> m_Context;
 
             struct WindowData
             {

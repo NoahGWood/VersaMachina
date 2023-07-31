@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui -I../vendor/glm
+INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui -I../vendor/glm -I../vendor/stb_image
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -78,7 +78,7 @@ OBJECTS :=
 
 GENERATED += $(OBJDIR)/Application.o
 GENERATED += $(OBJDIR)/Camera.o
-GENERATED += $(OBJDIR)/CameraInternals.o
+GENERATED += $(OBJDIR)/CameraController.o
 GENERATED += $(OBJDIR)/ImGUIBuild.o
 GENERATED += $(OBJDIR)/ImGUILayer.o
 GENERATED += $(OBJDIR)/IndexBuffer.o
@@ -90,26 +90,24 @@ GENERATED += $(OBJDIR)/OpenGLInput.o
 GENERATED += $(OBJDIR)/OpenGLRenderContext.o
 GENERATED += $(OBJDIR)/OpenGLRendererAPI.o
 GENERATED += $(OBJDIR)/OpenGLShader.o
+GENERATED += $(OBJDIR)/OpenGLTexture.o
 GENERATED += $(OBJDIR)/OpenGLVertexArray.o
 GENERATED += $(OBJDIR)/OpenGLWindow.o
 GENERATED += $(OBJDIR)/RenderCommand.o
 GENERATED += $(OBJDIR)/RenderContext.o
 GENERATED += $(OBJDIR)/Renderer.o
+GENERATED += $(OBJDIR)/Renderer2D.o
 GENERATED += $(OBJDIR)/RendererAPI.o
 GENERATED += $(OBJDIR)/Shader.o
+GENERATED += $(OBJDIR)/ShaderLibrary.o
+GENERATED += $(OBJDIR)/Texture.o
 GENERATED += $(OBJDIR)/VertexArray.o
 GENERATED += $(OBJDIR)/VertexBuffer.o
-GENERATED += $(OBJDIR)/WebGLBuffer.o
-GENERATED += $(OBJDIR)/WebGLInput.o
-GENERATED += $(OBJDIR)/WebGLRenderContext.o
-GENERATED += $(OBJDIR)/WebGLRendererAPI.o
-GENERATED += $(OBJDIR)/WebGLShader.o
-GENERATED += $(OBJDIR)/WebGLVertexArray.o
-GENERATED += $(OBJDIR)/WebGLWindow.o
 GENERATED += $(OBJDIR)/pch.o
+GENERATED += $(OBJDIR)/stb_image.o
 OBJECTS += $(OBJDIR)/Application.o
 OBJECTS += $(OBJDIR)/Camera.o
-OBJECTS += $(OBJDIR)/CameraInternals.o
+OBJECTS += $(OBJDIR)/CameraController.o
 OBJECTS += $(OBJDIR)/ImGUIBuild.o
 OBJECTS += $(OBJDIR)/ImGUILayer.o
 OBJECTS += $(OBJDIR)/IndexBuffer.o
@@ -121,23 +119,21 @@ OBJECTS += $(OBJDIR)/OpenGLInput.o
 OBJECTS += $(OBJDIR)/OpenGLRenderContext.o
 OBJECTS += $(OBJDIR)/OpenGLRendererAPI.o
 OBJECTS += $(OBJDIR)/OpenGLShader.o
+OBJECTS += $(OBJDIR)/OpenGLTexture.o
 OBJECTS += $(OBJDIR)/OpenGLVertexArray.o
 OBJECTS += $(OBJDIR)/OpenGLWindow.o
 OBJECTS += $(OBJDIR)/RenderCommand.o
 OBJECTS += $(OBJDIR)/RenderContext.o
 OBJECTS += $(OBJDIR)/Renderer.o
+OBJECTS += $(OBJDIR)/Renderer2D.o
 OBJECTS += $(OBJDIR)/RendererAPI.o
 OBJECTS += $(OBJDIR)/Shader.o
+OBJECTS += $(OBJDIR)/ShaderLibrary.o
+OBJECTS += $(OBJDIR)/Texture.o
 OBJECTS += $(OBJDIR)/VertexArray.o
 OBJECTS += $(OBJDIR)/VertexBuffer.o
-OBJECTS += $(OBJDIR)/WebGLBuffer.o
-OBJECTS += $(OBJDIR)/WebGLInput.o
-OBJECTS += $(OBJDIR)/WebGLRenderContext.o
-OBJECTS += $(OBJDIR)/WebGLRendererAPI.o
-OBJECTS += $(OBJDIR)/WebGLShader.o
-OBJECTS += $(OBJDIR)/WebGLVertexArray.o
-OBJECTS += $(OBJDIR)/WebGLWindow.o
 OBJECTS += $(OBJDIR)/pch.o
+OBJECTS += $(OBJDIR)/stb_image.o
 
 # Rules
 # #############################################
@@ -216,37 +212,19 @@ $(OBJDIR)/OpenGLRendererAPI.o: ../platforms/OpenGL/src/OpenGLRendererAPI.cpp
 $(OBJDIR)/OpenGLShader.o: ../platforms/OpenGL/src/OpenGLShader.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/OpenGLTexture.o: ../platforms/OpenGL/src/OpenGLTexture.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLVertexArray.o: ../platforms/OpenGL/src/OpenGLVertexArray.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLWindow.o: ../platforms/OpenGL/src/OpenGLWindow.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WebGLBuffer.o: ../platforms/WebGL/src/WebGLBuffer.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WebGLInput.o: ../platforms/WebGL/src/WebGLInput.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WebGLRenderContext.o: ../platforms/WebGL/src/WebGLRenderContext.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WebGLRendererAPI.o: ../platforms/WebGL/src/WebGLRendererAPI.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WebGLShader.o: ../platforms/WebGL/src/WebGLShader.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WebGLVertexArray.o: ../platforms/WebGL/src/WebGLVertexArray.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WebGLWindow.o: ../platforms/WebGL/src/WebGLWindow.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Camera.o: ../src/Camera/Camera.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/CameraInternals.o: ../src/Camera/CameraInternals.cpp
+$(OBJDIR)/CameraController.o: ../src/Camera/CameraController.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Application.o: ../src/Core/Application.cpp
@@ -273,10 +251,19 @@ $(OBJDIR)/RenderContext.o: ../src/Render/RenderContext.cpp
 $(OBJDIR)/Renderer.o: ../src/Render/Renderer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Renderer2D.o: ../src/Render/Renderer2D.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/RendererAPI.o: ../src/Render/RendererAPI.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Shader.o: ../src/Render/Shader.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ShaderLibrary.o: ../src/Render/ShaderLibrary.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Texture.o: ../src/Render/Texture.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/VertexArray.o: ../src/Render/VertexArray.cpp
@@ -292,6 +279,9 @@ $(OBJDIR)/ImGUILayer.o: ../src/UI/ImGUILayer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pch.o: ../src/pch.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/stb_image.o: ../vendor/stb_image/stb_image.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

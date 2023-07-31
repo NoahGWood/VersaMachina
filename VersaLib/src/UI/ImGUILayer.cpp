@@ -18,14 +18,18 @@ namespace VersaMachina
         ImGUILayer::ImGUILayer()
             : Layer("ImGUI")
         {
+            VM_PROFILE_FUNCTION();
         }
 
         ImGUILayer::~ImGUILayer()
         {
+            VM_PROFILE_FUNCTION();
         }
 
         void ImGUILayer::OnAttach()
         {
+            VM_PROFILE_FUNCTION();
+
             // Setup Dear ImGui context
 		    IMGUI_CHECKVERSION();
 		    ImGui::CreateContext();
@@ -59,6 +63,8 @@ namespace VersaMachina
         }
         void ImGUILayer::OnDetach()
         {
+            VM_PROFILE_FUNCTION();
+
     		ImGui_ImplOpenGL3_Shutdown();
     		ImGui_ImplGlfw_Shutdown();
     		ImGui::DestroyContext();
@@ -67,6 +73,8 @@ namespace VersaMachina
 
         void ImGUILayer::Begin()
         {
+            VM_PROFILE_FUNCTION();
+
             ImGui_ImplOpenGL3_NewFrame();
     		ImGui_ImplGlfw_NewFrame();
     		ImGui::NewFrame();        
@@ -74,6 +82,8 @@ namespace VersaMachina
 
         void ImGUILayer::End()
         {
+            VM_PROFILE_FUNCTION();
+
             ImGuiIO& io = ImGui::GetIO();
             Application& app = Application::Get();
     		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
@@ -92,8 +102,8 @@ namespace VersaMachina
 
         void ImGUILayer::OnImGuiRender()
         {
-            static bool show=true;
-            ImGui::ShowDemoWindow(&show);
+//            static bool show=true;
+//            ImGui::ShowDemoWindow(&show);
         }
     } // namespace UI
 

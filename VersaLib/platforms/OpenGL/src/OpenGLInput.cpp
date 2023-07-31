@@ -8,7 +8,7 @@ namespace VersaMachina
 {
     namespace Input
     {
-        Input* Input::s_Instance = new OpenGLInput();
+        Scope<Input> Input::s_Instance = CreateScope<OpenGLInput>();
 
         bool OpenGLInput::IsKeyPressedImpl(int keycode)
         {
