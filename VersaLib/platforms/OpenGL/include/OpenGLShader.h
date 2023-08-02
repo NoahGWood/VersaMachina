@@ -25,6 +25,7 @@ namespace VersaMachina
                 virtual void SetName(std::string name) override { m_Name = name; }
 
                 virtual void SetInt(const std::string& name, const int& value) override { VM_PROFILE_FUNCTION(); UploadUniformInt(name, value); };
+                virtual void SetIntArray(const std::string& name, int* values, uint32_t count) override { VM_PROFILE_FUNCTION(); UploadUniformIntArray(name, values, count); };
 
                 virtual void SetFloat(const std::string& name, const float& value) override { VM_PROFILE_FUNCTION(); UploadUniformFloat(name, value);    };
                 virtual void SetFloat2(const std::string& name, const glm::vec2& value) override { VM_PROFILE_FUNCTION(); UploadUniformFloat2(name, value); }
@@ -35,6 +36,7 @@ namespace VersaMachina
                 virtual void SetMat4(const std::string& name, const glm::mat4& matrix) override { VM_PROFILE_FUNCTION(); UploadUniformMat4(name, matrix); }
 
                 void UploadUniformInt(const std::string& name, const int& value);
+                void UploadUniformIntArray(const std::string& name, int* values, uint32_t count);
 
                 void UploadUniformFloat(const std::string& name, const float& value);
                 void UploadUniformFloat2(const std::string& name, const glm::vec2& value);

@@ -7,9 +7,6 @@ namespace VersaMachina
         class RenderContext
         {
             public:
-                RenderContext();
-                ~RenderContext();
-
                 virtual void Init() = 0;
                 virtual void SwapBuffers() = 0;
 

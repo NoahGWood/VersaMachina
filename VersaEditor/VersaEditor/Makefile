@@ -35,7 +35,7 @@ ifeq ($(config),debug)
 TARGETDIR = ../../bin/Debug-linux-x86_64/VersaEditor
 TARGET = $(TARGETDIR)/VersaEditor
 OBJDIR = ../../build/Debug-linux-x86_64/VersaEditor
-DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DEBUG
+DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DEBUG -DVM_PROFILE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
 LIBS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
@@ -76,7 +76,9 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/Sandbox2D.o
 GENERATED += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/Sandbox2D.o
 OBJECTS += $(OBJDIR)/main.o
 
 # Rules
@@ -141,6 +143,9 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/Sandbox2D.o: ../src/Sandbox2D.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: ../src/main.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"

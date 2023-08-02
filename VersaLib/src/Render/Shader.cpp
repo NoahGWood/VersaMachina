@@ -12,7 +12,7 @@ namespace VersaMachina
             switch(Renderer::GetAPI())
             {
                 case RendererAPI::API::None :       VM_CORE_ASSERT(false, "RendererAPI::API::None is currently not supported."); break;
-                case RendererAPI::API::OpenGL :     return std::make_shared<OpenGLShader>(filepath);
+                case RendererAPI::API::OpenGL :     return CreateRef<OpenGLShader>(filepath);
             }
             VM_CORE_ASSERT(false, "Unknown RendererAPI!");
             return nullptr;
@@ -23,7 +23,7 @@ namespace VersaMachina
             switch(Renderer::GetAPI())
             {
                 case RendererAPI::API::None :       VM_CORE_ASSERT(false, "RendererAPI::API::None is currently not supported."); break;
-                case RendererAPI::API::OpenGL :     return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+                case RendererAPI::API::OpenGL :     return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
             }
             VM_CORE_ASSERT(false, "Unknown RendererAPI!");
             return nullptr;

@@ -9,8 +9,12 @@ namespace VersaMachina
         class OpenGLVertexBuffer : public VertexBuffer
         {
             public:
+                OpenGLVertexBuffer(uint32_t size);
                 OpenGLVertexBuffer(uint32_t size, float* vertices);
                 virtual ~OpenGLVertexBuffer();
+
+                virtual void SetData(uint32_t size, const void* data) override;
+
                 virtual void Bind() const override;
                 virtual void UnBind() const override;
 

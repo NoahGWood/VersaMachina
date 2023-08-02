@@ -42,9 +42,9 @@ namespace VersaMachina
             ShaderDataType Type;
             uint32_t Offset;
             uint32_t Size;
-            uint32_t Count;
             bool Normalized;
-            BufferElement() {}
+            BufferElement() = default;
+
             BufferElement(ShaderDataType type, const std::string& name, bool normalized = false)
                 : Name(name), Type(type), Size(ShaderDataTypeSize(type)), Offset(0), Normalized(normalized)
             {
@@ -75,6 +75,7 @@ namespace VersaMachina
         {
             public:
                 BufferLayout() {}
+                
                 BufferLayout(const std::initializer_list<BufferElement>& elements)
                     : m_Elements(elements)
                 {

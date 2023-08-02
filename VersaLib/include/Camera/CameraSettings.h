@@ -28,7 +28,7 @@ namespace VersaMachina
             // Base Settings
             std::string Name = "Main Camera";
             CameraType Type = CameraType::Orthographic;
-            glm::vec4 Viewport = {-1.6,1.6,-0.9f,0.9f}; // Left, Right, Bottom, Top
+            glm::vec4 Viewport = {-1,1,-1,1}; // Left, Right, Bottom, Top
             // Field of View.
             float FieldOfView = 60.0f;
             FOVAxis FieldOfViewAxis = FOVAxis::Horizontal;
@@ -37,7 +37,7 @@ namespace VersaMachina
             // Clip plane
 //            float NearClip = 0.01f;
 //            float FarClip = 1000.0f;
-            float NearClip = -1.0f;
+            float NearClip = 0.0f;
             float FarClip = 1.0f;
             // Positional
             glm::vec3 Position = {0,0,0};

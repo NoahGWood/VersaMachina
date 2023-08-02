@@ -8,7 +8,7 @@ namespace VersaMachina
 {
     namespace Render
     {
-        IndexBuffer* IndexBuffer::Create(uint32_t size, uint32_t* indices)
+        Ref<IndexBuffer> IndexBuffer::Create(uint32_t size, uint32_t* indices)
         {
             switch(Renderer::GetAPI())
             {
@@ -17,7 +17,7 @@ namespace VersaMachina
                     VM_CORE_ASSERT(false, "RenderAPI::None is not supported.");
                     return nullptr;
                 }
-                case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(size, indices);
+                case RendererAPI::API::OpenGL: return CreateRef<OpenGLIndexBuffer>(size, indices);
             }
             VM_CORE_ASSERT(false);
             return nullptr;

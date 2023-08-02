@@ -60,8 +60,8 @@ namespace VersaMachina
 
             GLuint program = glCreateProgram();
 
-            VM_CORE_ASSERT(shaderSources.size() <= 32, "Shader sources must be 32 or less");
-            std::array<GLenum, 32> glShaderIDs;
+            VM_CORE_ASSERT(shaderSources.size() <= 2, "Shader sources must be 2 or less");
+            std::array<GLenum, 2> glShaderIDs;
             int glShaderIDIndex = 0;
             for(auto& kv : shaderSources)
             {
@@ -120,6 +120,7 @@ namespace VersaMachina
 
                 // Use the infoLog as you see fit.
                 
+                VM_CORE_ERROR("Shader failure!");
                 VM_CORE_ERROR("{0}", infoLog.data());
                 VM_CORE_ASSERT(false, "Shader link failure!");
                 // In this simple program, we'll just leave
@@ -258,6 +259,15 @@ namespace VersaMachina
                 VM_CORE_CRITICAL("Uniform location {0} not found!", name);
             }
             glUniform1i(location, value);
+        }
+        void OpenGLShader::UploadUniformIntArray(const std::string& name, int* values, uint32_t count)
+        {
+            GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+            if(location == -1)
+            {
+                VM_CORE_CRITICAL("Uniform location {0} not found!", name);
+            }
+            glUniform1iv(location, count, values);
         }
 
     } // namespace Render

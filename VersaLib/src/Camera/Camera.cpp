@@ -13,7 +13,6 @@ namespace VersaMachina
 
             SetProjectionMatrix();
             RecalculateViewMatrix();
-            m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
         }
         void Camera::SetProjectionMatrix()
         {
