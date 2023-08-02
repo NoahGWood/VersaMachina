@@ -36,3 +36,6 @@ build/**
 
 # Bin directory
 bin/**
+
+# Json files
+*.json

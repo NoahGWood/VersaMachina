@@ -22,6 +22,10 @@ void Sandbox2D::OnDetach()
 void Sandbox2D::OnUpdate(VersaMachina::Timestep ts)
 {
     VM_PROFILE_FUNCTION()
+
+    static float rotation = 0.0f;
+    rotation += ts * 5.0f;
+
     // Update
     VersaMachina::Render::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
     VersaMachina::Render::RenderCommand::Clear();
@@ -32,6 +36,7 @@ void Sandbox2D::OnUpdate(VersaMachina::Timestep ts)
     VersaMachina::Render::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor);
     VersaMachina::Render::Renderer2D::DrawQuad({ -0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.82f, 0.3f, 0.8f, 1.0f });
     VersaMachina::Render::Renderer2D::DrawQuad({ 0.0f, 0.0f}, { 5.0f, 5.0f }, m_CheckerboardTexture, m_SquareColor);
+    VersaMachina::Render::Renderer2D::DrawQuad({-0.5f, -0.5f, -0.1f }, glm::vec2(5.0f), glm::vec3(rotation), glm::vec3(0.0f), m_CheckerboardTexture, 10, m_SquareColor);
     
     VersaMachina::Render::Renderer2D::EndScene();
     m_CameraController.OnUpdate(ts);
