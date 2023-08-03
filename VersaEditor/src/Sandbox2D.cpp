@@ -13,12 +13,6 @@ Sandbox2D::Sandbox2D()
 void Sandbox2D::OnAttach()
 {
 	m_CheckerboardTexture = VersaMachina::Render::Texture2D::Create("VersaEditor/assets/textures/Checkerboard.png");
-
-    VersaMachina::Render::FramebufferSpecification fbSpec;
-    fbSpec.Width = 1280;
-    fbSpec.Height = 720;
-    m_Framebuffer = VersaMachina::Render::Framebuffer::Create(fbSpec);
-
 }
 void Sandbox2D::OnDetach()
 {
@@ -33,18 +27,14 @@ void Sandbox2D::OnUpdate(VersaMachina::Timestep ts)
     VersaMachina::Render::Renderer2D::ResetStats();
 
     // Update
-    {    
-        VM_PROFILE_SCOPE("Renderer Prep");
-        m_Framebuffer->Bind();
-        VersaMachina::Render::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
-        VersaMachina::Render::RenderCommand::Clear();
-    }    
+    VersaMachina::Render::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
+    VersaMachina::Render::RenderCommand::Clear();
+
     VersaMachina::Render::Renderer2D::BeginScene(m_CameraController.GetCamera()); // camera, lights, environment);
 	
     VersaMachina::Render::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
     VersaMachina::Render::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor);
     VersaMachina::Render::Renderer2D::DrawQuad({ -0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.82f, 0.3f, 0.8f, 1.0f });
-//    VersaMachina::Render::Renderer2D::DrawQuad({ 0.0f, 0.0f}, { 20.0f, 20.0f }, m_CheckerboardTexture, m_SquareColor);
     VersaMachina::Render::Renderer2D::DrawQuad({-0.5f, -0.5f, -0.1f }, glm::vec2(5.0f), glm::vec3(rotation), glm::vec3(0.0f), m_CheckerboardTexture, 10, m_SquareColor);
     
     VersaMachina::Render::Renderer2D::EndScene();
@@ -61,7 +51,6 @@ void Sandbox2D::OnUpdate(VersaMachina::Timestep ts)
     VersaMachina::Render::Renderer2D::EndScene();
     
 //    m_CameraController.OnUpdate(ts);
-    m_Framebuffer->Unbind();
 }
 
 void Sandbox2D::OnEvent(VersaMachina::Event &e)
@@ -85,8 +74,5 @@ void Sandbox2D::OnImGuiRender()
     ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
     ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-    uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-    ImGui::Image((void*)textureID, ImVec2{1280, 720});
-    
 	ImGui::End();
 }

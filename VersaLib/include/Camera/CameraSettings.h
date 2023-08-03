@@ -35,8 +35,6 @@ namespace VersaMachina
             // Aspect Ratio
             float AspectRatio = 1.777f;
             // Clip plane
-//            float NearClip = 0.01f;
-//            float FarClip = 1000.0f;
             float NearClip = 0.0f;
             float FarClip = 1.0f;
             // Positional

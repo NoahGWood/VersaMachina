@@ -9,7 +9,6 @@
 
 // TEMPORARY
 #include <GLFW/glfw3.h>
-//#include <glad/glad.h>
 
 namespace VersaMachina
 {
@@ -102,14 +101,17 @@ namespace VersaMachina
 
         void ImGUILayer::OnImGuiRender()
         {
-//            static bool show=true;
-//            ImGui::ShowDemoWindow(&show);
         }
 
 
         void ImGUILayer::OnEvent(Event& e)
         {
-            ImGuiIO& io = ImGui::GetIO();
+            if(m_BlockEvents)
+            {
+                ImGuiIO& io = ImGui::GetIO();
+    			e.m_Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+    			e.m_Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+            }
         }
     } // namespace UI
 

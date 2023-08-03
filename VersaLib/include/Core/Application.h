@@ -31,6 +31,9 @@ namespace VersaMachina
             
             inline static Application& Get() { return *s_Instance; }
             inline Window& GetWindow() { return *m_Window; }
+
+            UI::ImGUILayer* GetImGuiLayer() { return m_ImGUILayer; }
+
         private:
             bool OnWindowClose(WindowCloseEvent& e);
             bool OnWindowResize(WindowResizedEvent& e);
@@ -42,7 +45,7 @@ namespace VersaMachina
             LayerStack m_LayerStack;
             UI::ImGUILayer* m_ImGUILayer; 
             // Windows
-            std::unique_ptr<Window> m_Window;
+            Scope<Window> m_Window;
             // Stats
             bool m_Running = true;
             bool m_Minimized = false;

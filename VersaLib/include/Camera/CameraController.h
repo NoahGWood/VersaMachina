@@ -16,7 +16,6 @@ namespace VersaMachina
         {
             public:
                 CameraController();
-//                CameraController(CameraSettings& settings); // aspectratio * 2 units
                 ~CameraController();
 
                 void OnUpdate(Timestep ts);

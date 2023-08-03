@@ -24,8 +24,5 @@ class Sandbox2D : public VersaMachina::Layer
         VersaMachina::Ref<VersaMachina::Render::VertexBuffer> m_VertexBuffer;
         VersaMachina::Ref<VersaMachina::Render::Texture2D> m_CheckerboardTexture;
 
-        VersaMachina::Ref<VersaMachina::Render::Framebuffer> m_Framebuffer;
-
-
         glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 0.5f};
 };

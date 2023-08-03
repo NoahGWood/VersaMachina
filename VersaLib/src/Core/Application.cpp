@@ -21,7 +21,7 @@ namespace VersaMachina
         s_Instance = this;
 
         VM_PROFILE_FUNCTION();
-        m_Window = std::unique_ptr<Window>(Window::Create());
+        m_Window = Scope<Window>(Window::Create());
         m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
         Render::Renderer::Init();

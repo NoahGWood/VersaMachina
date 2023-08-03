@@ -26,7 +26,6 @@ namespace VersaMachina
                 glm::mat4 m_ViewMatrix;
                 glm::mat4 m_ViewProjectionMatrix;
 
-
 // Translation x Rotation x Scale
 //                proj x view x model x vertexPos
 

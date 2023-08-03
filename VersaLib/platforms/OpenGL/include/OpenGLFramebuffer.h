@@ -9,7 +9,7 @@ namespace VersaMachina
         {
             public:
                 OpenGLFramebuffer(const FramebufferSpecification& spec);
-                virtual ~OpenGLFramebuffer();
+                virtual ~OpenGLFramebuffer() override;
 
 
                 virtual void Bind() override;

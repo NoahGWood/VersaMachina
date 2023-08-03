@@ -6,7 +6,7 @@ namespace VersaMachina
     namespace Camera
     {
         CameraController::CameraController()
-            : m_Settings(std::make_shared<CameraSettings>()), m_Camera(m_Settings)
+            : m_Settings(CreateRef<CameraSettings>()), m_Camera(m_Settings)
         {
             VM_PROFILE_FUNCTION();
         }
