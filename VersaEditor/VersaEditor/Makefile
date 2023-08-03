@@ -76,8 +76,10 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/EditorLayer.o
 GENERATED += $(OBJDIR)/Sandbox2D.o
 GENERATED += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/EditorLayer.o
 OBJECTS += $(OBJDIR)/Sandbox2D.o
 OBJECTS += $(OBJDIR)/main.o
 
@@ -143,6 +145,9 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/EditorLayer.o: ../src/EditorLayer.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Sandbox2D.o: ../src/Sandbox2D.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"

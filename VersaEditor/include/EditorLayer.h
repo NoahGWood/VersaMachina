@@ -2,11 +2,11 @@
 
 #include "Versa.h"
 
-class Sandbox2D : public VersaMachina::Layer
+class EditorLayer : public VersaMachina::Layer
 {
     public:
-        Sandbox2D();
-        ~Sandbox2D() = default;
+        EditorLayer();
+        ~EditorLayer() = default;
         virtual void OnAttach() override;
         virtual void OnDetach() override;
         virtual void OnEvent(VersaMachina::Event &e) override;
@@ -17,14 +17,16 @@ class Sandbox2D : public VersaMachina::Layer
     private:
         VersaMachina::Camera::CameraController m_CameraController;
 
+        VersaMachina::Ref<VersaMachina::Render::Framebuffer> m_Framebuffer;
+
+        glm::vec2 m_ViewportSize;
+
         // Temporary
         VersaMachina::Ref<VersaMachina::Render::Shader> m_Shader;
         VersaMachina::Ref<VersaMachina::Render::VertexArray> m_VertexArray;
         VersaMachina::Ref<VersaMachina::Render::IndexBuffer> m_IndexBuffer;
         VersaMachina::Ref<VersaMachina::Render::VertexBuffer> m_VertexBuffer;
         VersaMachina::Ref<VersaMachina::Render::Texture2D> m_CheckerboardTexture;
-
-        VersaMachina::Ref<VersaMachina::Render::Framebuffer> m_Framebuffer;
 
 
         glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 0.5f};

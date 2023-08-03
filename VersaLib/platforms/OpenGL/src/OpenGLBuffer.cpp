@@ -3,7 +3,7 @@
 #include "Render/VertexBuffer.h"
 #include "Render/IndexBuffer.h"
 
-#include "glad/glad.h"
+#include <glad/glad.h>
 
 namespace VersaMachina
 {

@@ -79,6 +79,7 @@ OBJECTS :=
 GENERATED += $(OBJDIR)/Application.o
 GENERATED += $(OBJDIR)/Camera.o
 GENERATED += $(OBJDIR)/CameraController.o
+GENERATED += $(OBJDIR)/Framebuffer.o
 GENERATED += $(OBJDIR)/ImGUIBuild.o
 GENERATED += $(OBJDIR)/ImGUILayer.o
 GENERATED += $(OBJDIR)/IndexBuffer.o
@@ -86,6 +87,7 @@ GENERATED += $(OBJDIR)/Layer.o
 GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/Log.o
 GENERATED += $(OBJDIR)/OpenGLBuffer.o
+GENERATED += $(OBJDIR)/OpenGLFramebuffer.o
 GENERATED += $(OBJDIR)/OpenGLInput.o
 GENERATED += $(OBJDIR)/OpenGLRenderContext.o
 GENERATED += $(OBJDIR)/OpenGLRendererAPI.o
@@ -108,6 +110,7 @@ GENERATED += $(OBJDIR)/stb_image.o
 OBJECTS += $(OBJDIR)/Application.o
 OBJECTS += $(OBJDIR)/Camera.o
 OBJECTS += $(OBJDIR)/CameraController.o
+OBJECTS += $(OBJDIR)/Framebuffer.o
 OBJECTS += $(OBJDIR)/ImGUIBuild.o
 OBJECTS += $(OBJDIR)/ImGUILayer.o
 OBJECTS += $(OBJDIR)/IndexBuffer.o
@@ -115,6 +118,7 @@ OBJECTS += $(OBJDIR)/Layer.o
 OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/Log.o
 OBJECTS += $(OBJDIR)/OpenGLBuffer.o
+OBJECTS += $(OBJDIR)/OpenGLFramebuffer.o
 OBJECTS += $(OBJDIR)/OpenGLInput.o
 OBJECTS += $(OBJDIR)/OpenGLRenderContext.o
 OBJECTS += $(OBJDIR)/OpenGLRendererAPI.o
@@ -200,6 +204,9 @@ endif
 $(OBJDIR)/OpenGLBuffer.o: ../platforms/OpenGL/src/OpenGLBuffer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/OpenGLFramebuffer.o: ../platforms/OpenGL/src/OpenGLFramebuffer.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLInput.o: ../platforms/OpenGL/src/OpenGLInput.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -237,6 +244,9 @@ $(OBJDIR)/LayerStack.o: ../src/Core/LayerStack.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Log.o: ../src/Core/Log.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Framebuffer.o: ../src/Render/Framebuffer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/IndexBuffer.o: ../src/Render/IndexBuffer.cpp

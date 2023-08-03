@@ -23,9 +23,9 @@ namespace VersaMachina
 
         struct Renderer2DData
         {
-            const uint32_t MaxQuads = 10000;            // Max for a draw call
-            const uint32_t MaxVertices = MaxQuads * 4;  // Max for a draw call
-            const uint32_t MaxIndices = MaxQuads * 6;   // Max for a draw call
+            static const uint32_t MaxQuads = 10000;            // Max for a draw call
+            static const uint32_t MaxVertices = MaxQuads * 4;  // Max for a draw call
+            static const uint32_t MaxIndices = MaxQuads * 6;   // Max for a draw call
             static const uint32_t MaxTextureSlots = 32;   // TODO: RenderCaps, Max for a draw call
 
             Ref<VertexArray> QuadVertexArray;
@@ -41,6 +41,8 @@ namespace VersaMachina
             uint32_t TextureSlotIndex = 1; // 0 = White Texture
 
             glm::vec4 QuadVertexPositions[4];
+
+            Statistics Stats;
         };
 
         static Renderer2DData s_Data;
@@ -134,9 +136,19 @@ namespace VersaMachina
 
             Flush();
         }
-        
+
         void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec3& translation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& color)
         {
+            // Check if all textures register
+            if(s_Data.QuadIndexCount >= s_Data.MaxIndices)
+            {
+                FlushAndReset();   
+            }
+            else if(s_Data.TextureSlotIndex > s_Data.MaxTextureSlots-1)
+            {
+                FlushAndReset();
+            }
+
             float textureIndex = -1.0f;
 
             if(texture == nullptr)
@@ -192,6 +204,8 @@ namespace VersaMachina
     		s_Data.QuadVertexBufferPtr++;
 
 	    	s_Data.QuadIndexCount += 6;
+
+            s_Data.Stats.QuadCount++;
         }
 
         void Renderer2D::Flush()
@@ -202,6 +216,24 @@ namespace VersaMachina
                 s_Data.TextureSlots[i]->Bind(i);
             }
             RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
+            s_Data.Stats.DrawCalls++;
+        }
+
+        void Renderer2D::ResetStats()
+        {
+            memset(&s_Data.Stats, 0, sizeof(Statistics));
+        }
+        Statistics Renderer2D::GetStats()
+        {
+            return s_Data.Stats;
+        }
+        void Renderer2D::FlushAndReset()
+        {
+            EndScene();
+            s_Data.QuadIndexCount = 0;
+            s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+
+            s_Data.TextureSlotIndex = 1;
         }
 
     } // namespace Render

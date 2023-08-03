@@ -1,16 +1,16 @@
-#include "Sandbox2D.h"
+#include "EditorLayer.h"
 #include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-Sandbox2D::Sandbox2D()
-    : Layer("Sandbox2D"), m_CameraController()
+EditorLayer::EditorLayer()
+    : Layer("EditorLayer"), m_CameraController()
 {
     
 }
 
-void Sandbox2D::OnAttach()
+void EditorLayer::OnAttach()
 {
 	m_CheckerboardTexture = VersaMachina::Render::Texture2D::Create("VersaEditor/assets/textures/Checkerboard.png");
 
@@ -20,10 +20,10 @@ void Sandbox2D::OnAttach()
     m_Framebuffer = VersaMachina::Render::Framebuffer::Create(fbSpec);
 
 }
-void Sandbox2D::OnDetach()
+void EditorLayer::OnDetach()
 {
 }
-void Sandbox2D::OnUpdate(VersaMachina::Timestep ts)
+void EditorLayer::OnUpdate(VersaMachina::Timestep ts)
 {
     VM_PROFILE_FUNCTION()
 
@@ -64,13 +64,13 @@ void Sandbox2D::OnUpdate(VersaMachina::Timestep ts)
     m_Framebuffer->Unbind();
 }
 
-void Sandbox2D::OnEvent(VersaMachina::Event &e)
+void EditorLayer::OnEvent(VersaMachina::Event &e)
 {
     m_CameraController.OnEvent(e);
 }
 
 
-void Sandbox2D::OnImGuiRender()
+void EditorLayer::OnImGuiRender()
 {
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
@@ -85,8 +85,23 @@ void Sandbox2D::OnImGuiRender()
     ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
     ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-    uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-    ImGui::Image((void*)textureID, ImVec2{1280, 720});
-    
 	ImGui::End();
+
+    // Viewport
+    ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0,0});
+	ImGui::Begin("Viewport");
+    ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+    if(m_ViewportSize != *(glm::vec2*)&viewportSize)
+    {
+        m_ViewportSize = { viewportSize.x, viewportSize.y };
+        m_Framebuffer->Resize(m_ViewportSize.x, m_ViewportSize.y);
+
+        m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
+    }
+
+    uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+    ImGui::Image((void*)textureID, viewportSize, ImVec2{0,1}, ImVec2{1,0});
+	ImGui::End();
+    ImGui::PopStyleVar();
+    // Viewport
 }

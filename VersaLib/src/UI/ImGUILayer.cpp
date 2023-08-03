@@ -105,6 +105,12 @@ namespace VersaMachina
 //            static bool show=true;
 //            ImGui::ShowDemoWindow(&show);
         }
+
+
+        void ImGUILayer::OnEvent(Event& e)
+        {
+            ImGuiIO& io = ImGui::GetIO();
+        }
     } // namespace UI
 
 } // namespace VersaMachina

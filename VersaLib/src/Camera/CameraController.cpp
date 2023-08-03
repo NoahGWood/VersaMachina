@@ -82,14 +82,21 @@ namespace VersaMachina
         {
             VM_PROFILE_FUNCTION();
 
-            m_Settings->AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-            m_Settings->Viewport[0] = -m_Settings->AspectRatio * m_Settings->ZoomLevel * e.GetWidth(); // Left
-            m_Settings->Viewport[1] = m_Settings->AspectRatio * m_Settings->ZoomLevel * e.GetWidth(); // Right
-            m_Settings->Viewport[2] = -m_Settings->ZoomLevel * e.GetHeight(); // Top
-            m_Settings->Viewport[3] = m_Settings->ZoomLevel * e.GetHeight(); // Bottom
+            Resize((float)e.GetWidth(), (float)e.GetHeight());
             m_Camera.SetProjectionMatrix();
             m_Camera.RecalculateViewMatrix();
             return false;
+        }
+
+        void CameraController::Resize(float width, float height)
+        {
+            m_Settings->AspectRatio = width/height;
+            m_Settings->Viewport[0] = -m_Settings->AspectRatio * m_Settings->ZoomLevel; // Left
+            m_Settings->Viewport[1] = m_Settings->AspectRatio * m_Settings->ZoomLevel; // Right
+            m_Settings->Viewport[2] = -m_Settings->ZoomLevel; // Top
+            m_Settings->Viewport[3] = m_Settings->ZoomLevel; // Bottom
+            m_Camera.SetProjectionMatrix();
+            m_Camera.RecalculateViewMatrix();
         }
 
    

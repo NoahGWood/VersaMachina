@@ -22,6 +22,8 @@ namespace VersaMachina
                 void OnUpdate(Timestep ts);
                 void OnEvent(Event& e);
 
+                void Resize(float width, float height);
+
                 Camera& GetCamera() { return m_Camera; }
                 const Camera& GetCamera() const { return m_Camera; }
 

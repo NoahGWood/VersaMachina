@@ -33,6 +33,7 @@
 #include "Render/Renderer.h"
 #include "Render/Renderer2D.h"
 #include "Render/RendererAPI.h"
+#include "Render/Framebuffer.h"
 
 // Shaders
 #include "Render/Shader.h"
