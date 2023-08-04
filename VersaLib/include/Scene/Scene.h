@@ -19,7 +19,7 @@ namespace VersaMachina
                 Entity CreateEntity(const std::string& name="");
 
                 void OnUpdate(Timestep ts);
-
+                void DrawSprites();
             private:
                 entt::registry m_Registry;
         };

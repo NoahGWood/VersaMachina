@@ -25,6 +25,7 @@ namespace VersaMachina
             public:
                 static void Init();
                 static void Shutdown();
+                static void BeginScene(const Camera::Camera* camera);
                 static void BeginScene(const Camera::Camera& camera);
                 static void EndScene();
                 static void Flush();

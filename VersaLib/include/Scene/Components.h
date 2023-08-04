@@ -1,6 +1,8 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "Camera/Camera.h"
+
 #include <string>
 
 namespace VersaMachina
@@ -36,6 +38,20 @@ namespace VersaMachina
             SpriteRendererComponent(const SpriteRendererComponent&) = default;
             SpriteRendererComponent(const glm::vec4& color)
                 : Color(color) {}
+        };
+        struct CameraComponent
+        {
+            Camera::Camera* m_Camera;
+            bool Primary = true; // TODO: Move to scene controls
+
+            CameraComponent()
+                : m_Camera(new Camera::Camera()) { }
+            CameraComponent(const CameraComponent&) = default;
+            CameraComponent(Camera::Camera* camera)
+                : m_Camera(camera) { }
+            CameraComponent(Camera::Camera* camera, bool primary)
+                : m_Camera(camera), Primary(primary) { }
+ 
         };
     } // namespace Scene
     

@@ -34,8 +34,13 @@ namespace VersaMachina
 
             public:
                 Profiler()
-                    : m_CurrentSession(nullptr), m_ProfileCount(0)
-                {                   
+                    : m_CurrentSession(nullptr), m_ProfileCount(0) { }
+
+                Profiler(const Profiler&) = delete;
+                Profiler(const Profiler&&) = delete;
+                ~Profiler()
+                {
+                    EndSession();
                 }
 
                 void BeginSession(const std::string& name, const std::string& filepath = "results.json")

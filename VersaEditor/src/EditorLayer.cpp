@@ -20,9 +20,14 @@ void EditorLayer::OnAttach()
     m_Framebuffer = VersaMachina::Render::Framebuffer::Create(fbSpec);
 
     m_Scene = VersaMachina::CreateRef<VersaMachina::Scenes::Scene>();
+    m_Camera = new VersaMachina::Camera::Camera();
 
-    VersaMachina::Scenes::Entity squareEntity = m_Scene->CreateEntity("Square");
-    squareEntity.AddComponent<VersaMachina::Scenes::SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+
+    m_SquareEntity = m_Scene->CreateEntity("Square");
+    m_SquareEntity.AddComponent<VersaMachina::Scenes::SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
+    
+    m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
+    m_CameraEntity.AddComponent<VersaMachina::Scenes::CameraComponent>();
 }
 void EditorLayer::OnDetach()
 {
@@ -45,14 +50,14 @@ void EditorLayer::OnUpdate(VersaMachina::Timestep ts)
         m_CameraController.OnUpdate(ts);
 
     VersaMachina::Render::Renderer2D::ResetStats();
-    m_Framebuffer->Bind();    
+    m_Framebuffer->Bind();
     VersaMachina::Render::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
     VersaMachina::Render::RenderCommand::Clear();
     
-    VersaMachina::Render::Renderer2D::BeginScene(m_CameraController.GetCamera()); // camera, lights, environment);
-    // Update scene
+//    VersaMachina::Render::Renderer2D::BeginScene(m_CameraController.GetCamera()); // camera, lights, environment);
+//    // Update scene
     m_Scene->OnUpdate(ts);
-    VersaMachina::Render::Renderer2D::EndScene();
+//    VersaMachina::Render::Renderer2D::EndScene();
     
     m_Framebuffer->Unbind();
 }

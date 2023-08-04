@@ -120,7 +120,19 @@ namespace VersaMachina
             VM_PROFILE_FUNCTION();
             
             s_Data.TextureShader->Bind();
-            s_Data.TextureShader->SetMat4("u_ViewProjection", camera.getViewProjectionMatrix());
+            s_Data.TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+
+            s_Data.QuadIndexCount = 0;
+            s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+
+            s_Data.TextureSlotIndex = 1;
+        }
+        void Renderer2D::BeginScene(const Camera::Camera* camera)
+        {
+            VM_PROFILE_FUNCTION();
+            
+            s_Data.TextureShader->Bind();
+            s_Data.TextureShader->SetMat4("u_ViewProjection", camera->GetViewProjectionMatrix());
 
             s_Data.QuadIndexCount = 0;
             s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;

@@ -6,14 +6,6 @@ namespace VersaMachina
 {
     namespace Camera
     {
-        Camera::Camera(Ref<CameraSettings> settings)
-            : m_Settings(settings), m_ViewMatrix(1.0f)
-        {
-            VM_PROFILE_FUNCTION();
-
-            SetProjectionMatrix();
-            RecalculateViewMatrix();
-        }
         void Camera::SetProjectionMatrix()
         {
             VM_PROFILE_FUNCTION();
@@ -81,6 +73,25 @@ namespace VersaMachina
 
             m_ViewMatrix = glm::inverse(transform);
             m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+        }
+
+        const void Camera::SetSettings(CameraSettings settings)
+        {
+            m_Settings->AspectRatio = settings.AspectRatio;
+
+            m_Settings->Name = settings.Name;
+            m_Settings->Type = settings.Type;
+            m_Settings->Viewport = settings.Viewport;
+            m_Settings->FieldOfView = settings.FieldOfView;
+            m_Settings->FieldOfViewAxis = settings.FieldOfViewAxis;
+            m_Settings->AspectRatio = settings.AspectRatio;
+            m_Settings->NearClip = settings.NearClip;
+            m_Settings->FarClip = settings.FarClip;
+            m_Settings->Position = settings.Position;
+            m_Settings->Rotation = settings.Rotation;
+            m_Settings->ZoomLevel = settings.ZoomLevel;
+            m_Settings->MoveSpeed = settings.MoveSpeed;
+            m_Settings->RotateSpeed = settings.RotateSpeed;
         }
     } // namespace Camera
     

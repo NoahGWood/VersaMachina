@@ -6,13 +6,15 @@ namespace VersaMachina
     namespace Camera
     {
         CameraController::CameraController()
-            : m_Settings(CreateRef<CameraSettings>()), m_Camera(m_Settings)
         {
             VM_PROFILE_FUNCTION();
+            m_Camera = new Camera();
+            m_Settings = m_Camera->GetSettings();
         }
         CameraController::~CameraController()
         {
             VM_PROFILE_FUNCTION();
+            delete m_Camera;
         }
         void CameraController::OnUpdate(Timestep ts)
         {
@@ -52,7 +54,7 @@ namespace VersaMachina
             
             if(changed)
             {
-                m_Camera.RecalculateViewMatrix();
+                m_Camera->RecalculateViewMatrix();
             }
         }
         void CameraController::OnEvent(Event& e)
@@ -74,8 +76,8 @@ namespace VersaMachina
             m_Settings->Viewport[2] = -m_Settings->ZoomLevel; // Top
             m_Settings->Viewport[3] = m_Settings->ZoomLevel; // Bottom
 
-            m_Camera.SetProjectionMatrix();
-            m_Camera.RecalculateViewMatrix();
+            m_Camera->SetProjectionMatrix();
+            m_Camera->RecalculateViewMatrix();
             return false;
         }
         bool CameraController::OnWindowResized(WindowResizedEvent& e)
@@ -83,8 +85,8 @@ namespace VersaMachina
             VM_PROFILE_FUNCTION();
 
             Resize((float)e.GetWidth(), (float)e.GetHeight());
-            m_Camera.SetProjectionMatrix();
-            m_Camera.RecalculateViewMatrix();
+            m_Camera->SetProjectionMatrix();
+            m_Camera->RecalculateViewMatrix();
             return false;
         }
 
@@ -95,11 +97,9 @@ namespace VersaMachina
             m_Settings->Viewport[1] = m_Settings->AspectRatio * m_Settings->ZoomLevel; // Right
             m_Settings->Viewport[2] = -m_Settings->ZoomLevel; // Top
             m_Settings->Viewport[3] = m_Settings->ZoomLevel; // Bottom
-            m_Camera.SetProjectionMatrix();
-            m_Camera.RecalculateViewMatrix();
-        }
-
-   
+            m_Camera->SetProjectionMatrix();
+            m_Camera->RecalculateViewMatrix();
+        }  
     } // namespace Camera
 
 } // namespace VersaMachina

@@ -24,7 +24,7 @@ namespace VersaMachina
 
         void Renderer::BeginScene(Camera::Camera& camera)
         {
-            m_SceneData->ViewProjectionMatrix = camera.getViewProjectionMatrix();
+            m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
         }
         void Renderer::EndScene()
         {

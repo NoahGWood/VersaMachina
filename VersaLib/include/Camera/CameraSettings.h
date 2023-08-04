@@ -35,16 +35,16 @@ namespace VersaMachina
             // Aspect Ratio
             float AspectRatio = 1.777f;
             // Clip plane
-            float NearClip = 0.0f;
-            float FarClip = 1.0f;
+            float NearClip = -10.0f;
+            float FarClip = 10.0f;
             // Positional
             glm::vec3 Position = {0,0,0};
             glm::vec3 Rotation = {0,0,0};
             // Zoom
-            float ZoomLevel = .01f;
+            float ZoomLevel = 1;
             // Speeds
             float MoveSpeed = 0.01f;
-            float RotateSpeed = 1.0f;
+            float RotateSpeed = 10.0f;
         };
     } // namespace Camera
     

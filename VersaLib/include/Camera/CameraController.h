@@ -23,16 +23,15 @@ namespace VersaMachina
 
                 void Resize(float width, float height);
 
-                Camera& GetCamera() { return m_Camera; }
-                const Camera& GetCamera() const { return m_Camera; }
+                Camera* GetCamera() { return m_Camera; }
+                const Camera* GetCamera() const { return m_Camera; }
 
             private:
                 bool OnMouseScrolledEvent(MouseScrolledEvent& e);
                 bool OnWindowResized(WindowResizedEvent& e);
             private:
-                Ref<CameraSettings> m_Settings;
-                CameraSettings* m_SettingsPtr; // just to prevent memory leaks
-                Camera m_Camera;
+                CameraSettings* m_Settings;
+                Camera* m_Camera;
 
 
         };
