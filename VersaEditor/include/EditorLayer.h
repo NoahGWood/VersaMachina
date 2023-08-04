@@ -15,6 +15,8 @@ class EditorLayer : public VersaMachina::Layer
 
 
     private:
+        // Scene Management
+        VersaMachina::Ref<VersaMachina::Scenes::Scene> m_Scene;
         // Viewport
         VersaMachina::Camera::CameraController m_CameraController;
         VersaMachina::Ref<VersaMachina::Render::Framebuffer> m_Framebuffer;

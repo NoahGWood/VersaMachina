@@ -19,6 +19,10 @@ void EditorLayer::OnAttach()
     fbSpec.Height = 720;
     m_Framebuffer = VersaMachina::Render::Framebuffer::Create(fbSpec);
 
+    m_Scene = VersaMachina::CreateRef<VersaMachina::Scenes::Scene>();
+
+    VersaMachina::Scenes::Entity squareEntity = m_Scene->CreateEntity("Square");
+    squareEntity.AddComponent<VersaMachina::Scenes::SpriteRendererComponent>(glm::vec4{0.0f, 1.0f, 0.0f, 1.0f});
 }
 void EditorLayer::OnDetach()
 {
@@ -36,45 +40,21 @@ void EditorLayer::OnUpdate(VersaMachina::Timestep ts)
 		m_CameraController.Resize(m_ViewportSize.x, m_ViewportSize.y);
 	}
 
-    // Update
+    // Update camera
     if(m_ViewportFocused)
         m_CameraController.OnUpdate(ts);
 
     VersaMachina::Render::Renderer2D::ResetStats();
+    m_Framebuffer->Bind();    
+    VersaMachina::Render::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
+    VersaMachina::Render::RenderCommand::Clear();
     
-    {    
-        VM_PROFILE_SCOPE("Renderer Prep");
-        m_Framebuffer->Bind();
-        VersaMachina::Render::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
-        VersaMachina::Render::RenderCommand::Clear();
-    }
-    {
-    	VM_PROFILE_SCOPE("Renderer Draw");
-        static float rotation = 0.0f;
-        rotation += ts * 5.0f;
-
-        VersaMachina::Render::Renderer2D::BeginScene(m_CameraController.GetCamera()); // camera, lights, environment);
+    VersaMachina::Render::Renderer2D::BeginScene(m_CameraController.GetCamera()); // camera, lights, environment);
+    // Update scene
+    m_Scene->OnUpdate(ts);
+    VersaMachina::Render::Renderer2D::EndScene();
     
-        VersaMachina::Render::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
-        VersaMachina::Render::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, m_SquareColor);
-        VersaMachina::Render::Renderer2D::DrawQuad({ 0.0f, 0.0f}, { 20.0f, 20.0f }, m_CheckerboardTexture, m_SquareColor);
-        VersaMachina::Render::Renderer2D::DrawQuad({-0.5f, -0.5f, -0.1f }, glm::vec2(5.0f), glm::vec3(rotation), glm::vec3(0.0f), m_CheckerboardTexture, 10, m_SquareColor);
-
-        VersaMachina::Render::Renderer2D::EndScene();
-
-        VersaMachina::Render::Renderer2D::BeginScene(m_CameraController.GetCamera()); // camera, lights, environment);
-        for(float y = -5.0f; y< 5.0f; y+=0.5f)
-        {
-            for(float x = -5.0f; x<5.0f; x+=0.5f)
-            {
-                glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.8f};            
-                VersaMachina::Render::Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, color);
-            }
-        }
-        VersaMachina::Render::Renderer2D::EndScene();
-
-        m_Framebuffer->Unbind();
-    }
+    m_Framebuffer->Unbind();
 }
 
 void EditorLayer::OnEvent(VersaMachina::Event &e)

@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../include -I../../VersaLib/include -I../../VersaLib/platforms -I../../VersaLib/vendor -I../../VersaLib/vendor/spdlog/include -I../../VersaLib/vendor/glm
+INCLUDES += -I../include -I../../VersaLib/include -I../../VersaLib/platforms -I../../VersaLib/vendor -I../../VersaLib/vendor/spdlog/include -I../../VersaLib/vendor/glm -I../../VersaLib/vendor/EnTT/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -37,7 +37,7 @@ TARGET = $(TARGETDIR)/VersaEditor
 OBJDIR = ../../build/Debug-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DEBUG -DVM_PROFILE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++17
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++2a
 LIBS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
 LDDEPS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
@@ -48,7 +48,7 @@ TARGET = $(TARGETDIR)/VersaEditor
 OBJDIR = ../../build/Release-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++2a
 LIBS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
 LDDEPS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
@@ -59,7 +59,7 @@ TARGET = $(TARGETDIR)/VersaEditor
 OBJDIR = ../../build/Dist-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++17
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++2a
 LIBS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
 LDDEPS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
@@ -77,10 +77,8 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/EditorLayer.o
-GENERATED += $(OBJDIR)/Sandbox2D.o
 GENERATED += $(OBJDIR)/main.o
 OBJECTS += $(OBJDIR)/EditorLayer.o
-OBJECTS += $(OBJDIR)/Sandbox2D.o
 OBJECTS += $(OBJDIR)/main.o
 
 # Rules
@@ -146,9 +144,6 @@ endif
 # #############################################
 
 $(OBJDIR)/EditorLayer.o: ../src/EditorLayer.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/Sandbox2D.o: ../src/Sandbox2D.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: ../src/main.cpp

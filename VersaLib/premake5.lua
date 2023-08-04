@@ -2,7 +2,7 @@ project "VersaLib"
         location "VersaLib"
         kind "StaticLib"
         language "C++"
-        cppdialect "C++17"
+        cppdialect "C++2a"
         staticruntime "off"
         systemversion "latest"
     
@@ -40,7 +40,8 @@ project "VersaLib"
             "%{IncludeDir.Glad}",
             "%{IncludeDir.ImGUI}",
             "%{IncludeDir.glm}",
-            "%{IncludeDir.stb_image}"
+            "%{IncludeDir.stb_image}",
+            "%{IncludeDir.EnTT}"
         }
 
     	-- We need GLFW, so we include it

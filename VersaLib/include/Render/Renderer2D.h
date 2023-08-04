@@ -29,15 +29,23 @@ namespace VersaMachina
                 static void EndScene();
                 static void Flush();
 
+//                static void DrawQuad(const glm::mat4 transform, const glm::vec4& color={1.0f,1.0f,1.0f,1.0f});
+//                static void DrawQuad(const glm::mat4 transform, const glm::vec4& color={1.0f,1.0f,1.0f,1.0f}, const Ref<Texture2D>& texture=nullptr, float tilingFactor=1.0f);
                 // Primitives
-                static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color) { DrawQuad({position.x, position.y, 0.0f}, size, nullptr, 1.0f, color); }
-                static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) { DrawQuad(position, size, nullptr, 1.0f, color);}
-                static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture) { DrawQuad({position.x, position.y, 0.0f}, size, texture, 1.0f, glm::vec4(1.0f)); }
-                static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture) { DrawQuad(position, size, texture, 1.0f, glm::vec4(1.0f)); }
-                static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) { DrawQuad({position.x, position.y, 0.0f}, size, texture, 1.0f, color); }
-                static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) { DrawQuad(position, size, texture, 1.0f, color); }
-                static void DrawQuad(const glm::vec3& position={0.0f,0.0f,0.0f}, const glm::vec2& size={1,1}, const Ref<Texture2D>& texture=nullptr, float tilingFactor=1.0f, const glm::vec4& color={1.0f,1.0f,1.0f,1.0f}) { DrawQuad(position, size, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f}, texture, tilingFactor, color); }
-                static void DrawQuad(const glm::vec3& position={0.0f,0.0f,0.0f}, const glm::vec2& size={1,1}, const glm::vec3& rotation={0.0f,0.0f,0.0f}, const glm::vec3& translation={0.0f,0.0f,0.0f}, const Ref<Texture2D>& texture=nullptr, float tilingFactor=1.0f, const glm::vec4& color={1.0f,1.0f,1.0f,1.0f});
+//                static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color) { DrawQuad({position.x, position.y, 0.0f}, size, nullptr, 1.0f, color); }
+//                static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color) { DrawQuad(position, size, nullptr, 1.0f, color);}
+//                static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture) { DrawQuad({position.x, position.y, 0.0f}, size, texture, 1.0f, glm::vec4(1.0f)); }
+//                static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture) { DrawQuad(position, size, texture, 1.0f, glm::vec4(1.0f)); }
+//                static void DrawQuad(const glm::vec2& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) { DrawQuad({position.x, position.y, 0.0f}, size, texture, 1.0f, color); }
+//                static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color) { DrawQuad(position, size, texture, 1.0f, color); }
+//                static void DrawQuad(const glm::vec3& position={0.0f,0.0f,0.0f}, const glm::vec2& size={1,1}, const Ref<Texture2D>& texture=nullptr, float tilingFactor=1.0f, const glm::vec4& color={1.0f,1.0f,1.0f,1.0f}) { DrawQuad(position, size, {0.0f,0.0f,0.0f}, {0.0f,0.0f,0.0f,0.0f}, texture, tilingFactor, color); }
+                static void DrawQuad(const glm::mat4& transform,
+                    const glm::vec3& position={0,0,0},
+                    const glm::vec4& color={1,1,1,1},
+                    const glm::vec2& size={1,1},
+                    const glm::vec3& rotation={0,0,0},
+                    const Ref<Texture2D>& texture=nullptr,
+                    float tilingFactor=1.0f);
 
                 static void ResetStats();
                 static Statistics GetStats();

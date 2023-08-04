@@ -3,7 +3,7 @@ project "VersaEditor"
 location "VersaEditor"
 kind "ConsoleApp"
 language "C++"
-cppdialect "C++17"
+cppdialect "C++2a"
 staticruntime "off"
 systemversion "latest"
 
@@ -26,7 +26,8 @@ includedirs
     "%{wks.location}/VersaLib/platforms",
     "%{wks.location}/VersaLib/vendor",
     "%{wks.location}/VersaLib/vendor/spdlog/include",
-    "%{IncludeDir.glm}"
+    "%{IncludeDir.glm}",
+	"%{IncludeDir.EnTT}"
 }
 
 links

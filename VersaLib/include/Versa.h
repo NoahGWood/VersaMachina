@@ -25,6 +25,11 @@
 
 #include "UI/ImGUILayer.h"
 
+// Entity Component System
+#include "Scene/Scene.h"
+#include "Scene/Entity.h"
+#include "Scene/Components.h"
+
 // Rendering
 #include "Render/BufferLayout.h"
 #include "Render/IndexBuffer.h"
