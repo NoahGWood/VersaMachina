@@ -41,6 +41,8 @@ namespace VersaMachina
             // Positional
             glm::vec3 Position = {0,0,0};
             glm::vec3 Rotation = {0,0,0};
+            // Transform
+            glm::mat4 Transform = glm::mat4{1};
             // Zoom
             float ZoomLevel = 1;
             // Speeds

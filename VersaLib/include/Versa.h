@@ -28,6 +28,7 @@
 // Entity Component System
 #include "Scene/Scene.h"
 #include "Scene/Entity.h"
+#include "Scene/ScriptableEntity.h"
 #include "Scene/Components.h"
 
 // Rendering
@@ -58,5 +59,6 @@
 
 // Profiler
 #include "Profiler/Profiler.h"
+#include <glm/gtc/type_ptr.hpp>
 // Entry point
 // #include "Core/Entry.h"

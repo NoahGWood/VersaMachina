@@ -8,7 +8,7 @@ class VersaEditor : public VersaMachina::Application
 public:
     VersaEditor()
     {
-        PushLayer(new EditorLayer());
+        PushLayer(new VersaMachina::EditorLayer());
     }
     ~VersaEditor()
     {

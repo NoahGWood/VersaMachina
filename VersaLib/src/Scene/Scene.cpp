@@ -3,6 +3,7 @@
 #include "Scene/Components.h"
 #include "Render/Renderer2D.h"
 #include "Scene/Entity.h"
+#include "Scene/ScriptableEntity.h"
 
 namespace VersaMachina
 {
@@ -11,7 +12,7 @@ namespace VersaMachina
 
         Scene::Scene()
         {
-            entt::entity entity = m_Registry.create();
+//            entt::entity entity = m_Registry.create();
         }
         Scene::~Scene()
         {
@@ -32,15 +33,33 @@ namespace VersaMachina
         }
         void Scene::OnUpdate(Timestep ts)
         {
+            // Update scripts
+            {
+                auto view = m_Registry.view<NativeScriptComponent>();
+                for(auto entity : view) 
+                {
+                    auto& nsc = view.get<NativeScriptComponent>(entity);
+                    if(!nsc.Instance)
+                    {
+                        VM_CORE_INFO("Script not instantiated, creating");
+                        nsc.Instance = nsc.InstantiateScript();
+                        nsc.Instance->m_Entity = Entity{entity,this};
+                        nsc.Instance->OnCreate();
+                    }
+                    nsc.Instance->OnUpdate(ts);
+                }
+            }
+
             // Render Scene
             auto view = m_Registry.view<TransformComponent, CameraComponent>();
             Camera::Camera* mainCamera = nullptr;
     		for (auto entity : view)
     		{
-                auto& camera = view.get<CameraComponent>(entity);
+                auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
                 if(camera.Primary)
                 {
                     mainCamera = camera.m_Camera;
+                    camera.m_Camera->SetTransform(transform.Transform);
                     break;
                 }
     		}
@@ -56,8 +75,8 @@ namespace VersaMachina
             auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
             for (auto entity : group)
             {
-                auto& transform = group.get<TransformComponent>(entity);
-                auto& sprite = group.get<SpriteRendererComponent>(entity);
+                auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+//                auto& sprite = group.get<SpriteRendererComponent>(entity);
             	Render::Renderer2D::DrawQuad(transform, {0,0,0}, sprite.Color, {1,1}, {0,0,0}, sprite.Texture, 1.0f);
             }
         }

@@ -2,7 +2,7 @@
 #include "Camera/Camera.h"
 #include "Core/Base.h"
 #include "Render/Texture.h"
-
+#include "Scene/ScriptableEntity.h"
 #include <glm/glm.hpp>
 #include <string>
 
@@ -12,7 +12,7 @@ namespace VersaMachina
     {
         struct TagComponent
         {
-            std::string Tag;
+            std::string Tag = "None";
             TagComponent() = default;
             TagComponent(const TagComponent&) = default;
             TagComponent(const std::string tag)
@@ -20,7 +20,7 @@ namespace VersaMachina
         };
         struct TransformComponent
         {
-            glm::mat4 Transform;
+            glm::mat4 Transform = glm::mat4{1};
             
             TransformComponent() = default;
             TransformComponent(const TransformComponent&) = default;
@@ -44,7 +44,7 @@ namespace VersaMachina
         {
             Camera::Camera* m_Camera;
             bool Primary = true; // TODO: Move to scene controls
-
+            
             CameraComponent()
                 : m_Camera(new Camera::Camera()) { }
             CameraComponent(const CameraComponent&) = default;
@@ -53,6 +53,25 @@ namespace VersaMachina
             CameraComponent(Camera::Camera* camera, bool primary)
                 : m_Camera(camera), Primary(primary) { }
  
+        };
+        struct NativeScriptComponent
+        {
+            ScriptableEntity* Instance = nullptr;
+
+            ScriptableEntity*(*InstantiateScript)();
+            void (*DestroyScript)(NativeScriptComponent*);
+
+            template<typename T>
+            void Bind()
+            {
+                InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+    			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
+            }
+
+        };
+        struct ScriptComponent
+        {
+
         };
     } // namespace Scene
     

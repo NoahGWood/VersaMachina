@@ -55,16 +55,16 @@ namespace VersaMachina
                 case CameraType::None : VM_ASSERT(false, "Camera must have a CameraType!"); break;
                 case CameraType::Orthographic :
                 {
-                    transform = glm::translate(glm::mat4(1.0f), m_Settings->Position)
-                    * glm::rotate(glm::mat4(1.0f), glm::radians(m_Settings->Rotation.z), glm::vec3(0,0,1));
+                    transform = glm::translate(m_Settings->Transform, m_Settings->Position)
+                    * glm::rotate(m_Settings->Transform, glm::radians(m_Settings->Rotation.z), glm::vec3(0,0,1));
                     break;
                 }
                 case CameraType::Perspective :
                 {
-                    transform = glm::translate(glm::mat4(1.0f), -m_Settings->Position)
-                    * glm::rotate(glm::mat4(1.0f), glm::radians(m_Settings->Rotation.x), glm::vec3(1,0,0))
-                    * glm::rotate(glm::mat4(1.0f), glm::radians(m_Settings->Rotation.y), glm::vec3(0,1,0))
-                    * glm::rotate(glm::mat4(1.0f), glm::radians(m_Settings->Rotation.z), glm::vec3(0,0,1));
+                    transform = glm::translate(m_Settings->Transform, -m_Settings->Position)
+                    * glm::rotate(m_Settings->Transform, glm::radians(m_Settings->Rotation.x), glm::vec3(1,0,0))
+                    * glm::rotate(m_Settings->Transform, glm::radians(m_Settings->Rotation.y), glm::vec3(0,1,0))
+                    * glm::rotate(m_Settings->Transform, glm::radians(m_Settings->Rotation.z), glm::vec3(0,0,1));
                     break;
                 }
                 default:
@@ -89,6 +89,7 @@ namespace VersaMachina
             m_Settings->FarClip = settings.FarClip;
             m_Settings->Position = settings.Position;
             m_Settings->Rotation = settings.Rotation;
+            m_Settings->Transform = settings.Transform;
             m_Settings->ZoomLevel = settings.ZoomLevel;
             m_Settings->MoveSpeed = settings.MoveSpeed;
             m_Settings->RotateSpeed = settings.RotateSpeed;

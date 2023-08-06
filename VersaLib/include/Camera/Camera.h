@@ -28,6 +28,11 @@ namespace VersaMachina
                 const CameraSettings* GetSettings() const { return m_Settings; }
 
                 const void SetSettings(CameraSettings settings);
+                const void SetTransform(glm::mat4 transform)
+                {
+                    m_Settings->Transform = transform;
+                    RecalculateViewMatrix();
+                }
 
                 void Resize(float width, float height);
 
