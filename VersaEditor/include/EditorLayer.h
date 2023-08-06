@@ -20,7 +20,6 @@ class EditorLayer : public VersaMachina::Layer
         VersaMachina::Scenes::Entity m_SquareEntity;
         VersaMachina::Camera::Camera* m_Camera;
         VersaMachina::Scenes::Entity m_CameraEntity;
-        
         // Viewport
         VersaMachina::Camera::CameraController m_CameraController;
         VersaMachina::Ref<VersaMachina::Render::Framebuffer> m_Framebuffer;

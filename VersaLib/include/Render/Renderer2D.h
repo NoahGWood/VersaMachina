@@ -47,7 +47,6 @@ namespace VersaMachina
                     const glm::vec3& rotation={0,0,0},
                     const Ref<Texture2D>& texture=nullptr,
                     float tilingFactor=1.0f);
-
                 static void ResetStats();
                 static Statistics GetStats();
 

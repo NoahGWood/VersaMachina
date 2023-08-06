@@ -33,11 +33,11 @@ namespace VersaMachina
         void Scene::OnUpdate(Timestep ts)
         {
             // Render Scene
-            auto group = m_Registry.view<TransformComponent, CameraComponent>();
+            auto view = m_Registry.view<TransformComponent, CameraComponent>();
             Camera::Camera* mainCamera = nullptr;
-    		for (auto entity : group)
+    		for (auto entity : view)
     		{
-                auto& camera = group.get<CameraComponent>(entity);
+                auto& camera = view.get<CameraComponent>(entity);
                 if(camera.Primary)
                 {
                     mainCamera = camera.m_Camera;
@@ -58,8 +58,25 @@ namespace VersaMachina
             {
                 auto& transform = group.get<TransformComponent>(entity);
                 auto& sprite = group.get<SpriteRendererComponent>(entity);
-            	Render::Renderer2D::DrawQuad(transform, {0,0,0}, sprite.Color);
+            	Render::Renderer2D::DrawQuad(transform, {0,0,0}, sprite.Color, {1,1}, {0,0,0}, sprite.Texture, 1.0f);
             }
+        }
+        void Scene::OnViewportResize(uint32_t width, uint32_t height)
+        {
+            m_ViewportWidth = width;
+            m_ViewportHeight = height;
+
+            // Resize non-FixedAspectRatio cameras
+            auto view = m_Registry.view<CameraComponent>();
+            Camera::Camera* mainCamera = nullptr;
+    		for (auto entity : view)
+    		{
+                auto& camera = view.get<CameraComponent>(entity).m_Camera;
+                if(!camera->GetSettings()->FixedAspectRatio)
+                {
+                    camera->Resize(width, height);
+                }
+    		}
         }
     } // namespace Scenes
     

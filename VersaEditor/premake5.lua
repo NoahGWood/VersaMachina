@@ -67,7 +67,7 @@ filter "system:linux"
 
 filter "configurations:Debug"
     defines {
-        "VM_DEBUG", "VM_PROFILE"
+        "VM_DEBUG"
     }
     symbols "On"
 

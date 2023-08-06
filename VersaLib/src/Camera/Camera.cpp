@@ -93,6 +93,16 @@ namespace VersaMachina
             m_Settings->MoveSpeed = settings.MoveSpeed;
             m_Settings->RotateSpeed = settings.RotateSpeed;
         }
+        void Camera::Resize(float width, float height)
+        {
+            m_Settings->AspectRatio = width/height;
+            m_Settings->Viewport[0] = -m_Settings->AspectRatio * m_Settings->ZoomLevel; // Left
+            m_Settings->Viewport[1] = m_Settings->AspectRatio * m_Settings->ZoomLevel; // Right
+            m_Settings->Viewport[2] = -m_Settings->ZoomLevel; // Bottom
+            m_Settings->Viewport[3] = m_Settings->ZoomLevel; // Top
+            SetProjectionMatrix();
+            RecalculateViewMatrix();
+        }  
     } // namespace Camera
     
 } // namespace VersaMachina

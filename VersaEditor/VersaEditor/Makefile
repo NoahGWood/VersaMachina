@@ -35,7 +35,7 @@ ifeq ($(config),debug)
 TARGETDIR = ../../bin/Debug-linux-x86_64/VersaEditor
 TARGET = $(TARGETDIR)/VersaEditor
 OBJDIR = ../../build/Debug-linux-x86_64/VersaEditor
-DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DEBUG -DVM_PROFILE
+DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++2a
 LIBS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL

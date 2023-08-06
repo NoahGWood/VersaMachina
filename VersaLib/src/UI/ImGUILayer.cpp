@@ -37,6 +37,8 @@ namespace VersaMachina
 		    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 		    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+            io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+            io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports; 
 		    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 		    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 

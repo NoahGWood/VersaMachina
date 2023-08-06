@@ -34,9 +34,10 @@ namespace VersaMachina
             FOVAxis FieldOfViewAxis = FOVAxis::Horizontal;
             // Aspect Ratio
             float AspectRatio = 1.777f;
+            bool FixedAspectRatio = false;
             // Clip plane
-            float NearClip = -10.0f;
-            float FarClip = 10.0f;
+            float NearClip = -1.0f;
+            float FarClip = 1.0f;
             // Positional
             glm::vec3 Position = {0,0,0};
             glm::vec3 Rotation = {0,0,0};

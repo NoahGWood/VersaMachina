@@ -29,6 +29,8 @@ namespace VersaMachina
 
                 const void SetSettings(CameraSettings settings);
 
+                void Resize(float width, float height);
+
                 void SetProjectionMatrix();
                 void RecalculateViewMatrix();
 

@@ -1,8 +1,9 @@
 #pragma once
+#include "Camera/Camera.h"
+#include "Core/Base.h"
+#include "Render/Texture.h"
 
 #include <glm/glm.hpp>
-#include "Camera/Camera.h"
-
 #include <string>
 
 namespace VersaMachina
@@ -33,7 +34,7 @@ namespace VersaMachina
         struct SpriteRendererComponent
         {
             glm::vec4 Color{1.0f, 1.0f, 1.0f, 1.0f};
-            
+            Ref<Render::Texture2D> Texture;
             SpriteRendererComponent() = default;
             SpriteRendererComponent(const SpriteRendererComponent&) = default;
             SpriteRendererComponent(const glm::vec4& color)

@@ -139,7 +139,7 @@ namespace VersaMachina
     } // namespace Profiling
 } // namespace VersaMachina
 
-#define VM_PROFILE 1
+//#define VM_PROFILE 1
 
 #if VM_PROFILE
 
