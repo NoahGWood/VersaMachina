@@ -54,7 +54,7 @@
 
 // Camera
 #include "Camera/Camera.h"
-#include "Camera/CameraController.h"
+//#include "Camera/CameraController.h"
 #include "Camera/CameraSettings.h"
 
 // Profiler

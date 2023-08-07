@@ -23,22 +23,22 @@ namespace VersaMachina
             bool changed = false;
             if(Input::Input::IsKeyPressed(Key::A))
             {
-                m_Settings->Position.x -= m_Settings->MoveSpeed * ts;
+                m_Settings->Translation.x -= m_Settings->MoveSpeed * ts;
                 changed=true;
             }
             else if(Input::Input::IsKeyPressed(Key::D))
             {
-                m_Settings->Position.x += m_Settings->MoveSpeed * ts;
+                m_Settings->Translation.x += m_Settings->MoveSpeed * ts;
                 changed=true;
             }
             if(Input::Input::IsKeyPressed(Key::W))
             {
-                m_Settings->Position.y += m_Settings->MoveSpeed * ts;
+                m_Settings->Translation.y += m_Settings->MoveSpeed * ts;
                 changed=true;
             }
             else if(Input::Input::IsKeyPressed(Key::S))
             {
-                m_Settings->Position.y -= m_Settings->MoveSpeed * ts;
+                m_Settings->Translation.y -= m_Settings->MoveSpeed * ts;
                 changed=true;
             }
             if(Input::Input::IsKeyPressed(Key::Q))

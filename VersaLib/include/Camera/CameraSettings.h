@@ -11,16 +11,15 @@ namespace VersaMachina
     {
         enum CameraType
         {
-            None = 0,
-            Orthographic,
-            Perspective,
-            Physical
+            Orthographic=0,
+            Perspective=1,
+            Physical=2
         };
         
         enum FOVAxis
         {
-            Vertical,
-            Horizontal
+            Vertical=0,
+            Horizontal=1
         };
 
         struct CameraSettings
@@ -28,7 +27,7 @@ namespace VersaMachina
             // Base Settings
             std::string Name = "Main Camera";
             CameraType Type = CameraType::Orthographic;
-            glm::vec4 Viewport = {-1,1,-1,1}; // Left, Right, Bottom, Top
+            glm::vec4 Viewport = glm::vec4{-1,1,-1,1}; // Left, Right, Bottom, Top
             // Field of View.
             float FieldOfView = 60.0f;
             FOVAxis FieldOfViewAxis = FOVAxis::Horizontal;
@@ -38,9 +37,6 @@ namespace VersaMachina
             // Clip plane
             float NearClip = -1.0f;
             float FarClip = 1.0f;
-            // Positional
-            glm::vec3 Position = {0,0,0};
-            glm::vec3 Rotation = {0,0,0};
             // Transform
             glm::mat4 Transform = glm::mat4{1};
             // Zoom

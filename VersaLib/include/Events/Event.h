@@ -11,7 +11,7 @@ namespace VersaMachina
         AppTick, AppUpdate, AppRender,
         KeyPressed, KeyReleased, KeyTyped,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
-        NetworkTick,
+        HardwareEvent,
     };
 
     enum EventCategory
@@ -23,7 +23,7 @@ namespace VersaMachina
         EventCategoryKeyboard       = BIT(3),
         EventCategoryMouse          = BIT(4),
         EventCategoryMouseButton    = BIT(5),
-        EventCategoryNetwork        = BIT(6),
+        EventCategoryHardware       = BIT(6),
     };
 
     #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\

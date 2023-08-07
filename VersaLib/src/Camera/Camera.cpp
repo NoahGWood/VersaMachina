@@ -12,7 +12,6 @@ namespace VersaMachina
 
             switch (m_Settings->Type)
             {
-                case CameraType::None : VM_ASSERT(false, "Camera must have a CameraType!"); break;
                 case CameraType::Orthographic :
                 {
                     m_ProjectionMatrix = glm::ortho(
@@ -48,30 +47,7 @@ namespace VersaMachina
         void Camera::RecalculateViewMatrix()
         {
             VM_PROFILE_FUNCTION();
-
-            glm::mat4 transform;
-            switch (m_Settings->Type)
-            {
-                case CameraType::None : VM_ASSERT(false, "Camera must have a CameraType!"); break;
-                case CameraType::Orthographic :
-                {
-                    transform = glm::translate(m_Settings->Transform, m_Settings->Position)
-                    * glm::rotate(m_Settings->Transform, glm::radians(m_Settings->Rotation.z), glm::vec3(0,0,1));
-                    break;
-                }
-                case CameraType::Perspective :
-                {
-                    transform = glm::translate(m_Settings->Transform, -m_Settings->Position)
-                    * glm::rotate(m_Settings->Transform, glm::radians(m_Settings->Rotation.x), glm::vec3(1,0,0))
-                    * glm::rotate(m_Settings->Transform, glm::radians(m_Settings->Rotation.y), glm::vec3(0,1,0))
-                    * glm::rotate(m_Settings->Transform, glm::radians(m_Settings->Rotation.z), glm::vec3(0,0,1));
-                    break;
-                }
-                default:
-                    VM_ASSERT(false, "CameraType not implemented.");
-            }
-
-            m_ViewMatrix = glm::inverse(transform);
+            m_ViewMatrix = glm::inverse(m_Settings->Transform);
             m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
         }
 
@@ -87,8 +63,6 @@ namespace VersaMachina
             m_Settings->AspectRatio = settings.AspectRatio;
             m_Settings->NearClip = settings.NearClip;
             m_Settings->FarClip = settings.FarClip;
-            m_Settings->Position = settings.Position;
-            m_Settings->Rotation = settings.Rotation;
             m_Settings->Transform = settings.Transform;
             m_Settings->ZoomLevel = settings.ZoomLevel;
             m_Settings->MoveSpeed = settings.MoveSpeed;
@@ -97,13 +71,18 @@ namespace VersaMachina
         void Camera::Resize(float width, float height)
         {
             m_Settings->AspectRatio = width/height;
+            _Resize();
+        }
+
+        void Camera::_Resize()
+        {
             m_Settings->Viewport[0] = -m_Settings->AspectRatio * m_Settings->ZoomLevel; // Left
             m_Settings->Viewport[1] = m_Settings->AspectRatio * m_Settings->ZoomLevel; // Right
             m_Settings->Viewport[2] = -m_Settings->ZoomLevel; // Bottom
             m_Settings->Viewport[3] = m_Settings->ZoomLevel; // Top
             SetProjectionMatrix();
             RecalculateViewMatrix();
-        }  
+        }
     } // namespace Camera
     
 } // namespace VersaMachina

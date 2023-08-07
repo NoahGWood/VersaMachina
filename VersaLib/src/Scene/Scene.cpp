@@ -12,7 +12,7 @@ namespace VersaMachina
 
         Scene::Scene()
         {
-//            entt::entity entity = m_Registry.create();
+//            m_Registry.on_construct<CameraComponent>().connect<&function>();
         }
         Scene::~Scene()
         {
@@ -30,6 +30,10 @@ namespace VersaMachina
                 tag.Tag = name;
             }
             return entity;
+        }
+        void Scene::DestroyEntity(Entity entity)
+        {
+            m_Registry.destroy(entity);
         }
         void Scene::OnUpdate(Timestep ts)
         {
@@ -51,15 +55,15 @@ namespace VersaMachina
             }
 
             // Render Scene
-            auto view = m_Registry.view<TransformComponent, CameraComponent>();
+            auto view = m_Registry.view<CameraComponent, TransformComponent>();
             Camera::Camera* mainCamera = nullptr;
     		for (auto entity : view)
     		{
-                auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
+                auto[camera, transform] = view.get<CameraComponent, TransformComponent>(entity);
+                camera.m_Camera->SetTransform(transform.GetTransform());
                 if(camera.Primary)
                 {
                     mainCamera = camera.m_Camera;
-                    camera.m_Camera->SetTransform(transform.Transform);
                     break;
                 }
     		}
@@ -76,8 +80,7 @@ namespace VersaMachina
             for (auto entity : group)
             {
                 auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-//                auto& sprite = group.get<SpriteRendererComponent>(entity);
-            	Render::Renderer2D::DrawQuad(transform, {0,0,0}, sprite.Color, {1,1}, {0,0,0}, sprite.Texture, 1.0f);
+            	Render::Renderer2D::DrawQuad(transform.GetTransform(), {0,0,0}, sprite.Color, {1,1}, {0,0,0}, sprite.Texture, 1.0f);
             }
         }
         void Scene::OnViewportResize(uint32_t width, uint32_t height)
@@ -97,6 +100,32 @@ namespace VersaMachina
                 }
     		}
         }
+
+
+        template<typename T>
+        void Scene::OnComponentAdded(Entity entity, T& component)
+        {
+            VM_ASSERT(false, "No template provided for Scene::OnComponentAdded!")
+        }
+
+        template<>
+        void Scene::OnComponentAdded<TagComponent>(Entity entity, TagComponent& component) { }
+
+        template<>
+        void Scene::OnComponentAdded<TransformComponent>(Entity entity, TransformComponent& component) { }
+
+        template<>
+        void Scene::OnComponentAdded<SpriteRendererComponent>(Entity entity, SpriteRendererComponent& component) { }
+
+        template<>
+        void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
+        {
+            component.m_Camera->Resize(m_ViewportWidth, m_ViewportHeight);
+        }
+
+        template<>
+        void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component) { }
+
     } // namespace Scenes
     
 } // namespace VersaMachina

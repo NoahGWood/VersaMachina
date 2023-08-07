@@ -18,7 +18,9 @@ namespace VersaMachina
                 T& AddComponent(Args&&... args)
                 {
                     VM_CORE_ASSERT(!HasComponent<T>(), "Entity already has component!");
-                    return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+                    T& component = m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+                    m_Scene->OnComponentAdded<T>(*this, component);
+                    return component;
                 }
                 template<typename T>
                 T& GetComponent()
@@ -40,6 +42,7 @@ namespace VersaMachina
 
                 operator bool() const { return m_EntityHandle != entt::null; }
                 operator uint32_t() const { return (uint32_t)m_EntityHandle; }
+                operator entt::entity() const { return m_EntityHandle; }
                 bool operator==(const Entity& other) const { return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene; }
                 bool operator!=(const Entity& other) const { return !operator==(other); }
             private:

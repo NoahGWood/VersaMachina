@@ -9,7 +9,7 @@
 namespace VersaMachina
 {
     EditorLayer::EditorLayer()
-    : Layer("EditorLayer"), m_CameraController() { }
+    : Layer("EditorLayer") { }
 
     void EditorLayer::OnAttach()
     {
@@ -24,10 +24,6 @@ namespace VersaMachina
 
         m_Scene = CreateRef<Scenes::Scene>();
         m_Camera = new Camera::Camera();
-
-        m_SquareEntity = m_Scene->CreateEntity("Square");
-        m_SquareEntity.AddComponent<Scenes::SpriteRendererComponent>(glm::vec4{0.5f, 0.5f, 0.5f, 1.0f});
-        m_SquareEntity.GetComponent<Scenes::SpriteRendererComponent>().Texture = m_CheckerboardTexture;
 
         m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
         m_CameraEntity.AddComponent<Scenes::CameraComponent>();
@@ -47,21 +43,28 @@ namespace VersaMachina
 
                 void OnUpdate(Timestep ts)
                 {
-                    auto& transform = GetComponent<Scenes::TransformComponent>().Transform;
+                    auto& transform = GetComponent<Scenes::TransformComponent>();
+                    auto& camera = GetComponent<Scenes::CameraComponent>().m_Camera;
 
     				float speed = 0.005f;
 
     				if (Input::Input::IsKeyPressed(Key::A))
-    					transform[3][0] -= speed * ts;
+    					transform.Translation.x -= speed * ts;
     				if (Input::Input::IsKeyPressed(Key::D))
-    					transform[3][0] += speed * ts;
+    					transform.Translation.x += speed * ts;
     				if (Input::Input::IsKeyPressed(Key::W))
-    					transform[3][1] += speed * ts;
+    					transform.Translation.y += speed * ts;
     				if (Input::Input::IsKeyPressed(Key::S))
-    					transform[3][1] -= speed * ts;
+    					transform.Translation.y -= speed * ts;
+
+                    camera->SetTransform(transform.GetTransform());
                 }
         };
         m_CameraEntity.AddComponent<Scenes::NativeScriptComponent>().Bind<CameraController>();
+
+        m_SquareEntity = m_Scene->CreateEntity("Square");
+        m_SquareEntity.AddComponent<Scenes::SpriteRendererComponent>(glm::vec4{0.5f, 0.5f, 0.5f, 1.0f});
+        m_SquareEntity.GetComponent<Scenes::SpriteRendererComponent>().Texture = m_CheckerboardTexture;
 
         m_SceneHierarchyPanel.SetContext(m_Scene);
     }
@@ -79,10 +82,9 @@ namespace VersaMachina
     		m_Scene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
     	}
 
-        // Update camera
-        if(m_ViewportFocused)
-            m_CameraController.OnUpdate(ts);
-
+//    // Update camera
+//    if(m_ViewportFocused)
+//
         Render::Renderer2D::ResetStats();
         m_Framebuffer->Bind();
         Render::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
@@ -95,7 +97,6 @@ namespace VersaMachina
 
     void EditorLayer::OnEvent(Event &e)
     {
-        m_CameraController.OnEvent(e);
     }
 
 
@@ -129,7 +130,7 @@ namespace VersaMachina
             ImGui::EndMainMenuBar();
         }
 
-        ImGui::ShowDemoWindow();
+//        ImGui::ShowDemoWindow();
 
         ImGui::Begin("Project Hierarchy");
 

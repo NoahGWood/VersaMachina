@@ -24,8 +24,6 @@ class EditorLayer : public Layer
         Scenes::Entity m_SquareEntity;
         Camera::Camera* m_Camera;
         Scenes::Entity m_CameraEntity;
-        // Viewport
-        Camera::CameraController m_CameraController;
         Ref<Render::Framebuffer> m_Framebuffer;
         glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
         bool m_ViewportFocused=false, m_ViewportHovered=false;
