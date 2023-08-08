@@ -44,20 +44,22 @@ namespace VersaMachina
                 void OnUpdate(Timestep ts)
                 {
                     auto& transform = GetComponent<Scenes::TransformComponent>();
-                    auto& camera = GetComponent<Scenes::CameraComponent>().m_Camera;
+                    if(HasComponent<Scenes::CameraComponent>()){
+                        auto& camera = GetComponent<Scenes::CameraComponent>().m_Camera;
 
-    				float speed = 0.005f;
+        				float speed = 0.005f;
 
-    				if (Input::Input::IsKeyPressed(Key::A))
-    					transform.Translation.x -= speed * ts;
-    				if (Input::Input::IsKeyPressed(Key::D))
-    					transform.Translation.x += speed * ts;
-    				if (Input::Input::IsKeyPressed(Key::W))
-    					transform.Translation.y += speed * ts;
-    				if (Input::Input::IsKeyPressed(Key::S))
-    					transform.Translation.y -= speed * ts;
+        				if (Input::Input::IsKeyPressed(Key::A))
+        					transform.Translation.x -= speed * ts;
+        				if (Input::Input::IsKeyPressed(Key::D))
+        					transform.Translation.x += speed * ts;
+        				if (Input::Input::IsKeyPressed(Key::W))
+        					transform.Translation.y += speed * ts;
+        				if (Input::Input::IsKeyPressed(Key::S))
+        					transform.Translation.y -= speed * ts;
 
-                    camera->SetTransform(transform.GetTransform());
+                        camera->SetTransform(transform.GetTransform());
+                    }
                 }
         };
         m_CameraEntity.AddComponent<Scenes::NativeScriptComponent>().Bind<CameraController>();

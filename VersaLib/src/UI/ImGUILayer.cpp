@@ -41,6 +41,8 @@ namespace VersaMachina
             io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports; 
 		    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 		    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
+            io.Fonts->AddFontFromFileTTF("VersaEditor/assets/fonts/OpenSans/static/OpenSans-Bold.ttf", 18.0f);
+            io.FontDefault = io.Fonts->AddFontFromFileTTF("VersaEditor/assets/fonts/OpenSans/static/OpenSans-Regular.ttf", 18.0f);
 
     		// Setup Dear ImGui style
     		ImGui::StyleColorsDark();
