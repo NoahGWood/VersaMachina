@@ -26,7 +26,7 @@ namespace VersaMachina
                 uint32_t m_ViewportWidth=0, m_ViewportHeight=0;
             private:
                 friend class Entity;
-    
+                friend class SceneSerializer;
                 template<typename T>
                 void OnComponentAdded(Entity entity, T& component);
         };

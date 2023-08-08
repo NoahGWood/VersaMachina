@@ -44,17 +44,21 @@ project "GLFW"
 		files
 		{
 			"glfw/include/posix_time.h",
+			"glfw/deps/tinycthread.h",
 			"glfw/include/posix_thread.h",
 
 			"glfw/src/posix_module.c",
 			"glfw/src/posix_time.c",
+			"glfw/deps/tinycthread.c",
 			"glfw/src/posix_thread.c",
 
 			"glfw/include/x11_platform.h",
 			"glfw/include/xb_unicode.h",
+			"glfw/src/x11_init.c",
 			"glfw/src/wl_init.c",
 			"glfw/src/wl_monitor.c",
 			"glfw/src/wl_window.c",
+			"glfw/src/x11_window.c",
 			"glfw/src/xkb_unicode.c",
 
 
@@ -72,11 +76,12 @@ project "GLFW"
 	
 		buildoptions
 		{
+			"-pthread"
 		}
 
 		links 
 		{
-			"X11"
+			"X11",
 		}
 
 	filter "system:windows"

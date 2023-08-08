@@ -41,7 +41,8 @@ project "VersaLib"
             "%{IncludeDir.ImGUI}",
             "%{IncludeDir.glm}",
             "%{IncludeDir.stb_image}",
-            "%{IncludeDir.EnTT}"
+            "%{IncludeDir.EnTT}",
+            "%{IncludeDir.yaml}"
         }
 
     	-- We need GLFW, so we include it
@@ -51,7 +52,8 @@ project "VersaLib"
         {
             "glfw",
             "Glad",
-            "ImGui"
+            "ImGui",
+            "yaml"
         }
         flags { "NoPCH" }
         filter "system:windows"

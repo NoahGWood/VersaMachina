@@ -27,9 +27,12 @@ end
 
 group "Dependencies"
     include "depends"
-    -- include "VersaLib/vendor/glfw"
+-- Leave commented to build with system GLFW
+-- Uncomment to build with git submodule glfw (build errors, glfw.lua needs fixed)
+--    include "VersaLib/vendor/glfw"
     include "VersaLib/vendor/glad"
     include "VersaLib/vendor/imgui"
+    include "VersaLib/vendor/yaml"
 
 group ""
 

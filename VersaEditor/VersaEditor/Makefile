@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../include -I../../VersaLib/include -I../../VersaLib/platforms -I../../VersaLib/vendor -I../../VersaLib/vendor/spdlog/include -I../../VersaLib/vendor/glm -I../../VersaLib/vendor/EnTT/include
+INCLUDES += -I../include -I../../VersaLib/include -I../../VersaLib/platforms -I../../VersaLib/vendor -I../../VersaLib/vendor/spdlog/include -I../../VersaLib/vendor/glm -I../../VersaLib/vendor/EnTT/include -I../../VersaLib/vendor/yaml/include
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)

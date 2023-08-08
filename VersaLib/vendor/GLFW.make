@@ -38,24 +38,24 @@ ifeq ($(config),debug)
 TARGETDIR = ../../bin/Debug-linux-x86_64/GLFW
 TARGET = $(TARGETDIR)/libGLFW.a
 OBJDIR = ../../build/Debug-linux-x86_64/GLFW
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -w --static -lglfw3 -lGL -lX11 -lpthread -lXi -lXrandr -ldl
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -w --static -lglfw3 -lGL -lX11 -lpthread -lXi -lXrandr -ldl
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -w -pthread
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -w -pthread
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
 TARGETDIR = ../../bin/Release-linux-x86_64/GLFW
 TARGET = $(TARGETDIR)/libGLFW.a
 OBJDIR = ../../build/Release-linux-x86_64/GLFW
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -w --static -lglfw3 -lGL -lX11 -lpthread -lXi -lXrandr -ldl
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -w --static -lglfw3 -lGL -lX11 -lpthread -lXi -lXrandr -ldl
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -w -pthread
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -w -pthread
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
 TARGETDIR = ../../bin/Dist-linux-x86_64/GLFW
 TARGET = $(TARGETDIR)/libGLFW.a
 OBJDIR = ../../build/Dist-linux-x86_64/GLFW
-ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -w --static -lglfw3 -lGL -lX11 -lpthread -lXi -lXrandr -ldl
-ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -w --static -lglfw3 -lGL -lX11 -lpthread -lXi -lXrandr -ldl
+ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -w -pthread
+ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -w -pthread
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
@@ -86,11 +86,14 @@ GENERATED += $(OBJDIR)/posix_module.o
 GENERATED += $(OBJDIR)/posix_poll.o
 GENERATED += $(OBJDIR)/posix_thread.o
 GENERATED += $(OBJDIR)/posix_time.o
+GENERATED += $(OBJDIR)/tinycthread.o
 GENERATED += $(OBJDIR)/vulkan.o
 GENERATED += $(OBJDIR)/window.o
 GENERATED += $(OBJDIR)/wl_init.o
 GENERATED += $(OBJDIR)/wl_monitor.o
 GENERATED += $(OBJDIR)/wl_window.o
+GENERATED += $(OBJDIR)/x11_init.o
+GENERATED += $(OBJDIR)/x11_window.o
 GENERATED += $(OBJDIR)/xkb_unicode.o
 OBJECTS += $(OBJDIR)/context.o
 OBJECTS += $(OBJDIR)/egl_context.o
@@ -108,11 +111,14 @@ OBJECTS += $(OBJDIR)/posix_module.o
 OBJECTS += $(OBJDIR)/posix_poll.o
 OBJECTS += $(OBJDIR)/posix_thread.o
 OBJECTS += $(OBJDIR)/posix_time.o
+OBJECTS += $(OBJDIR)/tinycthread.o
 OBJECTS += $(OBJDIR)/vulkan.o
 OBJECTS += $(OBJDIR)/window.o
 OBJECTS += $(OBJDIR)/wl_init.o
 OBJECTS += $(OBJDIR)/wl_monitor.o
 OBJECTS += $(OBJDIR)/wl_window.o
+OBJECTS += $(OBJDIR)/x11_init.o
+OBJECTS += $(OBJDIR)/x11_window.o
 OBJECTS += $(OBJDIR)/xkb_unicode.o
 
 # Rules
@@ -177,6 +183,9 @@ endif
 # File Rules
 # #############################################
 
+$(OBJDIR)/tinycthread.o: glfw/deps/tinycthread.c
+	@echo "$(notdir $<)"
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/context.o: glfw/src/context.c
 	@echo "$(notdir $<)"
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -238,6 +247,12 @@ $(OBJDIR)/wl_monitor.o: glfw/src/wl_monitor.c
 	@echo "$(notdir $<)"
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/wl_window.o: glfw/src/wl_window.c
+	@echo "$(notdir $<)"
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/x11_init.o: glfw/src/x11_init.c
+	@echo "$(notdir $<)"
+	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/x11_window.o: glfw/src/x11_window.c
 	@echo "$(notdir $<)"
 	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/xkb_unicode.o: glfw/src/xkb_unicode.c

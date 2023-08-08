@@ -27,7 +27,8 @@ includedirs
     "%{wks.location}/VersaLib/vendor",
     "%{wks.location}/VersaLib/vendor/spdlog/include",
     "%{IncludeDir.glm}",
-	"%{IncludeDir.EnTT}"
+	"%{IncludeDir.EnTT}",
+    "%{IncludeDir.yaml}"
 }
 
 links
