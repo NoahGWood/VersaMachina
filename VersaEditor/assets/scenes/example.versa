@@ -1,0 +1,35 @@
+Scene: Untitled
+Entities:
+  - Entity: 1234
+    TagComponent:
+      Tag: Square
+    TransformComponent:
+      Transform: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.5, 0.5, 0.5, 1]
+  - Entity: 1234
+    TagComponent:
+      Tag: Camera Entity
+    TransformComponent:
+      Transform: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        CameraType: 0
+        Viewport: [.nan, .nan, -1, 1]
+        FieldOfView: 60
+        FieldOfViewAxis: 1
+        AspectRatio: .nan
+        FixedAspectRatio: false
+        NearClip: -1
+        FarClip: 1
+        Transform: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+        ZoomLevel: 1
+        MoveSpeed: 0.00999999978
+        RotateSpeed: 10
+      Primary: true

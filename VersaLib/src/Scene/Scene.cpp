@@ -90,13 +90,15 @@ namespace VersaMachina
 
             // Resize non-FixedAspectRatio cameras
             auto view = m_Registry.view<CameraComponent>();
-            Camera::Camera* mainCamera = nullptr;
     		for (auto entity : view)
     		{
                 auto& camera = view.get<CameraComponent>(entity).m_Camera;
-                if(!camera->GetSettings()->FixedAspectRatio)
+                if(camera)
                 {
-                    camera->Resize(width, height);
+                    if(!camera->GetFixedAspectRatio())
+                    {
+                        camera->Resize(width, height);
+                    }
                 }
     		}
         }

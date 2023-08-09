@@ -7,9 +7,9 @@ project "yaml"
 
     files
 	{
-		"yaml/src/**.h",
-		"yaml/src/**.cpp",
-        "yaml/include/**.h"
+		"yaml-cpp/src/**.h",
+		"yaml-cpp/src/**.cpp",
+        "yaml-cpp/include/**.h"
 	}
 
 	includedirs

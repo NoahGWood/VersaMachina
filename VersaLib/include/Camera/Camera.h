@@ -41,12 +41,15 @@ namespace VersaMachina
                 float GetRotateSpeed() const { return m_Settings->RotateSpeed; }
             public:
                 // Setters
+                void SetName(std::string name) { m_Settings->Name = name; }
                 void SetType(CameraType type) { m_Settings->Type = type; _Resize(); }
-                void SetTransform(glm::mat4& Transform) { m_Settings->Transform = Transform; _Resize(); }
-                void SetViewport(glm::vec4& viewport) { m_Settings->Viewport = viewport; _Resize(); }
+                void SetType(int type) { m_Settings->Type = (CameraType)type; _Resize(); }
+                void SetTransform(glm::mat4 Transform) { m_Settings->Transform = Transform; _Resize(); }
+                void SetViewport(glm::vec4 viewport) { m_Settings->Viewport = viewport; _Resize(); }
                 // Field of view
                 void SetFOV(float fov) { m_Settings->FieldOfView = fov; _Resize(); }
                 void SetFOVAxis(FOVAxis fa) { m_Settings->FieldOfViewAxis = fa; _Resize(); }
+                void SetFOVAxis(int fa) { m_Settings->FieldOfViewAxis = (FOVAxis)fa; _Resize(); }
                 // Aspect Ratio
                 void SetAspectRatio(float ar) { m_Settings->AspectRatio = ar; _Resize(); }
                 void SetFixedAspectRatio(bool far) { m_Settings->FixedAspectRatio = far; }

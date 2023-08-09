@@ -65,7 +65,7 @@ ifneq (,$(VersaLib_config))
 	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile config=$(VersaLib_config)
 endif
 
-VersaEditor: VersaLib Glad ImGui
+VersaEditor: VersaLib yaml Glad ImGui
 ifneq (,$(VersaEditor_config))
 	@echo "==== Building VersaEditor ($(VersaEditor_config)) ===="
 	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile config=$(VersaEditor_config)

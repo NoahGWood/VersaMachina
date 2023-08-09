@@ -6,6 +6,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Scene/SceneSerializer.h"
+
 namespace VersaMachina
 {
     EditorLayer::EditorLayer()
@@ -25,50 +27,51 @@ namespace VersaMachina
         m_Scene = CreateRef<Scenes::Scene>();
         m_Camera = new Camera::Camera();
 
-        m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
-        m_CameraEntity.AddComponent<Scenes::CameraComponent>();
+        // m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
+        // m_CameraEntity.AddComponent<Scenes::CameraComponent>();
 
-        class CameraController : public Scenes::ScriptableEntity
-        {
-            public:
-                void OnCreate()
-                {
-                    //GetComponent<Scenes::TransformComponent>();
-                }
+        // class CameraController : public Scenes::ScriptableEntity
+        // {
+        //     public:
+        //         void OnCreate()
+        //         {
+        //             //GetComponent<Scenes::TransformComponent>();
+        //         }
 
-                void OnDestroy()
-                {
+        //         void OnDestroy()
+        //         {
 
-                }
+        //         }
 
-                void OnUpdate(Timestep ts)
-                {
-                    auto& transform = GetComponent<Scenes::TransformComponent>();
-                    if(HasComponent<Scenes::CameraComponent>()){
-                        auto& camera = GetComponent<Scenes::CameraComponent>().m_Camera;
+        //         void OnUpdate(Timestep ts)
+        //         {
+        //             auto& transform = GetComponent<Scenes::TransformComponent>();
+        //             if(HasComponent<Scenes::CameraComponent>()){
+        //                 auto& camera = GetComponent<Scenes::CameraComponent>().m_Camera;
 
-        				float speed = 0.005f;
+        // 				float speed = 0.005f;
 
-        				if (Input::Input::IsKeyPressed(Key::A))
-        					transform.Translation.x -= speed * ts;
-        				if (Input::Input::IsKeyPressed(Key::D))
-        					transform.Translation.x += speed * ts;
-        				if (Input::Input::IsKeyPressed(Key::W))
-        					transform.Translation.y += speed * ts;
-        				if (Input::Input::IsKeyPressed(Key::S))
-        					transform.Translation.y -= speed * ts;
+        // 				if (Input::Input::IsKeyPressed(Key::A))
+        // 					transform.Translation.x -= speed * ts;
+        // 				if (Input::Input::IsKeyPressed(Key::D))
+        // 					transform.Translation.x += speed * ts;
+        // 				if (Input::Input::IsKeyPressed(Key::W))
+        // 					transform.Translation.y += speed * ts;
+        // 				if (Input::Input::IsKeyPressed(Key::S))
+        // 					transform.Translation.y -= speed * ts;
 
-                        camera->SetTransform(transform.GetTransform());
-                    }
-                }
-        };
-        m_CameraEntity.AddComponent<Scenes::NativeScriptComponent>().Bind<CameraController>();
+        //                 camera->SetTransform(transform.GetTransform());
+        //             }
+        //         }
+        // };
+        // m_CameraEntity.AddComponent<Scenes::NativeScriptComponent>().Bind<CameraController>();
 
-        m_SquareEntity = m_Scene->CreateEntity("Square");
-        m_SquareEntity.AddComponent<Scenes::SpriteRendererComponent>(glm::vec4{0.5f, 0.5f, 0.5f, 1.0f});
-        m_SquareEntity.GetComponent<Scenes::SpriteRendererComponent>().Texture = m_CheckerboardTexture;
+        // m_SquareEntity = m_Scene->CreateEntity("Square");
+        // m_SquareEntity.AddComponent<Scenes::SpriteRendererComponent>(glm::vec4{0.5f, 0.5f, 0.5f, 1.0f});
+        // m_SquareEntity.GetComponent<Scenes::SpriteRendererComponent>().Texture = m_CheckerboardTexture;
 
         m_SceneHierarchyPanel.SetContext(m_Scene);
+
     }
     void EditorLayer::OnDetach()
     {
@@ -117,8 +120,16 @@ namespace VersaMachina
             if(ImGui::BeginMenu("File"))
             {
                 ImGui::MenuItem("New");
-                ImGui::MenuItem("Open");
-                ImGui::MenuItem("Save");
+                if(ImGui::MenuItem("Open"))
+                {
+                    Scenes::SceneSerializer serializer(m_Scene);
+                    serializer.Deserialize("VersaEditor/assets/scenes/example.versa");
+                }
+                if(ImGui::MenuItem("Save"))
+                {
+                    Scenes::SceneSerializer serializer(m_Scene);
+                    serializer.Serialize("VersaEditor/assets/scenes/example.versa");
+                }
                 ImGui::EndMenu();
             }
             if(ImGui::BeginMenu("Edit"))

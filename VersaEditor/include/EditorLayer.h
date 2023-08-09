@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Versa.h"
-
 #include "panels/SceneHierarchyPanel.h"
 
 namespace VersaMachina

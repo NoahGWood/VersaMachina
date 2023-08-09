@@ -33,7 +33,8 @@ includedirs
 
 links
 {
-    "VersaLib"
+    "VersaLib",
+    "yaml"
 }
 
 filter "system:windows"
