@@ -2,13 +2,13 @@
 #include "Camera/Camera.h"
 #include "Core/Base.h"
 #include "Render/Texture.h"
-#include "Scene/ScriptableEntity.h"
+#include "ECS/ScriptableEntity.h"
 #include <glm/glm.hpp>
 #include <string>
 
 namespace VersaMachina
 {
-    namespace Scenes
+    namespace ECS
     {
         struct TagComponent
         {
@@ -82,6 +82,6 @@ namespace VersaMachina
         {
 
         };
-    } // namespace Scene
+    } // namespace ECS
     
 } // namespace VersaMachina

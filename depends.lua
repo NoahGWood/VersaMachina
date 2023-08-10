@@ -7,6 +7,7 @@ IncludeDir["glm"] = "%{wks.location}/VersaLib/vendor/glm"
 IncludeDir["stb_image"] = "%{wks.location}/VersaLib/vendor/stb_image"
 IncludeDir["EnTT"] = "%{wks.location}/VersaLib/vendor/EnTT/include"
 IncludeDir["yaml"] = "%{wks.location}/VersaLib/vendor/yaml-cpp/include"
+IncludeDir["tinyfiledialogs"] = "%{wks.location}/VersaLib/vendor/tinyfiledialogs"
 
 --IncludeDir["mono"] = "%{wks.location}/VersaLib/vendor/mono"
 

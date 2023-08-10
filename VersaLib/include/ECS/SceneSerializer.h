@@ -1,10 +1,10 @@
 #pragma once
 #include "Core/Base.h"
-#include "Scene/Scene.h"
+#include "ECS/Scene.h"
 
 namespace VersaMachina
 {
-    namespace Scenes
+    namespace ECS
     {
         class SceneSerializer
         {
@@ -20,6 +20,6 @@ namespace VersaMachina
             private:
                 Ref<Scene> m_Scene;
         };
-    } // namespace Scenes
+    } // namespace ECS
     
 } // namespace VersaMachina

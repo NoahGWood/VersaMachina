@@ -1,0 +1,55 @@
+Scene: Untitled
+Entities:
+  - Entity: 1234
+    TagComponent:
+      Tag: Top
+    TransformComponent:
+      Transform: [0.707106709, -3.09086197e-08, 0.707106769, 0, -0.707106709, -3.09086197e-08, 0.707106769, 0, 0, -1, -4.37113883e-08, 0, 0, 0.5, 0, 1]
+      Translation: [0, 0.5, 0]
+      Rotation: [1.57079637, 0, 0.785398185]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.874509811, 0, 0.835294127, 1]
+  - Entity: 1234
+    TagComponent:
+      Tag: Left
+    TransformComponent:
+      Transform: [0.707106769, 0, 0.707106769, 0, 0, 1, 0, 0, -0.707106769, 0, 0.707106769, 0, -0.356999993, 0, 0.349999994, 1]
+      Translation: [-0.356999993, 0, 0.349999994]
+      Rotation: [0, -0.785398185, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 0.949019611, 1]
+  - Entity: 1234
+    TagComponent:
+      Tag: Right
+    TransformComponent:
+      Transform: [0.707106769, 0, -0.707106769, 0, 0, 1, 0, 0, 0.707106769, 0, 0.707106769, 0, 0.349999994, 0, 0.349999994, 1]
+      Translation: [0.349999994, 0, 0.349999994]
+      Rotation: [0, 0.785398185, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.549019635, 0, 0.588235319, 1]
+  - Entity: 1234
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Transform: [1, 0, 0, 0, 0, 0.919135332, -0.393941939, 0, 0, 0.393941939, 0.919135332, 0, 0, 1.70000005, 4, 1]
+      Translation: [0, 1.70000005, 4]
+      Rotation: [-0.404916406, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        CameraType: 1
+        Viewport: [-1.22727275, 1.22727275, -1, 1]
+        FieldOfView: 30
+        FieldOfViewAxis: 0
+        AspectRatio: 1.22727275
+        FixedAspectRatio: false
+        NearClip: 0.00999999978
+        FarClip: 1000
+        Transform: [1, 0, 0, 0, 0, 0.919135332, -0.393941939, 0, 0, 0.393941939, 0.919135332, 0, 0, 1.70000005, 4, 1]
+        ZoomLevel: 1
+        MoveSpeed: 0.00999999978
+        RotateSpeed: 10
+      Primary: true

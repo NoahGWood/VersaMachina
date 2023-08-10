@@ -1,13 +1,13 @@
 #include "pch.h"
-#include "Scene/Scene.h"
-#include "Scene/Components.h"
+#include "ECS/Scene.h"
+#include "ECS/Components.h"
 #include "Render/Renderer2D.h"
-#include "Scene/Entity.h"
-#include "Scene/ScriptableEntity.h"
+#include "ECS/Entity.h"
+#include "ECS/ScriptableEntity.h"
 
 namespace VersaMachina
 {
-    namespace Scenes
+    namespace ECS
     {
 
         Scene::Scene()
@@ -127,7 +127,6 @@ namespace VersaMachina
 
         template<>
         void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component) { }
-
-    } // namespace Scenes
+    } // namespace ECS
     
 } // namespace VersaMachina

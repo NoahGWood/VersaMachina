@@ -26,10 +26,10 @@
 #include "UI/ImGUILayer.h"
 
 // Entity Component System
-#include "Scene/Scene.h"
-#include "Scene/Entity.h"
-#include "Scene/ScriptableEntity.h"
-#include "Scene/Components.h"
+#include "ECS/Scene.h"
+#include "ECS/Entity.h"
+#include "ECS/ScriptableEntity.h"
+#include "ECS/Components.h"
 
 // Rendering
 #include "Render/BufferLayout.h"

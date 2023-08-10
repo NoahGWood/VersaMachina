@@ -1,9 +1,9 @@
 #pragma once
-#include "Scene/Entity.h"
+#include "ECS/Entity.h"
 
 namespace VersaMachina
 {
-    namespace Scenes
+    namespace ECS
     {
         class ScriptableEntity
         {
@@ -29,6 +29,6 @@ namespace VersaMachina
                 Entity m_Entity;
                 friend class Scene;
         };
-    } // namespace Scenes
+    } // namespace ECS
     
 } // namespace VersaMachina

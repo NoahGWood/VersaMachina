@@ -19,23 +19,22 @@ class EditorLayer : public Layer
 
     private:
         // Scene Management
-        Ref<Scenes::Scene> m_Scene;
-        Scenes::Entity m_SquareEntity;
-        Camera::Camera* m_Camera;
-        Scenes::Entity m_CameraEntity;
+        Ref<ECS::Scene> m_Scene;
+        std::string m_SceneFile;
+        // ECS::Entity m_SquareEntity;
+        // Camera::Camera* m_Camera;
+        // ECS::Entity m_CameraEntity;
         Ref<Render::Framebuffer> m_Framebuffer;
         glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
         bool m_ViewportFocused=false, m_ViewportHovered=false;
-            // Temporary
-            Ref<Render::Shader> m_Shader;
-            Ref<Render::VertexArray> m_VertexArray;
-            Ref<Render::IndexBuffer> m_IndexBuffer;
-            Ref<Render::VertexBuffer> m_VertexBuffer;
-            Ref<Render::Texture2D> m_CheckerboardTexture;
-            glm::vec4 m_SquareColor = {0.2f, 0.3f, 0.8f, 0.5f};
-
-            // Panels
-            SceneHierarchyPanel m_SceneHierarchyPanel;
-};    
+        // Panels
+        SceneHierarchyPanel m_SceneHierarchyPanel;
+    private:
+        bool OnKeyPressed(VersaMachina::KeyPressedEvent& e);
+        void NewScene();
+        void Open();
+        void Save();
+        void SaveAs();
+    };    
 } // namespace VersaMachina
 

@@ -13,3 +13,6 @@
 [submodule "VersaLib/vendor/yaml-cpp"]
 	path = VersaLib/vendor/yaml-cpp
 	url = https://github.com/jbeder/yaml-cpp.git
+[submodule "VersaLib/vendor/ImGuizmo"]
+	path = VersaLib/vendor/ImGuizmo
+	url = https://github.com/CedricGuillemet/ImGuizmo.git

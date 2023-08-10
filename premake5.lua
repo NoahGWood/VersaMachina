@@ -33,6 +33,7 @@ group "Dependencies"
     include "VersaLib/vendor/glad"
     include "VersaLib/vendor/imgui"
     include "VersaLib/vendor/yaml"
+    include "VersaLib/vendor/tinyfiledialogs"
 
 group ""
 

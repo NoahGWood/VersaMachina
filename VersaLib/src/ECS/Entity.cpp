@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "Scene/Entity.h"
+#include "ECS/Entity.h"
 
 namespace VersaMachina
 {
-    namespace Scenes
+    namespace ECS
     {
         Entity::Entity(entt::entity handle, Scene* scene)
             : m_EntityHandle(handle), m_Scene(scene) {}
-    } // namespace Scene
+    } // namespace ECS
     
 } // namespace VersaMachina

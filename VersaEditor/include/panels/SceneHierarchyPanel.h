@@ -8,17 +8,17 @@ namespace VersaMachina
     {
         public:
             SceneHierarchyPanel() = default;
-            SceneHierarchyPanel(const Ref<Scenes::Scene>& scene);
+            SceneHierarchyPanel(const Ref<ECS::Scene>& scene);
 
-            void SetContext(const Ref<Scenes::Scene>& scene);
+            void SetContext(const Ref<ECS::Scene>& scene);
 
             void OnImGuiRender();
         private:
-            void DrawEntityNode(Scenes::Entity entity);
-            void DrawComponents(Scenes::Entity entity);
+            void DrawEntityNode(ECS::Entity entity);
+            void DrawComponents(ECS::Entity entity);
         private:
-            Ref<Scenes::Scene> m_Context;
-            Scenes::Entity m_SelectedEntity;
+            Ref<ECS::Scene> m_Context;
+            ECS::Entity m_SelectedEntity;
 
     };    
     static void DrawVec3Control(const std::string& label, glm::vec3& values, float resetValue = 0.0f, float colWidth = 100.0f);

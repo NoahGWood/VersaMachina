@@ -6,7 +6,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Scene/SceneSerializer.h"
+#include "ECS/SceneSerializer.h"
+
+#include <tinyfiledialogs/tinyfiledialogs.h>
 
 namespace VersaMachina
 {
@@ -15,7 +17,7 @@ namespace VersaMachina
 
     void EditorLayer::OnAttach()
     {
-    	m_CheckerboardTexture = Render::Texture2D::Create("VersaEditor/assets/textures/versa_logo_blank.png");
+//    	m_CheckerboardTexture = Render::Texture2D::Create("VersaEditor/assets/textures/versa_logo_blank.png");
         
         Render::FramebufferSpecification fbSpec;
         fbSpec.Width = 1280;
@@ -24,18 +26,17 @@ namespace VersaMachina
 
         // Create scene and add objects
 
-        m_Scene = CreateRef<Scenes::Scene>();
-        m_Camera = new Camera::Camera();
+        m_Scene = CreateRef<ECS::Scene>();
 
         // m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
-        // m_CameraEntity.AddComponent<Scenes::CameraComponent>();
+        // m_CameraEntity.AddComponent<ECS::CameraComponent>();
 
-        // class CameraController : public Scenes::ScriptableEntity
+        // class CameraController : public ECS::ScriptableEntity
         // {
         //     public:
         //         void OnCreate()
         //         {
-        //             //GetComponent<Scenes::TransformComponent>();
+        //             //GetComponent<ECS::TransformComponent>();
         //         }
 
         //         void OnDestroy()
@@ -45,9 +46,9 @@ namespace VersaMachina
 
         //         void OnUpdate(Timestep ts)
         //         {
-        //             auto& transform = GetComponent<Scenes::TransformComponent>();
-        //             if(HasComponent<Scenes::CameraComponent>()){
-        //                 auto& camera = GetComponent<Scenes::CameraComponent>().m_Camera;
+        //             auto& transform = GetComponent<ECS::TransformComponent>();
+        //             if(HasComponent<ECS::CameraComponent>()){
+        //                 auto& camera = GetComponent<ECS::CameraComponent>().m_Camera;
 
         // 				float speed = 0.005f;
 
@@ -64,11 +65,11 @@ namespace VersaMachina
         //             }
         //         }
         // };
-        // m_CameraEntity.AddComponent<Scenes::NativeScriptComponent>().Bind<CameraController>();
+        // m_CameraEntity.AddComponent<ECS::NativeScriptComponent>().Bind<CameraController>();
 
         // m_SquareEntity = m_Scene->CreateEntity("Square");
-        // m_SquareEntity.AddComponent<Scenes::SpriteRendererComponent>(glm::vec4{0.5f, 0.5f, 0.5f, 1.0f});
-        // m_SquareEntity.GetComponent<Scenes::SpriteRendererComponent>().Texture = m_CheckerboardTexture;
+        // m_SquareEntity.AddComponent<ECS::SpriteRendererComponent>(glm::vec4{0.5f, 0.5f, 0.5f, 1.0f});
+        // m_SquareEntity.GetComponent<ECS::SpriteRendererComponent>().Texture = m_CheckerboardTexture;
 
         m_SceneHierarchyPanel.SetContext(m_Scene);
 
@@ -102,6 +103,9 @@ namespace VersaMachina
 
     void EditorLayer::OnEvent(Event &e)
     {
+        VersaMachina::EventDispatcher dispatcher(e);
+
+        dispatcher.Dispatch<KeyPressedEvent>(VM_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
     }
 
 
@@ -119,16 +123,21 @@ namespace VersaMachina
         {
             if(ImGui::BeginMenu("File"))
             {
-                ImGui::MenuItem("New");
-                if(ImGui::MenuItem("Open"))
+                if(ImGui::MenuItem("New", "Ctrl+N"))
                 {
-                    Scenes::SceneSerializer serializer(m_Scene);
-                    serializer.Deserialize("VersaEditor/assets/scenes/example.versa");
+                    NewScene();
                 }
-                if(ImGui::MenuItem("Save"))
+                if(ImGui::MenuItem("Open", "Ctrl+O"))
                 {
-                    Scenes::SceneSerializer serializer(m_Scene);
-                    serializer.Serialize("VersaEditor/assets/scenes/example.versa");
+                    Open();
+                }
+                if(ImGui::MenuItem("Save",  "Ctrl+S"))
+                {
+                    Save();
+                }
+                if(ImGui::MenuItem("Save As",  "Ctrl+Shift+S"))
+                {
+                    SaveAs();
                 }
                 ImGui::EndMenu();
             }
@@ -143,7 +152,7 @@ namespace VersaMachina
             ImGui::EndMainMenuBar();
         }
 
-//        ImGui::ShowDemoWindow();
+        ImGui::ShowDemoWindow();
 
         ImGui::Begin("Project Hierarchy");
 
@@ -194,7 +203,7 @@ namespace VersaMachina
     	ImGui::Begin("Viewport");
             m_ViewportFocused = ImGui::IsWindowFocused();
             m_ViewportHovered = ImGui::IsWindowHovered();
-            Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+//            Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
 
             ImVec2 viewportSize = ImGui::GetContentRegionAvail();
             m_ViewportSize = { viewportSize.x, viewportSize.y };
@@ -216,5 +225,78 @@ namespace VersaMachina
         ImGui::End();
     }
 
+    bool EditorLayer::OnKeyPressed(VersaMachina::KeyPressedEvent& e)
+    {
+        if(e.IsRepeat())
+            return false;
+        bool control = VersaMachina::Input::IsKeyPressed(Key::LeftControl) || VersaMachina::Input::IsKeyPressed(Key::RightControl);
+        bool shift = VersaMachina::Input::IsKeyPressed(Key::LeftShift) || VersaMachina::Input::IsKeyPressed(Key::RightShift);
+
+        switch(e.GetKeyCode())
+        {
+            case Key::N:
+            {
+                if(control)
+                    NewScene();
+                break;
+            }
+            case Key::O:
+            {
+                if(control)
+                    Open();
+                break;
+            }
+            case Key::S:
+            {
+                if(control)
+                {
+                    if(shift)
+                    {
+                        SaveAs();
+                    } else {
+                        Save();
+                    }
+                }
+                break;
+            }
+        }
+
+    }
+
+    void EditorLayer::NewScene()
+    {
+        m_Scene = CreateRef<ECS::Scene>();
+        m_Scene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
+        m_SceneHierarchyPanel.SetContext(m_Scene);
+        m_SceneFile = "NewProject.versa";
+    }
+    void EditorLayer::Open()
+    {
+        char const * lFilterPatterns[2] = {"*.versa", "*.yaml"};
+        char* out = tinyfd_openFileDialog("Open Project", "", 2, lFilterPatterns, "Project Files", 0);
+        if(out){
+            m_Scene = CreateRef<ECS::Scene>();
+            m_Scene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
+            m_SceneHierarchyPanel.SetContext(m_Scene);
+            ECS::SceneSerializer serializer(m_Scene);
+            serializer.Deserialize(out);
+        }
+    }
+    void EditorLayer::Save()
+    {
+        ECS::SceneSerializer serializer(m_Scene);
+        serializer.Serialize(m_SceneFile);
+    }
+    void EditorLayer::SaveAs()
+    {
+        char const * lFilterPatterns[2] = {"*.versa", "*.yaml"};
+        char* out = tinyfd_saveFileDialog("Save Project", m_SceneFile.c_str(), 2, lFilterPatterns, "Save Project");
+        if(out)
+        {
+            ECS::SceneSerializer serializer(m_Scene);
+            serializer.Serialize(out);
+            m_SceneFile = (std::string)out;
+        }
+    }
 } // namespace VersaMachina
 

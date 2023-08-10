@@ -1,10 +1,10 @@
 #pragma once
-#include "Scene/Scene.h"
+#include "ECS/Scene.h"
 #include <entt.hpp>
 
 namespace VersaMachina
 {
-    namespace Scenes
+    namespace ECS
     {
         class Entity
         {
@@ -50,6 +50,6 @@ namespace VersaMachina
                 Scene* m_Scene=nullptr;
 
         };
-    } // namespace Scenes
+    } // namespace ECS
     
 } // namespace VersaMachina

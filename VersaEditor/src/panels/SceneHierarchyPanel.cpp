@@ -5,14 +5,15 @@
 
 namespace VersaMachina
 {
-    SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scenes::Scene>& context)
+    SceneHierarchyPanel::SceneHierarchyPanel(const Ref<ECS::Scene>& context)
     {
         SetContext(context);
     }
 
-    void SceneHierarchyPanel::SetContext(const Ref<Scenes::Scene>& context)
+    void SceneHierarchyPanel::SetContext(const Ref<ECS::Scene>& context)
     {
         m_Context = context;
+        m_SelectedEntity = {};
     }
 
     void SceneHierarchyPanel::OnImGuiRender()
@@ -20,7 +21,7 @@ namespace VersaMachina
         ImGui::Begin("Scene Hierarchy");
         m_Context->m_Registry.each([&](auto entityID)
         {
-            Scenes::Entity entity{entityID, m_Context.get() };
+            ECS::Entity entity{entityID, m_Context.get() };
             DrawEntityNode(entity);
         });
 
@@ -42,9 +43,9 @@ namespace VersaMachina
         }
         ImGui::End();
     }
-    void SceneHierarchyPanel::DrawEntityNode(Scenes::Entity entity)
+    void SceneHierarchyPanel::DrawEntityNode(ECS::Entity entity)
     {
-        std::string& tag = entity.GetComponent<Scenes::TagComponent>().Tag;
+        std::string& tag = entity.GetComponent<ECS::TagComponent>().Tag;
 
         ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
 
@@ -80,7 +81,7 @@ namespace VersaMachina
     }
 
     template<typename T, typename UIFunction>
-    static void DrawComponent(const std::string& name, Scenes::Entity entity, UIFunction uiFunction, bool removable=true)
+    static void DrawComponent(const std::string& name, ECS::Entity entity, UIFunction uiFunction, bool removable=true)
     {
         if(entity.HasComponent<T>())
         {
@@ -122,14 +123,14 @@ namespace VersaMachina
         }
     }
 
-    void SceneHierarchyPanel::DrawComponents(Scenes::Entity entity)
+    void SceneHierarchyPanel::DrawComponents(ECS::Entity entity)
     {
         bool removeComponent = false;
         const ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_AllowItemOverlap | ImGuiTreeNodeFlags_SpanAvailWidth;
 
-        if(entity.HasComponent<Scenes::TagComponent>())
+        if(entity.HasComponent<ECS::TagComponent>())
         {
-            std::string& tag = entity.GetComponent<Scenes::TagComponent>().Tag;
+            std::string& tag = entity.GetComponent<ECS::TagComponent>().Tag;
             char buffer[256];
             memset(buffer, 0, sizeof(buffer));
             strcpy(buffer, tag.c_str());
@@ -149,12 +150,12 @@ namespace VersaMachina
         {
             if(ImGui::MenuItem("Camera"))
             {
-                m_SelectedEntity.AddComponent<Scenes::CameraComponent>();
+                m_SelectedEntity.AddComponent<ECS::CameraComponent>();
                 ImGui::CloseCurrentPopup();    
             }
             if(ImGui::MenuItem("Sprite Renderer"))
             {
-                m_SelectedEntity.AddComponent<Scenes::SpriteRendererComponent>();
+                m_SelectedEntity.AddComponent<ECS::SpriteRendererComponent>();
                 ImGui::CloseCurrentPopup();    
             }
             ImGui::EndPopup();
@@ -162,7 +163,7 @@ namespace VersaMachina
 
         ImGui::PopItemWidth();
 
-        DrawComponent<Scenes::TransformComponent>("Transform", entity, [](auto& component)
+        DrawComponent<ECS::TransformComponent>("Transform", entity, [](auto& component)
         {
             DrawVec3Control("Position", component.Translation);
             glm::vec3 rotation = glm::degrees(component.Rotation);
@@ -171,7 +172,7 @@ namespace VersaMachina
             DrawVec3Control("Scale", component.Scale, 1.0f);
         },false);
 
-        DrawComponent<Scenes::CameraComponent>("Camera", entity, [](auto& component)
+        DrawComponent<ECS::CameraComponent>("Camera", entity, [](auto& component)
         {		
             auto& camera = component.m_Camera;
             const char* projectionTypeStrings[] = { "Orthographic", "Perspective" };
@@ -247,7 +248,7 @@ namespace VersaMachina
                 camera->SetRotateSpeed(rotateSpeed);
         });
 
-        DrawComponent<Scenes::SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
+        DrawComponent<ECS::SpriteRendererComponent>("Sprite Renderer", entity, [](auto& component)
         {
                 ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
         });

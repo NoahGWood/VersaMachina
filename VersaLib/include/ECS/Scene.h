@@ -4,7 +4,7 @@
 
 namespace VersaMachina
 {
-    namespace Scenes
+    namespace ECS
     {
         class Entity;
 
@@ -31,6 +31,6 @@ namespace VersaMachina
                 void OnComponentAdded(Entity entity, T& component);
         };
 
-    } // namespace Scenes
+    } // namespace ECS
     
 } // namespace VersaMachina

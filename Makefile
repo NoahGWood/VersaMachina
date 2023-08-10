@@ -12,6 +12,7 @@ ifeq ($(config),debug)
   Glad_config = debug
   ImGui_config = debug
   yaml_config = debug
+  tinyfiledialogs_config = debug
   VersaLib_config = debug
   VersaEditor_config = debug
 
@@ -19,6 +20,7 @@ else ifeq ($(config),release)
   Glad_config = release
   ImGui_config = release
   yaml_config = release
+  tinyfiledialogs_config = release
   VersaLib_config = release
   VersaEditor_config = release
 
@@ -26,6 +28,7 @@ else ifeq ($(config),dist)
   Glad_config = dist
   ImGui_config = dist
   yaml_config = dist
+  tinyfiledialogs_config = dist
   VersaLib_config = dist
   VersaEditor_config = dist
 
@@ -33,13 +36,13 @@ else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := Glad ImGui yaml VersaLib VersaEditor
+PROJECTS := Glad ImGui yaml tinyfiledialogs VersaLib VersaEditor
 
 .PHONY: all clean help $(PROJECTS) Dependencies
 
 all: $(PROJECTS)
 
-Dependencies: Glad ImGui yaml
+Dependencies: Glad ImGui tinyfiledialogs yaml
 
 Glad:
 ifneq (,$(Glad_config))
@@ -59,13 +62,19 @@ ifneq (,$(yaml_config))
 	@${MAKE} --no-print-directory -C VersaLib/vendor -f yaml.make config=$(yaml_config)
 endif
 
-VersaLib: Glad ImGui yaml
+tinyfiledialogs:
+ifneq (,$(tinyfiledialogs_config))
+	@echo "==== Building tinyfiledialogs ($(tinyfiledialogs_config)) ===="
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f tinyfiledialogs.make config=$(tinyfiledialogs_config)
+endif
+
+VersaLib: Glad ImGui yaml tinyfiledialogs
 ifneq (,$(VersaLib_config))
 	@echo "==== Building VersaLib ($(VersaLib_config)) ===="
 	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile config=$(VersaLib_config)
 endif
 
-VersaEditor: VersaLib yaml Glad ImGui
+VersaEditor: VersaLib yaml tinyfiledialogs Glad ImGui
 ifneq (,$(VersaEditor_config))
 	@echo "==== Building VersaEditor ($(VersaEditor_config)) ===="
 	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile config=$(VersaEditor_config)
@@ -75,6 +84,7 @@ clean:
 	@${MAKE} --no-print-directory -C VersaLib/vendor -f Glad.make clean
 	@${MAKE} --no-print-directory -C VersaLib/vendor -f ImGui.make clean
 	@${MAKE} --no-print-directory -C VersaLib/vendor -f yaml.make clean
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f tinyfiledialogs.make clean
 	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile clean
 	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile clean
 
@@ -92,6 +102,7 @@ help:
 	@echo "   Glad"
 	@echo "   ImGui"
 	@echo "   yaml"
+	@echo "   tinyfiledialogs"
 	@echo "   VersaLib"
 	@echo "   VersaEditor"
 	@echo ""

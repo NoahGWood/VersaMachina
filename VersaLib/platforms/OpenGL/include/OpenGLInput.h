@@ -4,20 +4,15 @@
 
 namespace VersaMachina
 {
-    namespace Input
+    class OpenGLInput : public Input
     {
-        class OpenGLInput : public Input
-        {
-            protected:
-                virtual bool IsKeyPressedImpl(int keycode) override;
+    protected:
+        virtual bool IsKeyPressedImpl(int keycode) override;
 
-                // Mouse
-                virtual bool IsButtonPressedImpl(int keycode) override;
-                virtual std::pair<float, float> GetMousePosImpl() override;
-                virtual float GetMouseXImpl() override;
-                virtual float GetMouseYImpl() override;
-
-        };
-    } // namespace Input
-    
+        // Mouse
+        virtual bool IsButtonPressedImpl(int keycode) override;
+        virtual std::pair<float, float> GetMousePosImpl() override;
+        virtual float GetMouseXImpl() override;
+        virtual float GetMouseYImpl() override;
+    };
 } // namespace VersaMachina

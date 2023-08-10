@@ -28,13 +28,15 @@ includedirs
     "%{wks.location}/VersaLib/vendor/spdlog/include",
     "%{IncludeDir.glm}",
 	"%{IncludeDir.EnTT}",
-    "%{IncludeDir.yaml}"
+    "%{IncludeDir.yaml}",
+    "%{IncludeDir.tinyfiledialogs}"
 }
 
 links
 {
     "VersaLib",
-    "yaml"
+    "yaml",
+    "tinyfiledialogs"
 }
 
 filter "system:windows"

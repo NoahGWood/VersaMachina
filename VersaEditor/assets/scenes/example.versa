@@ -2,34 +2,54 @@ Scene: Untitled
 Entities:
   - Entity: 1234
     TagComponent:
-      Tag: Square
-    TransformComponent:
-      Transform: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.5, 0.5, 0.5, 1]
-  - Entity: 1234
-    TagComponent:
       Tag: Camera Entity
     TransformComponent:
-      Transform: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
+      Transform: [0.707106769, 0, -0.707106769, 0, 0, 1, 0, 0, 0.707106769, 0, 0.707106769, 0, 3.79999995, 0, 2, 1]
+      Translation: [3.79999995, 0, 2]
+      Rotation: [0, 0.785398185, 0]
       Scale: [1, 1, 1]
     CameraComponent:
       Camera:
-        CameraType: 0
-        Viewport: [.nan, .nan, -1, 1]
+        CameraType: 1
+        Viewport: [-17.8271027, 17.8271027, -14, 14]
         FieldOfView: 60
-        FieldOfViewAxis: 1
-        AspectRatio: .nan
+        FieldOfViewAxis: 0
+        AspectRatio: 1.27336454
         FixedAspectRatio: false
         NearClip: -1
         FarClip: 1
-        Transform: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
-        ZoomLevel: 1
+        Transform: [0.707106769, 0, -0.707106769, 0, 0, 1, 0, 0, 0.707106769, 0, 0.707106769, 0, 3.79999995, 0, 2, 1]
+        ZoomLevel: 14
         MoveSpeed: 0.00999999978
         RotateSpeed: 10
       Primary: true
+  - Entity: 1234
+    TagComponent:
+      Tag: Square
+    TransformComponent:
+      Transform: [0.0428573936, -0.9342044, 0.354154229, 0, -0.112232424, -0.356737942, -0.927438319, 0, 0.99275732, 0, -0.120136894, 0, 0, 0, 0, 1]
+      Translation: [0, 0, 0]
+      Rotation: [0, 1.6912241, -1.93557012]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 0.926640987, 1]
+  - Entity: 1234
+    TagComponent:
+      Tag: Red Square
+    TransformComponent:
+      Transform: [0.2230241, 0.376888156, -0.899008095, 0, -0.640437961, 0.751926899, 0.156349272, 0, 0.734914601, 0.540889263, 0.409071326, 0, 0, 0, -6, 1]
+      Translation: [0, 0, -6]
+      Rotation: [-0.923279166, 0.825540721, 1.2356931]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 0, 1]
+  - Entity: 1234
+    TagComponent:
+      Tag: Green Square
+    TransformComponent:
+      Transform: [0.738448739, 0.574615419, -0.352860451, 0, -0.548420429, 0.20732154, -0.810094297, 0, -0.392337114, 0.791729033, 0.468227208, 0, 0, 0, -3, 1]
+      Translation: [0, 0, -3]
+      Rotation: [-1.03672564, -0.403171062, 0.638790488]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0, 1, 0, 1]
