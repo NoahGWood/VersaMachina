@@ -11,13 +11,12 @@ namespace VersaMachina
             public:
                 Camera()
                 {
-                    m_Settings = new CameraSettings();
+                    m_Settings = CreateRef<CameraSettings>();
                     SetProjectionMatrix();
                     RecalculateViewMatrix();
                 }
-                ~Camera()
+                virtual ~Camera()
                 {
-                    delete m_Settings;
                 }
 
             public:
@@ -66,8 +65,7 @@ namespace VersaMachina
                 const glm::mat4 GetViewMatrix() const { return m_ViewMatrix; }
                 const glm::mat4 GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
 
-                CameraSettings* GetSettings() { return m_Settings; }
-                const CameraSettings* GetSettings() const { return m_Settings; }
+                Ref<CameraSettings> GetSettings() { return m_Settings; }
 
                 const void SetSettings(CameraSettings settings);
 
@@ -77,7 +75,7 @@ namespace VersaMachina
                 void SetProjectionMatrix();
                 void RecalculateViewMatrix();
 
-                CameraSettings* m_Settings;
+                Ref<CameraSettings> m_Settings;
                 
             private:
                 glm::mat4 m_ProjectionMatrix;

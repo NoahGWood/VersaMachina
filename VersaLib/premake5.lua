@@ -43,7 +43,8 @@ project "VersaLib"
             "%{IncludeDir.stb_image}",
             "%{IncludeDir.EnTT}",
             "%{IncludeDir.yaml}",
-            "%{IncludeDir.tinyfiledialogs}"
+            "%{IncludeDir.tinyfiledialogs}",
+            "%{IncludeDir.ImGuizmo}"
 
         }
 
@@ -56,7 +57,8 @@ project "VersaLib"
             "Glad",
             "ImGui",
             "yaml",
-            "tinyfiledialogs"
+            "tinyfiledialogs",
+            "ImGuizmo"
         }
         flags { "NoPCH" }
         filter "system:windows"

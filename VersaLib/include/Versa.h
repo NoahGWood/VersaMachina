@@ -6,6 +6,10 @@
 #include "Core/LayerStack.h"
 #include "Core/Application.h"
 #include "Core/Log.h"
+
+// Math
+#include "Math/Math.h"
+
 // Time
 #include "Core/Timestep.h"
 
@@ -22,7 +26,8 @@
 #include "Events/MouseEvent.h"
 
 // ImGUI Layer
-
+#include <imgui/imgui.h>
+#include <ImGuizmo/ImGuizmo.h>
 #include "UI/ImGUILayer.h"
 
 // Entity Component System
@@ -51,8 +56,8 @@
 #include "Render/VertexArray.h"
 #include "Render/VertexBuffer.h"
 
-
 // Camera
+#include "Camera/EditorCamera.h"
 #include "Camera/Camera.h"
 //#include "Camera/CameraController.h"
 #include "Camera/CameraSettings.h"

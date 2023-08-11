@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui -I../vendor/glm -I../vendor/stb_image -I../vendor/EnTT/include -I../vendor/yaml-cpp/include -I../vendor/tinyfiledialogs
+INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui -I../vendor/glm -I../vendor/stb_image -I../vendor/EnTT/include -I../vendor/yaml-cpp/include -I../vendor/tinyfiledialogs -I../vendor/ImGuizmo
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -38,8 +38,8 @@ OBJDIR = ../../build/Debug-linux-x86_64/VersaLib
 DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++2a
-LIBS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a -lglfw
-LDDEPS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a
+LIBS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a -lglfw
+LDDEPS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
@@ -49,8 +49,8 @@ OBJDIR = ../../build/Release-linux-x86_64/VersaLib
 DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++2a
-LIBS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a -lglfw
-LDDEPS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a
+LIBS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a -lglfw
+LDDEPS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
@@ -60,8 +60,8 @@ OBJDIR = ../../build/Dist-linux-x86_64/VersaLib
 DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++2a
-LIBS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a -lglfw
-LDDEPS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a
+LIBS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a -lglfw
+LDDEPS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
@@ -78,6 +78,7 @@ OBJECTS :=
 
 GENERATED += $(OBJDIR)/Application.o
 GENERATED += $(OBJDIR)/Camera.o
+GENERATED += $(OBJDIR)/EditorCamera.o
 GENERATED += $(OBJDIR)/Entity.o
 GENERATED += $(OBJDIR)/Framebuffer.o
 GENERATED += $(OBJDIR)/ImGUIBuild.o
@@ -86,6 +87,7 @@ GENERATED += $(OBJDIR)/IndexBuffer.o
 GENERATED += $(OBJDIR)/Layer.o
 GENERATED += $(OBJDIR)/LayerStack.o
 GENERATED += $(OBJDIR)/Log.o
+GENERATED += $(OBJDIR)/Math.o
 GENERATED += $(OBJDIR)/OpenGLBuffer.o
 GENERATED += $(OBJDIR)/OpenGLFramebuffer.o
 GENERATED += $(OBJDIR)/OpenGLInput.o
@@ -111,6 +113,7 @@ GENERATED += $(OBJDIR)/pch.o
 GENERATED += $(OBJDIR)/stb_image.o
 OBJECTS += $(OBJDIR)/Application.o
 OBJECTS += $(OBJDIR)/Camera.o
+OBJECTS += $(OBJDIR)/EditorCamera.o
 OBJECTS += $(OBJDIR)/Entity.o
 OBJECTS += $(OBJDIR)/Framebuffer.o
 OBJECTS += $(OBJDIR)/ImGUIBuild.o
@@ -119,6 +122,7 @@ OBJECTS += $(OBJDIR)/IndexBuffer.o
 OBJECTS += $(OBJDIR)/Layer.o
 OBJECTS += $(OBJDIR)/LayerStack.o
 OBJECTS += $(OBJDIR)/Log.o
+OBJECTS += $(OBJDIR)/Math.o
 OBJECTS += $(OBJDIR)/OpenGLBuffer.o
 OBJECTS += $(OBJDIR)/OpenGLFramebuffer.o
 OBJECTS += $(OBJDIR)/OpenGLInput.o
@@ -235,6 +239,9 @@ $(OBJDIR)/OpenGLWindow.o: ../platforms/OpenGL/src/OpenGLWindow.cpp
 $(OBJDIR)/Camera.o: ../src/Camera/Camera.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/EditorCamera.o: ../src/Camera/EditorCamera.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Application.o: ../src/Core/Application.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -254,6 +261,9 @@ $(OBJDIR)/Scene.o: ../src/ECS/Scene.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/SceneSerializer.o: ../src/ECS/SceneSerializer.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/Math.o: ../src/Math/Math.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Framebuffer.o: ../src/Render/Framebuffer.cpp

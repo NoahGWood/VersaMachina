@@ -34,6 +34,7 @@ group "Dependencies"
     include "VersaLib/vendor/imgui"
     include "VersaLib/vendor/yaml"
     include "VersaLib/vendor/tinyfiledialogs"
+    include "VersaLib/vendor/ImGuizmo"
 
 group ""
 

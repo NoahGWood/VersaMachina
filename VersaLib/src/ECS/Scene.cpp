@@ -37,6 +37,16 @@ namespace VersaMachina
         }
         void Scene::OnUpdate(Timestep ts)
         {
+        }
+        void Scene::OnUpdateEditor(Timestep ts, Camera::EditorCamera& camera)
+        {
+            camera.OnUpdate(ts);
+            VersaMachina::Render::Renderer2D::BeginScene(camera); // camera, lights, environment);
+            DrawSprites();
+            VersaMachina::Render::Renderer2D::EndScene();
+        }
+        void Scene::OnUpdateRuntime(Timestep ts)
+        {
             // Update scripts
             {
                 auto view = m_Registry.view<NativeScriptComponent>();
@@ -82,6 +92,17 @@ namespace VersaMachina
                 auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
             	Render::Renderer2D::DrawQuad(transform.GetTransform(), {0,0,0}, sprite.Color, {1,1}, {0,0,0}, sprite.Texture, 1.0f);
             }
+        }
+        Entity Scene::GetPrimaryCamera()
+        {
+            auto view = m_Registry.view<CameraComponent>();
+            for(auto entity : view)
+            {
+                auto camera = view.get<CameraComponent>(entity);
+                if(camera.Primary)
+                    return Entity{entity, this};
+            }
+            return {};
         }
         void Scene::OnViewportResize(uint32_t width, uint32_t height)
         {

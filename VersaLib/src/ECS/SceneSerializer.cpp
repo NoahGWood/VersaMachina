@@ -92,7 +92,7 @@ namespace VersaMachina
             if (entity.HasComponent<CameraComponent>())
             {
                 auto &cam = entity.GetComponent<CameraComponent>();
-                Camera::CameraSettings *settings = cam.m_Camera->GetSettings();
+                Ref<Camera::CameraSettings> settings = cam.m_Camera->GetSettings();
 
                 out << YAML::Key << "CameraComponent";
                 out << YAML::BeginMap; // CameraComponent

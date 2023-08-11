@@ -29,14 +29,16 @@ includedirs
     "%{IncludeDir.glm}",
 	"%{IncludeDir.EnTT}",
     "%{IncludeDir.yaml}",
-    "%{IncludeDir.tinyfiledialogs}"
+    "%{IncludeDir.tinyfiledialogs}",
+    "%{IncludeDir.ImGuizmo}"
 }
 
 links
 {
     "VersaLib",
     "yaml",
-    "tinyfiledialogs"
+    "tinyfiledialogs",
+    "ImGuizmo"
 }
 
 filter "system:windows"

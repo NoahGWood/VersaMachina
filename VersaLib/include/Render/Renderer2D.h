@@ -1,6 +1,7 @@
 #pragma once
 #include "Render/RenderCommand.h"
 #include "Camera/Camera.h"
+#include "Camera/EditorCamera.h"
 
 // temp
 #include "Render/Texture.h"
@@ -27,6 +28,7 @@ namespace VersaMachina
                 static void Shutdown();
                 static void BeginScene(const Camera::Camera* camera);
                 static void BeginScene(const Camera::Camera& camera);
+                static void BeginScene(const Camera::EditorCamera& camera);
                 static void EndScene();
                 static void Flush();
 
