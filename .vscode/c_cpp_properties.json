@@ -3,7 +3,17 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/VersaLib/vendor/glad/include",
+                "${workspaceFolder}/VersaLib/vendor/spdlog/include",
+                "${workspaceFolder}/VersaLib/vendor/glfw/include",
+                "${workspaceFolder}/VersaLib/vendor/imgui",
+                "${workspaceFolder}/VersaLib/vendor/glm",
+                "${workspaceFolder}/VersaLib/vendor/stb_image",
+                "${workspaceFolder}/VersaLib/vendor/EnTT/include",
+                "${workspaceFolder}/VersaLib/vendor/yaml-cpp/include",
+                "${workspaceFolder}/VersaLib/vendor/tinyfiledialogs",
+                "${workspaceFolder}/VersaLib/vendor/ImGuizmo"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",
