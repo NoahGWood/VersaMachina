@@ -66,15 +66,61 @@ namespace VersaMachina
             #pragma GCC diagnostic ignored "-Wint-to-pointer-cast" // Ignore warning caused by pointer conversion of int
             for (const auto& element : layout)
             {
-                glEnableVertexAttribArray(index);
-                glVertexAttribPointer(
-                    index, element.GetComponentCount(), 
-                    ShaderDataTypeToOpenGLBaseType(element.Type),
-                    element.Normalized ? GL_TRUE : GL_FALSE,
-                    layout.GetStride(),
-                    (const void*)element.Offset
-                );
-                index++;
+                switch(element.Type)
+                {
+                    case ShaderDataType::Float:
+                    case ShaderDataType::Float2:
+                    case ShaderDataType::Float3:
+                    case ShaderDataType::Float4:
+                    {
+                        glEnableVertexAttribArray(index);
+                        glVertexAttribPointer(
+                            index, element.GetComponentCount(), 
+                            ShaderDataTypeToOpenGLBaseType(element.Type),
+                            element.Normalized ? GL_TRUE : GL_FALSE,
+                            layout.GetStride(),
+                            (const void*)element.Offset
+                        );
+                        index++;
+                        break;
+                    }
+                    case ShaderDataType::Int:
+                    case ShaderDataType::Int2:
+                    case ShaderDataType::Int3:
+                    case ShaderDataType::Int4:
+                    case ShaderDataType::Bool:
+                    {
+                        glEnableVertexAttribArray(index);
+                        glVertexAttribIPointer(
+                            index, element.GetComponentCount(), 
+                            ShaderDataTypeToOpenGLBaseType(element.Type),
+                            layout.GetStride(),
+                            (const void*)element.Offset
+                        );
+                        index++;
+                        break;
+                    }
+                    case ShaderDataType::Mat3:
+                    case ShaderDataType::Mat4:
+                    {
+                        uint8_t count = element.GetComponentCount();
+                        for(uint8_t i=0; i<count; i++)
+                        {
+                            glEnableVertexAttribArray(index);
+                            glVertexAttribPointer(index,
+                                count,
+                                ShaderDataTypeToOpenGLBaseType(element.Type),
+                                element.Normalized ? GL_TRUE : GL_FALSE,
+                                layout.GetStride(),
+                                (const void*)(element.Offset + sizeof(float)*count*i));
+                            glVertexAttribDivisor(index, 1);
+                            index++;
+                        }
+                        break;
+                    }
+                    default:
+                        VM_CORE_ASSERT(false, "Unknown ShaderDataType!");
+                }
             }
             #pragma GCC diagnostic pop
 

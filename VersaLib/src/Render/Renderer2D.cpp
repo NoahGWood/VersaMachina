@@ -19,6 +19,9 @@ namespace VersaMachina
             glm::vec2 TexCoord;
             float TexIndex;
             float TilingFactor;
+
+            // Editor only
+            int EntityID;
         };
 
         struct Renderer2DData
@@ -61,7 +64,8 @@ namespace VersaMachina
                 {ShaderDataType::Float4, "a_Color"},
                 {ShaderDataType::Float2, "a_TexCoord"},
                 {ShaderDataType::Float, "a_TexIndex"},
-                {ShaderDataType::Float, "a_TilingFactor"}
+                {ShaderDataType::Float, "a_TilingFactor"},
+                {ShaderDataType::Int, "a_EntityID"}
             });
             s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
@@ -161,7 +165,9 @@ namespace VersaMachina
             Flush();
         }
 
-        void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec3& position, const glm::vec4& color, const glm::vec2& size, const glm::vec3& rotation, const Ref<Texture2D>& texture, float tilingFactor)
+        void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec3& position,
+            const glm::vec4& color, const glm::vec2& size, const glm::vec3& rotation,
+            const Ref<Texture2D>& texture, float tilingFactor, const int entityID)
         {
             // Check if all textures register
             if(s_Data.QuadIndexCount >= s_Data.MaxIndices)
@@ -204,12 +210,12 @@ namespace VersaMachina
                 tmatrix = transform;
             }
 
-
     		s_Data.QuadVertexBufferPtr->Position = tmatrix * s_Data.QuadVertexPositions[0];
     		s_Data.QuadVertexBufferPtr->Color = color;
     		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 0.0f };
     		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
     		s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+    		s_Data.QuadVertexBufferPtr->EntityID = entityID;
     		s_Data.QuadVertexBufferPtr++;
 
 	    	s_Data.QuadVertexBufferPtr->Position = tmatrix * s_Data.QuadVertexPositions[1];
@@ -217,6 +223,7 @@ namespace VersaMachina
 	    	s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 0.0f };
     		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
     		s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+    		s_Data.QuadVertexBufferPtr->EntityID = entityID;
 	    	s_Data.QuadVertexBufferPtr++;
 
 		    s_Data.QuadVertexBufferPtr->Position = tmatrix * s_Data.QuadVertexPositions[2];
@@ -224,6 +231,7 @@ namespace VersaMachina
 		    s_Data.QuadVertexBufferPtr->TexCoord = { 1.0f, 1.0f };
     		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
     		s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+    		s_Data.QuadVertexBufferPtr->EntityID = entityID;
 		    s_Data.QuadVertexBufferPtr++;
 
     		s_Data.QuadVertexBufferPtr->Position = tmatrix * s_Data.QuadVertexPositions[3];
@@ -231,11 +239,18 @@ namespace VersaMachina
     		s_Data.QuadVertexBufferPtr->TexCoord = { 0.0f, 1.0f };
     		s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
     		s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+    		s_Data.QuadVertexBufferPtr->EntityID = entityID;
     		s_Data.QuadVertexBufferPtr++;
 
 	    	s_Data.QuadIndexCount += 6;
 
             s_Data.Stats.QuadCount++;
+        }
+        void Renderer2D::DrawSprite(const glm::mat4& transform, ECS::SpriteRendererComponent& src, int entityID)
+        {
+            Render::Renderer2D::DrawQuad(transform, {0,0,0}, src.Color,
+                {1,1}, {0,0,0}, src.Texture, 1.0f, entityID);
+      
         }
 
         void Renderer2D::Flush()

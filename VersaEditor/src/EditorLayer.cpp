@@ -18,6 +18,7 @@ namespace VersaMachina
 //    	m_CheckerboardTexture = Render::Texture2D::Create("VersaEditor/assets/textures/versa_logo_blank.png");
         m_EditorCamera = Camera::EditorCamera();
         Render::FramebufferSpecification fbSpec;
+        fbSpec.Attachments = { Render::FramebufferTextureFormat::RGBA8, Render::FramebufferTextureFormat::RED_INTEGER, Render::FramebufferTextureFormat::Depth };
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
         m_Framebuffer = Render::Framebuffer::Create(fbSpec);
@@ -96,8 +97,31 @@ namespace VersaMachina
         Render::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1});
         Render::RenderCommand::Clear();
     
+        // Clear framebuffer
+        m_Framebuffer->ClearAttachmentInt(1, -1);
+
         // Update scene
-        m_Scene->OnUpdateEditor(ts, m_EditorCamera);    
+        m_Scene->OnUpdateEditor(ts, m_EditorCamera);
+
+        auto [mx, my] = ImGui::GetMousePos();
+        mx -= m_ViewportBounds[0].x;
+        my -= m_ViewportBounds[0].y;
+        glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+        my = viewportSize.y - my;
+        int mouseX = (int)mx;
+        int mouseY = (int)my;
+        if(mouseX>=0 && mouseY>=0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
+        {
+            int pixelData = m_Framebuffer->ReadPixel(1, mouseX, mouseY);
+            if(pixelData < 0)
+                m_HoveredEntity = {};
+            else
+                m_HoveredEntity = {(entt::entity)pixelData, m_Scene.get()};
+
+            if(Input::IsButtonPressed(Mouse::ButtonLeft) && m_HoveredEntity)
+                m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+        }
+
         m_Framebuffer->Unbind();
     }
 
@@ -204,6 +228,8 @@ namespace VersaMachina
         static ImGuiWindowFlags gizmoWindowFlags = 0;
     	ImGui::Begin("Viewport", nullptr, gizmoWindowFlags);
         {
+            auto viewportOffset = ImGui::GetCursorPos();
+
             m_ViewportFocused = ImGui::IsWindowFocused();
             m_ViewportHovered = ImGui::IsWindowHovered();
             ImGuiWindow* window = ImGui::GetCurrentWindow();
@@ -220,6 +246,15 @@ namespace VersaMachina
             #pragma GCC diagnostic ignored "-Wint-to-pointer-cast" // Ignore warning caused by pointer conversion of int
                 ImGui::Image((void*)textureID, viewportSize, ImVec2{0,1}, ImVec2{1,0});
             #pragma GCC diagnostic pop      
+            auto windowSize = ImGui::GetWindowSize();
+            ImVec2 minBound = ImGui::GetWindowPos();
+            minBound.x += viewportOffset.x;
+            minBound.y += viewportOffset.y;
+
+            ImVec2 maxBound = {minBound.x + windowSize.x, minBound.y + windowSize.y};
+            m_ViewportBounds[0] = {minBound.x, minBound.y};
+            m_ViewportBounds[1] = {maxBound.x, maxBound.y};
+
 
             // Gizmos
             ECS::Entity selected = m_SceneHierarchyPanel.GetSelectedEntity();

@@ -21,7 +21,7 @@ namespace VersaMachina
 
 		void EditorCamera::UpdateView()
 		{
-			// m_Yaw = m_Pitch = 0.0f; // Lock the camera's rotation
+//			m_Yaw = 0.0f; // m_Pitch = 0.0f; // Lock the camera's rotation
 			// Set camera position
 			// Translation x rotation x scale
 			m_Settings->Transform = glm::translate(glm::mat4(1.0f), CalculatePosition()) * glm::toMat4(GetOrientation());
@@ -55,7 +55,8 @@ namespace VersaMachina
 
 		void EditorCamera::OnUpdate(Timestep ts)
 		{
-			const glm::vec2& mouse{ Input::GetMouseX(), Input::GetMouseY() };
+			auto m = Input::GetMousePos();
+			const glm::vec2& mouse { m.first, m.second};
 			glm::vec2 delta = (mouse - m_InitialMousePos) * 0.003f;
 			m_InitialMousePos = mouse;
 			

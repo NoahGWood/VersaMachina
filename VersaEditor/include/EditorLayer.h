@@ -186,9 +186,11 @@ class EditorLayer : public Layer
          // Scene Management
          Ref<ECS::Scene> m_Scene;
          std::string m_SceneFile;
+         ECS::Entity m_HoveredEntity;
          // Rendering
          Ref<Render::Framebuffer> m_Framebuffer;
          glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+         glm::vec2 m_ViewportBounds[2];
          bool m_ViewportFocused=false, m_ViewportHovered=false;
          // Panels
          SceneHierarchyPanel m_SceneHierarchyPanel;

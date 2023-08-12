@@ -12,7 +12,6 @@ namespace VersaMachina
 
         Scene::Scene()
         {
-//            m_Registry.on_construct<CameraComponent>().connect<&function>();
         }
         Scene::~Scene()
         {
@@ -90,7 +89,8 @@ namespace VersaMachina
             for (auto entity : group)
             {
                 auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-            	Render::Renderer2D::DrawQuad(transform.GetTransform(), {0,0,0}, sprite.Color, {1,1}, {0,0,0}, sprite.Texture, 1.0f);
+//            	Render::Renderer2D::DrawQua(transform.GetTransform(), {0,0,0}, sprite.Color, {1,1}, {0,0,0}, sprite.Texture, 1.0f);
+                Render::Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
             }
         }
         Entity Scene::GetPrimaryCamera()

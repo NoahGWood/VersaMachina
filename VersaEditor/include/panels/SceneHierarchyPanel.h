@@ -13,6 +13,7 @@ namespace VersaMachina
             void SetContext(const Ref<ECS::Scene>& scene);
 
             void OnImGuiRender();
+            void SetSelectedEntity(ECS::Entity entity) { m_SelectedEntity = entity; }
             ECS::Entity GetSelectedEntity() const { return m_SelectedEntity; }
         private:
             void DrawEntityNode(ECS::Entity entity);

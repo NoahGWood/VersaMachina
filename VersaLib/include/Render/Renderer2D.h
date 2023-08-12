@@ -2,7 +2,7 @@
 #include "Render/RenderCommand.h"
 #include "Camera/Camera.h"
 #include "Camera/EditorCamera.h"
-
+#include "ECS/Components.h"
 // temp
 #include "Render/Texture.h"
 #include "Render/Shader.h"
@@ -48,7 +48,10 @@ namespace VersaMachina
                     const glm::vec2& size={1,1},
                     const glm::vec3& rotation={0,0,0},
                     const Ref<Texture2D>& texture=nullptr,
-                    float tilingFactor=1.0f);
+                    float tilingFactor=1.0f,
+                    const int entityID=-1);
+
+                static void DrawSprite(const glm::mat4& transform, ECS::SpriteRendererComponent& src, int entityID=-1);
                 static void ResetStats();
                 static Statistics GetStats();
 
