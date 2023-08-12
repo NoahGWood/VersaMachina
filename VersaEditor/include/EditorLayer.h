@@ -203,6 +203,7 @@ class EditorLayer : public Layer
          GraphEditor::FitOnScreen m_NodeFit = GraphEditor::Fit_None;
 
     private:
+        bool OnMouseButtonPressed(VersaMachina::MouseButtonPressedEvent& e);
         bool OnKeyPressed(VersaMachina::KeyPressedEvent& e);
         void NewScene();
         void Open();

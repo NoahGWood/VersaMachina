@@ -117,9 +117,6 @@ namespace VersaMachina
                 m_HoveredEntity = {};
             else
                 m_HoveredEntity = {(entt::entity)pixelData, m_Scene.get()};
-
-            if(Input::IsButtonPressed(Mouse::ButtonLeft) && m_HoveredEntity)
-                m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
         }
 
         m_Framebuffer->Unbind();
@@ -129,6 +126,7 @@ namespace VersaMachina
     {
         VersaMachina::EventDispatcher dispatcher(e);
         dispatcher.Dispatch<KeyPressedEvent>(VM_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+        dispatcher.Dispatch<MouseButtonPressedEvent>(VM_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
         if(m_ViewportFocused)
             m_EditorCamera.OnEvent(e);
     }
@@ -386,6 +384,15 @@ namespace VersaMachina
         return false;
     }
 
+    bool EditorLayer::OnMouseButtonPressed(VersaMachina::MouseButtonPressedEvent& e)
+    {
+        if(e.GetMouseButton() == Mouse::ButtonLeft && m_ViewportHovered && !ImGuizmo::IsUsingAny() && !ImGuizmo::IsOver())
+        {
+            m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+        }
+
+        return false;
+    }
     void EditorLayer::NewScene()
     {
         m_Scene = CreateRef<ECS::Scene>();
