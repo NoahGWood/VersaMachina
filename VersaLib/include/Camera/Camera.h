@@ -15,9 +15,7 @@ namespace VersaMachina
                     SetProjectionMatrix();
                     RecalculateViewMatrix();
                 }
-                virtual ~Camera()
-                {
-                }
+                virtual ~Camera() {}
 
             public:
                 // Getters
@@ -78,7 +76,8 @@ namespace VersaMachina
                 Ref<CameraSettings> m_Settings;
                 
             private:
-                glm::mat4 m_ProjectionMatrix;
+                friend class EditorCamera;
+                glm::mat4 m_ProjectionMatrix = glm::mat4(1.0f);
                 glm::mat4 m_ViewMatrix;
                 glm::mat4 m_ViewProjectionMatrix;
 

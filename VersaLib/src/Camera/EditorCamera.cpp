@@ -9,7 +9,14 @@ namespace VersaMachina
     {
 		void EditorCamera::UpdateProjection()
 		{
-			Resize(m_ViewportWidth, m_ViewportHeight);
+			m_Settings->AspectRatio = m_ViewportWidth/m_ViewportHeight;
+			m_ProjectionMatrix = glm::perspective(
+                        glm::radians(m_Settings->FieldOfView),
+                        m_Settings->AspectRatio,
+                        m_Settings->NearClip,
+                        m_Settings->FarClip
+                        );
+
 		}
 
 		void EditorCamera::UpdateView()
@@ -17,7 +24,7 @@ namespace VersaMachina
 			// m_Yaw = m_Pitch = 0.0f; // Lock the camera's rotation
 			// Set camera position
 			// Translation x rotation x scale
-			m_Settings->Transform = glm::translate(glm::mat4{1.0f}, CalculatePosition()) * glm::toMat4(GetOrientation());
+			m_Settings->Transform = glm::translate(glm::mat4(1.0f), CalculatePosition()) * glm::toMat4(GetOrientation());
 			RecalculateViewMatrix();
 		}
 

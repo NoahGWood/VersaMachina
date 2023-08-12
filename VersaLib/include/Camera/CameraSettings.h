@@ -37,34 +37,15 @@ namespace VersaMachina
             float AspectRatio = 1.777f;
             bool FixedAspectRatio = false;
             // Clip plane
-            float NearClip = -1.0f;
-            float FarClip = 1.0f;
+            float NearClip = 0.1f;
+            float FarClip = 1000.0f;
             // Transform
-            glm::mat4 Transform = glm::mat4{1};
+            glm::mat4 Transform = glm::mat4(1.0f);
             // Zoom
             float ZoomLevel = 1;
             // Speeds
             float MoveSpeed = 0.01f;
             float RotateSpeed = 10.0f;
-
-        //     std::unordered_map<std::string, std::string> to_map()
-        //     {
-        //         std::unordered_map<std::string, std::string> out  = {
-        //             {"Name", Name },
-        //             {"CameraType", std::to_string(Type)},
-        //             {"Viewport", glm::to_string(Viewport)},
-        //             {"FieldOfView", std::to_string(FieldOfView) },
-        //             {"FieldOfViewAxis", std::to_string(FieldOfViewAxis)},
-        //             {"AspectRatio", std::to_string(AspectRatio)},
-        //             {"FixedAspectRatio", std::to_string(FixedAspectRatio)},
-        //             {"NearClip", std::to_string(NearClip)},
-        //             {"FarClip", std::to_string(FarClip)},
-        //             {"ZoomLevel", std::to_string(ZoomLevel)},
-        //             {"MoveSpeed", std::to_string(MoveSpeed)},
-        //             {"RotateSpeed", std::to_string(RotateSpeed) },
-        //         };
-        //         return out;
-        // };
         };
     } // namespace Camera
     

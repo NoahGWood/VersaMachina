@@ -133,7 +133,7 @@ namespace VersaMachina
             std::string& tag = entity.GetComponent<ECS::TagComponent>().Tag;
             char buffer[256];
             memset(buffer, 0, sizeof(buffer));
-            strcpy(buffer, tag.c_str());
+            strncpy(buffer, tag.c_str(), sizeof(buffer));
             if(ImGui::InputText("##Tag", buffer, sizeof(buffer)))
             {
                 tag = std::string(buffer);
@@ -148,17 +148,22 @@ namespace VersaMachina
         
         if(ImGui::BeginPopup("AddComponent"))
         {
-            if(ImGui::MenuItem("Camera"))
-            {
-                m_SelectedEntity.AddComponent<ECS::CameraComponent>();
-                ImGui::CloseCurrentPopup();    
+            if(!m_SelectedEntity.HasComponent<ECS::CameraComponent>())
+            {                
+                if(ImGui::MenuItem("Camera"))
+                {
+                    m_SelectedEntity.AddComponent<ECS::CameraComponent>();
+                    ImGui::CloseCurrentPopup();    
+                }
             }
-            if(ImGui::MenuItem("Sprite Renderer"))
-            {
-                m_SelectedEntity.AddComponent<ECS::SpriteRendererComponent>();
-                ImGui::CloseCurrentPopup();    
+            if(!m_SelectedEntity.HasComponent<ECS::SpriteRendererComponent>()){
+                if(ImGui::MenuItem("Sprite Renderer"))
+                {
+                    m_SelectedEntity.AddComponent<ECS::SpriteRendererComponent>();
+                    ImGui::CloseCurrentPopup();    
+                }
+                ImGui::EndPopup();
             }
-            ImGui::EndPopup();
         }
 
         ImGui::PopItemWidth();

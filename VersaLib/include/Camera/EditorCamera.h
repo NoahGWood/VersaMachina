@@ -31,6 +31,7 @@ namespace VersaMachina
         
             void OnUpdate(Timestep ts);
             void OnEvent(Event& e);
+            void OnResize(int width, int height) { m_ViewportWidth = width; m_ViewportHeight = height; UpdateProjection(); }
 
             inline float GetDistance() const { return m_Distance; }
             inline void SetDistance(float distance) { m_Distance = distance; }

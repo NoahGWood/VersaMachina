@@ -234,11 +234,13 @@ namespace VersaMachina
                 ImGuizmo::SetRect(x, y, width, height);
                 
                 // Camera
-                auto cameraEntity = m_Scene->GetPrimaryCamera();
-                const auto& camera = cameraEntity.GetComponent<ECS::CameraComponent>();
-                const glm::mat4& projection = camera.m_Camera->GetProjectionMatrix();
-                auto& ct = cameraEntity.GetComponent<ECS::TransformComponent>();
-                auto view= glm::inverse(ct.GetTransform());
+//                auto cameraEntity = m_Scene->GetPrimaryCamera();
+//                const auto& camera = cameraEntity.GetComponent<ECS::CameraComponent>();
+//                const glm::mat4& projection = camera.m_Camera->GetProjectionMatrix();
+//                auto& ct = cameraEntity.GetComponent<ECS::TransformComponent>();
+//                auto view= glm::inverse(ct.GetTransform());
+                auto view = glm::inverse(m_EditorCamera.GetTransform());
+                auto& projection = m_EditorCamera.GetProjectionMatrix();
                 glm::mat4 idMatrix = glm::mat4{1};
                 // Entity transform
                 auto& tc = selected.GetComponent<ECS::TransformComponent>();
