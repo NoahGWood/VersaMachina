@@ -13,7 +13,9 @@
                 "${workspaceFolder}/VersaLib/vendor/EnTT/include",
                 "${workspaceFolder}/VersaLib/vendor/yaml-cpp/include",
                 "${workspaceFolder}/VersaLib/vendor/tinyfiledialogs",
-                "${workspaceFolder}/VersaLib/vendor/ImGuizmo"
+                "${workspaceFolder}/VersaLib/vendor/ImGuizmo",
+                "${workspaceFolder}/VersaLib/vendor/shaderc/libshaderc/include",
+                "${workspaceFolder}/VersaLib/vendor/SPIRV_Cross"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/clang",

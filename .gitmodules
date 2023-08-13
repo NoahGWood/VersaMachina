@@ -16,3 +16,12 @@
 [submodule "VersaLib/vendor/ImGuizmo"]
 	path = VersaLib/vendor/ImGuizmo
 	url = https://github.com/CedricGuillemet/ImGuizmo.git
+[submodule "VersaLib/vendor/shaderc"]
+	path = VersaLib/vendor/shaderc
+	url = https://github.com/google/shaderc.git
+[submodule "VersaLib/vendor/SPIRV_Cross"]
+	path = VersaLib/vendor/SPIRV_Cross
+	url = https://github.com/KhronosGroup/SPIRV-Cross.git
+[submodule "VersaLib/vendor/Vulkan"]
+	path = VersaLib/vendor/Vulkan
+	url = https://github.com/KhronosGroup/Vulkan-Hpp.git

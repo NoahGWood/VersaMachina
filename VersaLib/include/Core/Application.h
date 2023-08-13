@@ -14,15 +14,29 @@
 
 namespace VersaMachina
 {
+    struct ApplicationCommandLineArgs
+    {
+        int Count = 0;
+        char** Args = nullptr;
+        const char* operator[](int index) const
+        {
+            VM_CORE_ASSERT(index < Count);
+            return Args[index];
+        }
+    };
+
     class Application
     {
         public:
-            Application();
+            Application(const std::string& name = "Versa App", ApplicationCommandLineArgs args = ApplicationCommandLineArgs());
             virtual ~Application();
 
             void Run();
 
             void OnEvent(Event& e);
+
+            // CLI Args
+            ApplicationCommandLineArgs GetCommandLineArgs() const { return m_CommandLineArgs; }
 
             // Layers
 
@@ -39,6 +53,7 @@ namespace VersaMachina
             bool OnWindowResize(WindowResizedEvent& e);
             
         private:
+            ApplicationCommandLineArgs m_CommandLineArgs;
             static Application* s_Instance;
             float m_LastFrameTime = 0.0f;
             // Layers
@@ -53,6 +68,6 @@ namespace VersaMachina
     };
     
     // Defined in client
-    Application* CreateApplication();
+    Application* CreateApplication(ApplicationCommandLineArgs args);
 
 } // namespace VersaMachina

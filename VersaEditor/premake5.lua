@@ -30,7 +30,9 @@ includedirs
 	"%{IncludeDir.EnTT}",
     "%{IncludeDir.yaml}",
     "%{IncludeDir.tinyfiledialogs}",
-    "%{IncludeDir.ImGuizmo}"
+    "%{IncludeDir.ImGuizmo}",
+    "%{IncludeDir.shaderc}",
+    "%{IncludeDir.SPIRV_Cross}"
 }
 
 links
@@ -38,7 +40,9 @@ links
     "VersaLib",
     "yaml",
     "tinyfiledialogs",
-    "ImGuizmo"
+    "ImGuizmo",
+    "shaderc",
+    "SPIRV_Cross"
 }
 
 filter "system:windows"

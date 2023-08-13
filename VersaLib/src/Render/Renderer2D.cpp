@@ -4,9 +4,13 @@
 #include "Render/VertexArray.h"
 #include "Render/IndexBuffer.h"
 #include "Render/VertexBuffer.h"
+#include "Render/UniformBuffer.h"
 #include "Render/Shader.h"
 
 #include "OpenGL/include/OpenGLShader.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace VersaMachina
 {
@@ -46,6 +50,13 @@ namespace VersaMachina
             glm::vec4 QuadVertexPositions[4];
 
             Statistics Stats;
+
+            struct CameraData
+            {
+                glm::mat4 ViewProjection;
+            };
+            CameraData CameraBuffer;
+            Ref<UniformBuffer> CameraUniformBuffer;
         };
 
         static Renderer2DData s_Data;
@@ -114,34 +125,31 @@ namespace VersaMachina
             s_Data.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
             s_Data.QuadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
             s_Data.QuadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
+
+            s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData),0);
         }
         void Renderer2D::Shutdown()
         {
             VM_PROFILE_FUNCTION();
+
+            delete[] s_Data.QuadVertexBufferBase;
+
         }
-        void Renderer2D::BeginScene(const Camera::Camera& camera)
-        {
-            VM_PROFILE_FUNCTION();
+        // void Renderer2D::BeginScene(const Camera::Camera& camera)
+        // {
+        //     VM_PROFILE_FUNCTION();
             
-            s_Data.TextureShader->Bind();
-            s_Data.TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-
-            s_Data.QuadIndexCount = 0;
-            s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
-
-            s_Data.TextureSlotIndex = 1;
-        }
+        //     s_Data.TextureShader->Bind();
+        //     s_Data.TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+        //     StartBatch();
+        // }
         void Renderer2D::BeginScene(const Camera::EditorCamera& camera)
         {
             VM_PROFILE_FUNCTION();
             
             s_Data.TextureShader->Bind();
             s_Data.TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
-
-            s_Data.QuadIndexCount = 0;
-            s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
-
-            s_Data.TextureSlotIndex = 1;
+            StartBatch();
         }
         void Renderer2D::BeginScene(const Camera::Camera* camera)
         {
@@ -149,11 +157,14 @@ namespace VersaMachina
             
             s_Data.TextureShader->Bind();
             s_Data.TextureShader->SetMat4("u_ViewProjection", camera->GetViewProjectionMatrix());
-
-            s_Data.QuadIndexCount = 0;
-            s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
-
-            s_Data.TextureSlotIndex = 1;
+            StartBatch();
+        }
+        void Renderer2D::BeginScene(const Camera::Camera* camera, const glm::mat4& transform)
+        {
+            VM_PROFILE_FUNCTION();
+            s_Data.CameraBuffer.ViewProjection = camera->GetProjectionMatrix() * glm::inverse(transform);
+    		s_Data.CameraUniformBuffer->SetData(&s_Data.CameraBuffer, sizeof(Renderer2DData::CameraData));
+            StartBatch();
         }
         void Renderer2D::EndScene()
         {
@@ -164,7 +175,12 @@ namespace VersaMachina
 
             Flush();
         }
-
+        void Renderer2D::StartBatch()
+        {
+            s_Data.QuadIndexCount = 0;
+            s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+            s_Data.TextureSlotIndex=1;
+        }
         void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec3& position,
             const glm::vec4& color, const glm::vec2& size, const glm::vec3& rotation,
             const Ref<Texture2D>& texture, float tilingFactor, const int entityID)
@@ -260,6 +276,7 @@ namespace VersaMachina
             {
                 s_Data.TextureSlots[i]->Bind(i);
             }
+            s_Data.TextureShader->Bind();
             RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
             s_Data.Stats.DrawCalls++;
         }

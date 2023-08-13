@@ -14,6 +14,8 @@ ifeq ($(config),debug)
   yaml_config = debug
   tinyfiledialogs_config = debug
   ImGuizmo_config = debug
+  shaderc_config = debug
+  SPIRV_Cross_config = debug
   VersaLib_config = debug
   VersaEditor_config = debug
 
@@ -23,6 +25,8 @@ else ifeq ($(config),release)
   yaml_config = release
   tinyfiledialogs_config = release
   ImGuizmo_config = release
+  shaderc_config = release
+  SPIRV_Cross_config = release
   VersaLib_config = release
   VersaEditor_config = release
 
@@ -32,6 +36,8 @@ else ifeq ($(config),dist)
   yaml_config = dist
   tinyfiledialogs_config = dist
   ImGuizmo_config = dist
+  shaderc_config = dist
+  SPIRV_Cross_config = dist
   VersaLib_config = dist
   VersaEditor_config = dist
 
@@ -39,13 +45,13 @@ else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := Glad ImGui yaml tinyfiledialogs ImGuizmo VersaLib VersaEditor
+PROJECTS := Glad ImGui yaml tinyfiledialogs ImGuizmo shaderc SPIRV_Cross VersaLib VersaEditor
 
 .PHONY: all clean help $(PROJECTS) Dependencies
 
 all: $(PROJECTS)
 
-Dependencies: Glad ImGui ImGuizmo tinyfiledialogs yaml
+Dependencies: Glad ImGui ImGuizmo SPIRV_Cross shaderc tinyfiledialogs yaml
 
 Glad:
 ifneq (,$(Glad_config))
@@ -77,13 +83,25 @@ ifneq (,$(ImGuizmo_config))
 	@${MAKE} --no-print-directory -C VersaLib/vendor -f ImGuizmo.make config=$(ImGuizmo_config)
 endif
 
-VersaLib: Glad ImGui yaml tinyfiledialogs ImGuizmo
+shaderc: SPIRV_Cross
+ifneq (,$(shaderc_config))
+	@echo "==== Building shaderc ($(shaderc_config)) ===="
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f shaderc.make config=$(shaderc_config)
+endif
+
+SPIRV_Cross:
+ifneq (,$(SPIRV_Cross_config))
+	@echo "==== Building SPIRV_Cross ($(SPIRV_Cross_config)) ===="
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f SPIRV_Cross.make config=$(SPIRV_Cross_config)
+endif
+
+VersaLib: Glad ImGui yaml tinyfiledialogs ImGuizmo shaderc SPIRV_Cross
 ifneq (,$(VersaLib_config))
 	@echo "==== Building VersaLib ($(VersaLib_config)) ===="
 	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile config=$(VersaLib_config)
 endif
 
-VersaEditor: VersaLib yaml tinyfiledialogs ImGuizmo Glad ImGui
+VersaEditor: VersaLib yaml tinyfiledialogs ImGuizmo shaderc SPIRV_Cross Glad ImGui
 ifneq (,$(VersaEditor_config))
 	@echo "==== Building VersaEditor ($(VersaEditor_config)) ===="
 	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile config=$(VersaEditor_config)
@@ -95,6 +113,8 @@ clean:
 	@${MAKE} --no-print-directory -C VersaLib/vendor -f yaml.make clean
 	@${MAKE} --no-print-directory -C VersaLib/vendor -f tinyfiledialogs.make clean
 	@${MAKE} --no-print-directory -C VersaLib/vendor -f ImGuizmo.make clean
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f shaderc.make clean
+	@${MAKE} --no-print-directory -C VersaLib/vendor -f SPIRV_Cross.make clean
 	@${MAKE} --no-print-directory -C VersaLib/VersaLib -f Makefile clean
 	@${MAKE} --no-print-directory -C VersaEditor/VersaEditor -f Makefile clean
 
@@ -114,6 +134,8 @@ help:
 	@echo "   yaml"
 	@echo "   tinyfiledialogs"
 	@echo "   ImGuizmo"
+	@echo "   shaderc"
+	@echo "   SPIRV_Cross"
 	@echo "   VersaLib"
 	@echo "   VersaEditor"
 	@echo ""

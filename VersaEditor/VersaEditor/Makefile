@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../include -I../../VersaLib/include -I../../VersaLib/platforms -I../../VersaLib/vendor -I../../VersaLib/vendor/spdlog/include -I../../VersaLib/vendor/glm -I../../VersaLib/vendor/EnTT/include -I../../VersaLib/vendor/yaml-cpp/include -I../../VersaLib/vendor/tinyfiledialogs -I../../VersaLib/vendor/ImGuizmo
+INCLUDES += -I../include -I../../VersaLib/include -I../../VersaLib/platforms -I../../VersaLib/vendor -I../../VersaLib/vendor/spdlog/include -I../../VersaLib/vendor/glm -I../../VersaLib/vendor/EnTT/include -I../../VersaLib/vendor/yaml-cpp/include -I../../VersaLib/vendor/tinyfiledialogs -I../../VersaLib/vendor/ImGuizmo -I../../VersaLib/vendor/shaderc/libshaderc/include -I../../VersaLib/vendor/SPIRV_Cross
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -38,8 +38,8 @@ OBJDIR = ../../build/Debug-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -fPIC -g -std=c++2a
-LIBS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
-LDDEPS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a
+LIBS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Debug-linux-x86_64/shaderc/libshaderc.a ../../bin/Debug-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
+LDDEPS += ../../bin/Debug-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Debug-linux-x86_64/shaderc/libshaderc.a ../../bin/Debug-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
@@ -49,8 +49,8 @@ OBJDIR = ../../build/Release-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++2a
-LIBS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
-LDDEPS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a
+LIBS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Release-linux-x86_64/shaderc/libshaderc.a ../../bin/Release-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
+LDDEPS += ../../bin/Release-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Release-linux-x86_64/shaderc/libshaderc.a ../../bin/Release-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
@@ -60,8 +60,8 @@ OBJDIR = ../../build/Dist-linux-x86_64/VersaEditor
 DEFINES += -DVM_PLATFORM_LINUX -DVM_BUILD_SHARED -DVM_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -fPIC -std=c++2a
-LIBS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
-LDDEPS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a
+LIBS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Dist-linux-x86_64/shaderc/libshaderc.a ../../bin/Dist-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a -lglfw -ldl -lGL
+LDDEPS += ../../bin/Dist-linux-x86_64/VersaLib/libVersaLib.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Dist-linux-x86_64/shaderc/libshaderc.a ../../bin/Dist-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif

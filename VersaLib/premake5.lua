@@ -29,7 +29,6 @@ project "VersaLib"
             "%{wks.location}/VersaLib/vendor/glm/glm/**.inl",
             "%{wks.location}/VersaLib/vendor/stb_image/**.h",
             "%{wks.location}/VersaLib/vendor/stb_image/**.cpp",
-            
         }
     
         includedirs
@@ -44,8 +43,9 @@ project "VersaLib"
             "%{IncludeDir.EnTT}",
             "%{IncludeDir.yaml}",
             "%{IncludeDir.tinyfiledialogs}",
-            "%{IncludeDir.ImGuizmo}"
-
+            "%{IncludeDir.ImGuizmo}",
+            "%{IncludeDir.shaderc}",
+            "%{IncludeDir.SPIRV_Cross}"
         }
 
     	-- We need GLFW, so we include it
@@ -58,7 +58,9 @@ project "VersaLib"
             "ImGui",
             "yaml",
             "tinyfiledialogs",
-            "ImGuizmo"
+            "ImGuizmo",
+            "shaderc",
+            "SPIRV_Cross"
         }
         flags { "NoPCH" }
         filter "system:windows"

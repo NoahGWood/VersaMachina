@@ -15,7 +15,8 @@ namespace VersaMachina
 
     Application *Application::s_Instance = nullptr;
 
-    Application::Application()
+    Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+        : m_CommandLineArgs(args)
     {
         VM_CORE_ASSERT(!s_Instance, "Application already exists.")
         s_Instance = this;

@@ -15,7 +15,13 @@ namespace VersaMachina
 
     void EditorLayer::OnAttach()
     {
-//    	m_CheckerboardTexture = Render::Texture2D::Create("VersaEditor/assets/textures/versa_logo_blank.png");
+        auto commandLineArgs = Application::Get().GetCommandLineArgs();
+        if(commandLineArgs.Count > 1)
+        {
+            auto sceneFilePath = commandLineArgs[1];
+            ECS::SceneSerializer serializer(m_Scene);
+            serializer.Deserialize(sceneFilePath);
+        }
         m_EditorCamera = Camera::EditorCamera();
         Render::FramebufferSpecification fbSpec;
         fbSpec.Attachments = { Render::FramebufferTextureFormat::RGBA8, Render::FramebufferTextureFormat::RED_INTEGER, Render::FramebufferTextureFormat::Depth };
@@ -23,52 +29,9 @@ namespace VersaMachina
         fbSpec.Height = 720;
         m_Framebuffer = Render::Framebuffer::Create(fbSpec);
 
-        // Create scene and add objects
+        // Create scene and set context
 
         m_Scene = CreateRef<ECS::Scene>();
-
-        // m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
-        // m_CameraEntity.AddComponent<ECS::CameraComponent>();
-
-        // class CameraController : public ECS::ScriptableEntity
-        // {
-        //     public:
-        //         void OnCreate()
-        //         {
-        //             //GetComponent<ECS::TransformComponent>();
-        //         }
-
-        //         void OnDestroy()
-        //         {
-
-        //         }
-
-        //         void OnUpdate(Timestep ts)
-        //         {
-        //             auto& transform = GetComponent<ECS::TransformComponent>();
-        //             if(HasComponent<ECS::CameraComponent>()){
-        //                 auto& camera = GetComponent<ECS::CameraComponent>().m_Camera;
-
-        // 				float speed = 0.005f;
-
-        // 				if (Input::Input::IsKeyPressed(Key::A))
-        // 					transform.Translation.x -= speed * ts;
-        // 				if (Input::Input::IsKeyPressed(Key::D))
-        // 					transform.Translation.x += speed * ts;
-        // 				if (Input::Input::IsKeyPressed(Key::W))
-        // 					transform.Translation.y += speed * ts;
-        // 				if (Input::Input::IsKeyPressed(Key::S))
-        // 					transform.Translation.y -= speed * ts;
-
-        //                 camera->SetTransform(transform.GetTransform());
-        //             }
-        //         }
-        // };
-        // m_CameraEntity.AddComponent<ECS::NativeScriptComponent>().Bind<CameraController>();
-
-        // m_SquareEntity = m_Scene->CreateEntity("Square");
-        // m_SquareEntity.AddComponent<ECS::SpriteRendererComponent>(glm::vec4{0.5f, 0.5f, 0.5f, 1.0f});
-        // m_SquareEntity.GetComponent<ECS::SpriteRendererComponent>().Texture = m_CheckerboardTexture;
 
         m_SceneHierarchyPanel.SetContext(m_Scene);
 

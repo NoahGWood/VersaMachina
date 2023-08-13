@@ -1,4 +1,5 @@
 #pragma once
+#include "Core/Base.h"
 
 #include <string>
 #include <glm/glm.hpp>

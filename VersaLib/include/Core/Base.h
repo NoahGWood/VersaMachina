@@ -1,5 +1,6 @@
 #pragma once
 #include "Core/PlatformDetection.h"
+
 #include <memory>
 #include <functional>
 
@@ -49,3 +50,4 @@ namespace VersaMachina
 
 #include "Core/Log.h"
 #include "Core/Assert.h"
+#include "Profiler/Profiler.h"

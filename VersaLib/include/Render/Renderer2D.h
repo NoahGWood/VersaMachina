@@ -26,10 +26,13 @@ namespace VersaMachina
             public:
                 static void Init();
                 static void Shutdown();
+                //static void BeginScene(const Camera::Camera& camera);
                 static void BeginScene(const Camera::Camera* camera);
-                static void BeginScene(const Camera::Camera& camera);
+                static void BeginScene(const Camera::Camera* camera, const glm::mat4& transform);
                 static void BeginScene(const Camera::EditorCamera& camera);
+                
                 static void EndScene();
+                static void StartBatch();
                 static void Flush();
 
 //                static void DrawQuad(const glm::mat4 transform, const glm::vec4& color={1.0f,1.0f,1.0f,1.0f});

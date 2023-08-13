@@ -6,7 +6,8 @@
 class VersaEditor : public VersaMachina::Application
 {
 public:
-    VersaEditor()
+    VersaEditor(VersaMachina::ApplicationCommandLineArgs args)
+        : Application("VersaEditor", args)
     {
         PushLayer(new VersaMachina::EditorLayer());
     }
@@ -15,7 +16,7 @@ public:
     }
 };
 
-VersaMachina::Application *VersaMachina::CreateApplication()
+VersaMachina::Application *VersaMachina::CreateApplication(VersaMachina::ApplicationCommandLineArgs args)
 {
-    return new VersaEditor();
+    return new VersaEditor(args);
 }

@@ -143,7 +143,8 @@ namespace VersaMachina
         template<>
         void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
         {
-            component.m_Camera->Resize(m_ViewportWidth, m_ViewportHeight);
+            if(m_ViewportHeight > 0 && m_ViewportWidth > 0)
+                component.m_Camera->Resize(m_ViewportWidth, m_ViewportHeight);
         }
 
         template<>

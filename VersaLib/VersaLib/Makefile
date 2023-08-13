@@ -19,7 +19,7 @@ endif
 # #############################################
 
 RESCOMP = windres
-INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui -I../vendor/glm -I../vendor/stb_image -I../vendor/EnTT/include -I../vendor/yaml-cpp/include -I../vendor/tinyfiledialogs -I../vendor/ImGuizmo
+INCLUDES += -I../include -I../platforms -I../vendor/spdlog/include -I../vendor/glad/include -I../vendor/imgui -I../vendor/glm -I../vendor/stb_image -I../vendor/EnTT/include -I../vendor/yaml-cpp/include -I../vendor/tinyfiledialogs -I../vendor/ImGuizmo -I../vendor/shaderc/libshaderc/include -I../vendor/SPIRV_Cross
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -38,8 +38,8 @@ OBJDIR = ../../build/Debug-linux-x86_64/VersaLib
 DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_DEBUG
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++2a
-LIBS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a -lglfw
-LDDEPS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a
+LIBS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Debug-linux-x86_64/shaderc/libshaderc.a ../../bin/Debug-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a -lglfw
+LDDEPS += ../../bin/Debug-linux-x86_64/Glad/libGlad.a ../../bin/Debug-linux-x86_64/ImGui/libImGui.a ../../bin/Debug-linux-x86_64/yaml/libyaml.a ../../bin/Debug-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Debug-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Debug-linux-x86_64/shaderc/libshaderc.a ../../bin/Debug-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release)
@@ -49,8 +49,8 @@ OBJDIR = ../../build/Release-linux-x86_64/VersaLib
 DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_RELEASE
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++2a
-LIBS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a -lglfw
-LDDEPS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a
+LIBS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Release-linux-x86_64/shaderc/libshaderc.a ../../bin/Release-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a -lglfw
+LDDEPS += ../../bin/Release-linux-x86_64/Glad/libGlad.a ../../bin/Release-linux-x86_64/ImGui/libImGui.a ../../bin/Release-linux-x86_64/yaml/libyaml.a ../../bin/Release-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Release-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Release-linux-x86_64/shaderc/libshaderc.a ../../bin/Release-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),dist)
@@ -60,8 +60,8 @@ OBJDIR = ../../build/Dist-linux-x86_64/VersaLib
 DEFINES += -D_CRT_SECURE_NO_WARNINGS -DVM_PLATFORM_LINUX -DVM_DIST
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++2a
-LIBS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a -lglfw
-LDDEPS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a
+LIBS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Dist-linux-x86_64/shaderc/libshaderc.a ../../bin/Dist-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a -lglfw
+LDDEPS += ../../bin/Dist-linux-x86_64/Glad/libGlad.a ../../bin/Dist-linux-x86_64/ImGui/libImGui.a ../../bin/Dist-linux-x86_64/yaml/libyaml.a ../../bin/Dist-linux-x86_64/tinyfiledialogs/libtinyfiledialogs.a ../../bin/Dist-linux-x86_64/ImGuizmo/libImGuizmo.a ../../bin/Dist-linux-x86_64/shaderc/libshaderc.a ../../bin/Dist-linux-x86_64/SPIRV_Cross/libSPIRV_Cross.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 endif
@@ -95,6 +95,7 @@ GENERATED += $(OBJDIR)/OpenGLRenderContext.o
 GENERATED += $(OBJDIR)/OpenGLRendererAPI.o
 GENERATED += $(OBJDIR)/OpenGLShader.o
 GENERATED += $(OBJDIR)/OpenGLTexture.o
+GENERATED += $(OBJDIR)/OpenGLUniformBuffer.o
 GENERATED += $(OBJDIR)/OpenGLVertexArray.o
 GENERATED += $(OBJDIR)/OpenGLWindow.o
 GENERATED += $(OBJDIR)/RenderCommand.o
@@ -107,6 +108,7 @@ GENERATED += $(OBJDIR)/SceneSerializer.o
 GENERATED += $(OBJDIR)/Shader.o
 GENERATED += $(OBJDIR)/ShaderLibrary.o
 GENERATED += $(OBJDIR)/Texture.o
+GENERATED += $(OBJDIR)/UniformBuffer.o
 GENERATED += $(OBJDIR)/VertexArray.o
 GENERATED += $(OBJDIR)/VertexBuffer.o
 GENERATED += $(OBJDIR)/pch.o
@@ -130,6 +132,7 @@ OBJECTS += $(OBJDIR)/OpenGLRenderContext.o
 OBJECTS += $(OBJDIR)/OpenGLRendererAPI.o
 OBJECTS += $(OBJDIR)/OpenGLShader.o
 OBJECTS += $(OBJDIR)/OpenGLTexture.o
+OBJECTS += $(OBJDIR)/OpenGLUniformBuffer.o
 OBJECTS += $(OBJDIR)/OpenGLVertexArray.o
 OBJECTS += $(OBJDIR)/OpenGLWindow.o
 OBJECTS += $(OBJDIR)/RenderCommand.o
@@ -142,6 +145,7 @@ OBJECTS += $(OBJDIR)/SceneSerializer.o
 OBJECTS += $(OBJDIR)/Shader.o
 OBJECTS += $(OBJDIR)/ShaderLibrary.o
 OBJECTS += $(OBJDIR)/Texture.o
+OBJECTS += $(OBJDIR)/UniformBuffer.o
 OBJECTS += $(OBJDIR)/VertexArray.o
 OBJECTS += $(OBJDIR)/VertexBuffer.o
 OBJECTS += $(OBJDIR)/pch.o
@@ -230,6 +234,9 @@ $(OBJDIR)/OpenGLShader.o: ../platforms/OpenGL/src/OpenGLShader.cpp
 $(OBJDIR)/OpenGLTexture.o: ../platforms/OpenGL/src/OpenGLTexture.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/OpenGLUniformBuffer.o: ../platforms/OpenGL/src/OpenGLUniformBuffer.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/OpenGLVertexArray.o: ../platforms/OpenGL/src/OpenGLVertexArray.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -294,6 +301,9 @@ $(OBJDIR)/ShaderLibrary.o: ../src/Render/ShaderLibrary.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/Texture.o: ../src/Render/Texture.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/UniformBuffer.o: ../src/Render/UniformBuffer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/VertexArray.o: ../src/Render/VertexArray.cpp

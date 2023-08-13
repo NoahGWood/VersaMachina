@@ -35,6 +35,8 @@ group "Dependencies"
     include "VersaLib/vendor/yaml"
     include "VersaLib/vendor/tinyfiledialogs"
     include "VersaLib/vendor/ImGuizmo"
+    include "VersaLib/vendor/shaderc"
+    include "VersaLib/vendor/SPIRV_Cross"
 
 group ""
 
