@@ -15,8 +15,9 @@ namespace VersaMachina
 
     void EditorLayer::OnAttach()
     {
-//    	m_CheckerboardTexture = Render::Texture2D::Create("VersaEditor/assets/textures/versa_logo_blank.png");
+        // Setup camera
         m_EditorCamera = Camera::EditorCamera();
+        // Setup framebuffer
         Render::FramebufferSpecification fbSpec;
         fbSpec.Attachments = { Render::FramebufferTextureFormat::RGBA8, Render::FramebufferTextureFormat::RED_INTEGER, Render::FramebufferTextureFormat::Depth };
         fbSpec.Width = 1280;
@@ -26,52 +27,12 @@ namespace VersaMachina
         // Create scene and add objects
 
         m_Scene = CreateRef<ECS::Scene>();
-
-        // m_CameraEntity = m_Scene->CreateEntity("Camera Entity");
-        // m_CameraEntity.AddComponent<ECS::CameraComponent>();
-
-        // class CameraController : public ECS::ScriptableEntity
-        // {
-        //     public:
-        //         void OnCreate()
-        //         {
-        //             //GetComponent<ECS::TransformComponent>();
-        //         }
-
-        //         void OnDestroy()
-        //         {
-
-        //         }
-
-        //         void OnUpdate(Timestep ts)
-        //         {
-        //             auto& transform = GetComponent<ECS::TransformComponent>();
-        //             if(HasComponent<ECS::CameraComponent>()){
-        //                 auto& camera = GetComponent<ECS::CameraComponent>().m_Camera;
-
-        // 				float speed = 0.005f;
-
-        // 				if (Input::Input::IsKeyPressed(Key::A))
-        // 					transform.Translation.x -= speed * ts;
-        // 				if (Input::Input::IsKeyPressed(Key::D))
-        // 					transform.Translation.x += speed * ts;
-        // 				if (Input::Input::IsKeyPressed(Key::W))
-        // 					transform.Translation.y += speed * ts;
-        // 				if (Input::Input::IsKeyPressed(Key::S))
-        // 					transform.Translation.y -= speed * ts;
-
-        //                 camera->SetTransform(transform.GetTransform());
-        //             }
-        //         }
-        // };
-        // m_CameraEntity.AddComponent<ECS::NativeScriptComponent>().Bind<CameraController>();
-
-        // m_SquareEntity = m_Scene->CreateEntity("Square");
-        // m_SquareEntity.AddComponent<ECS::SpriteRendererComponent>(glm::vec4{0.5f, 0.5f, 0.5f, 1.0f});
-        // m_SquareEntity.GetComponent<ECS::SpriteRendererComponent>().Texture = m_CheckerboardTexture;
-
-        m_SceneHierarchyPanel.SetContext(m_Scene);
-
+        m_SelectedEntity = CreateRef<ECS::Entity>();
+        // Set up panels
+        // Scene Hierarchy
+        m_SceneHierarchyPanel.SetContext(m_Scene, m_SelectedEntity);
+        // Inspector
+        m_InspectorPanel.SetContext(m_Scene, m_SelectedEntity);
     }
     void EditorLayer::OnDetach()
     {
@@ -136,9 +97,12 @@ namespace VersaMachina
     {
         ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
-        // Create Scene Hierachy
+        // Render Settings panel
+        m_EditorSettingsPanel.OnImGuiRender();
+        // Render Scene Hierachy Panel
         m_SceneHierarchyPanel.OnImGuiRender();
-
+        // Inspector Panel
+        m_InspectorPanel.OnImGuiRender();
         // Create console 
         ShowConsole();
 
@@ -255,8 +219,7 @@ namespace VersaMachina
 
 
             // Gizmos
-            ECS::Entity selected = m_SceneHierarchyPanel.GetSelectedEntity();
-            if(selected && m_ImGuizmoType!=-1)
+            if(*m_SelectedEntity && m_ImGuizmoType!=-1)
             {
                 ImGuizmo::SetOrthographic(false);
                 ImGuizmo::SetDrawlist();
@@ -276,7 +239,7 @@ namespace VersaMachina
                 auto& projection = m_EditorCamera.GetProjectionMatrix();
                 glm::mat4 idMatrix = glm::mat4{1};
                 // Entity transform
-                auto& tc = selected.GetComponent<ECS::TransformComponent>();
+                auto& tc = m_SelectedEntity->GetComponent<ECS::TransformComponent>();
                 auto& transform = tc.GetTransform();
                 // Snapping
                 bool snap = Input::IsKeyPressed(Key::LeftControl);
@@ -388,7 +351,8 @@ namespace VersaMachina
     {
         if(e.GetMouseButton() == Mouse::ButtonLeft && m_ViewportHovered && !ImGuizmo::IsUsingAny() && !ImGuizmo::IsOver())
         {
-            m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
+            
+            *m_SelectedEntity = m_HoveredEntity;
         }
 
         return false;
@@ -397,7 +361,9 @@ namespace VersaMachina
     {
         m_Scene = CreateRef<ECS::Scene>();
         m_Scene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
-        m_SceneHierarchyPanel.SetContext(m_Scene);
+        *m_SelectedEntity = {};
+        m_SceneHierarchyPanel.SetContext(m_Scene, m_SelectedEntity);
+        m_InspectorPanel.SetContext(m_Scene, m_SelectedEntity);
         m_SceneFile = "NewProject.versa";
     }
     void EditorLayer::Open()
@@ -407,7 +373,9 @@ namespace VersaMachina
         if(out){
             m_Scene = CreateRef<ECS::Scene>();
             m_Scene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
-            m_SceneHierarchyPanel.SetContext(m_Scene);
+            *m_SelectedEntity = {};
+            m_SceneHierarchyPanel.SetContext(m_Scene, m_SelectedEntity);
+            m_InspectorPanel.SetContext(m_Scene, m_SelectedEntity);
             ECS::SceneSerializer serializer(m_Scene);
             serializer.Deserialize(out);
         }

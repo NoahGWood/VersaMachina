@@ -118,6 +118,7 @@ namespace VersaMachina
         void Renderer2D::Shutdown()
         {
             VM_PROFILE_FUNCTION();
+            delete[] s_Data.QuadVertexBufferBase;
         }
         void Renderer2D::BeginScene(const Camera::Camera& camera)
         {

@@ -76,10 +76,16 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/ContentBrowserPanel.o
 GENERATED += $(OBJDIR)/EditorLayer.o
+GENERATED += $(OBJDIR)/EditorSettingsPanel.o
+GENERATED += $(OBJDIR)/InspectorPanel.o
 GENERATED += $(OBJDIR)/SceneHierarchyPanel.o
 GENERATED += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/ContentBrowserPanel.o
 OBJECTS += $(OBJDIR)/EditorLayer.o
+OBJECTS += $(OBJDIR)/EditorSettingsPanel.o
+OBJECTS += $(OBJDIR)/InspectorPanel.o
 OBJECTS += $(OBJDIR)/SceneHierarchyPanel.o
 OBJECTS += $(OBJDIR)/main.o
 
@@ -149,6 +155,15 @@ $(OBJDIR)/EditorLayer.o: ../src/EditorLayer.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/main.o: ../src/main.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/ContentBrowserPanel.o: ../src/panels/ContentBrowserPanel.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/EditorSettingsPanel.o: ../src/panels/EditorSettingsPanel.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/InspectorPanel.o: ../src/panels/InspectorPanel.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/SceneHierarchyPanel.o: ../src/panels/SceneHierarchyPanel.cpp
