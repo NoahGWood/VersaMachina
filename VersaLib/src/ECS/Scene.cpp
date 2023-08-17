@@ -39,7 +39,7 @@ namespace VersaMachina
         }
         void Scene::OnUpdateEditor(Timestep ts, Camera::EditorCamera& camera)
         {
-            camera.OnUpdate(ts);
+//            camera.OnUpdate(ts); // This should be called in EditorLayer
             VersaMachina::Render::Renderer2D::BeginScene(camera); // camera, lights, environment);
             DrawSprites();
             VersaMachina::Render::Renderer2D::EndScene();

@@ -10,7 +10,7 @@ namespace VersaMachina
     extern const std::filesystem::path g_AssetPath = "VersaEditor/assets";
 
     ContentBrowserPanel::ContentBrowserPanel()
-        : m_CurrentDirectory(g_AssetPath)
+        : m_CurrentDirectory(g_AssetPath), m_LastDirectory(g_AssetPath)
         {
             m_DirectoryIcon = Render::Texture2D::Create("VersaEditor/resources/DirectoryIcon.png");
             m_FileIcon = Render::Texture2D::Create("VersaEditor/resources/FileIcon.png");
@@ -20,13 +20,18 @@ namespace VersaMachina
     {
         ImGui::Begin("Content Browser");
 
+
+        m_Focused = ImGui::IsWindowFocused();
+        m_Hovered = ImGui::IsWindowHovered();
+        Application::Get().GetImGuiLayer()->BlockEvents(!m_Focused || !m_Hovered);
+
         // Iterate through directory
 
         if (m_CurrentDirectory != std::filesystem::path(g_AssetPath))
         {
             if (ImGui::Button("<-"))
             {
-                m_CurrentDirectory = m_CurrentDirectory.parent_path();
+                BackButton();
             }
         }
 
@@ -76,4 +81,22 @@ namespace VersaMachina
 		ImGui::SliderFloat("Padding", &padding, 0, 32);
         ImGui::End();
     }
+
+    void ContentBrowserPanel::NextButton()
+    {
+        if(m_LastDirectory != g_AssetPath)
+            m_CurrentDirectory = m_LastDirectory;
+            
+        if(m_CurrentDirectory != g_AssetPath)
+            m_LastDirectory = m_CurrentDirectory.parent_path();
+    }
+    void ContentBrowserPanel::BackButton()
+    {
+        if(m_CurrentDirectory != g_AssetPath)
+        {
+            m_LastDirectory = m_CurrentDirectory;
+            m_CurrentDirectory = m_CurrentDirectory.parent_path();
+        }
+    }
+
 } // namespace VersaMachina

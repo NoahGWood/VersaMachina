@@ -7,6 +7,10 @@ namespace VersaMachina
 {
     namespace Tuners
     {
+        struct SettingGroup
+        {
+            
+        };
         struct GaugeComponent
         {
             std::string Name = "Gauge Name (seen in menu)";
@@ -27,6 +31,19 @@ namespace VersaMachina
             glm::vec4 OnForeground = {0,0,0,1};
             glm::vec4 OffBackground = {1,1,1,1};
             glm::vec4 OnForeground = {0,0,0,1};
+        };
+        struct CurveComponent
+        {
+            std::string Name;
+            std::string XLabel;
+            std::string YLabel;
+            
+        };
+        struct TableComponent
+        {
+            std::string Title;
+            float XBins, YBins;
+
         };
     } // namespace Tuners
     

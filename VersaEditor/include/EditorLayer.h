@@ -200,10 +200,11 @@ namespace VersaMachina
    private:
       bool OnMouseButtonPressed(VersaMachina::MouseButtonPressedEvent &e);
       bool OnKeyPressed(VersaMachina::KeyPressedEvent &e);
+      void GetHoveredEntity();
       void NewScene();
       void Open();
       void Open(std::filesystem::path& path);
       void Save();
       void SaveAs();
    };
-} // namespace VersaMachina
+} // namespace VersaMachin

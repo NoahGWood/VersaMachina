@@ -4,6 +4,7 @@
 #include "ECS/Entity.h"
 #include "ECS/Components.h"
 #include "Camera/CameraSettings.h"
+#include "Render/Texture.h"
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 #include <glm/gtx/string_cast.hpp>
@@ -12,7 +13,6 @@ namespace VersaMachina
 {
     namespace ECS
     {
-
         YAML::Emitter &operator<<(YAML::Emitter &out, const glm::vec4 &v)
         {
             out << YAML::Flow;
@@ -87,6 +87,13 @@ namespace VersaMachina
                 out << YAML::Key << "SpriteRendererComponent"; // Set component name
                 out << YAML::BeginMap;                         // Component
                 out << YAML::Key << "Color" << YAML::Value << sr.Color;
+                out << YAML::Key << "TilingFactor" << YAML::Value << sr.TilingFactor;
+                if(sr.Texture != nullptr)
+                {
+                    out << YAML::Key << "Texture" << YAML::Value << sr.Texture->GetPath();
+                } else {
+                    out << YAML::Key << "Texture" << YAML::Value << "None";
+                }
                 out << YAML::EndMap; // Component
             }
             if (entity.HasComponent<CameraComponent>())
@@ -188,6 +195,10 @@ namespace VersaMachina
                             VM_CORE_TRACE("Found Sprite Component");
                             auto &sc = e.AddComponent<SpriteRendererComponent>();
                             sc.Color = spriteComponent["Color"].as<glm::vec4>();
+                            sc.TilingFactor = spriteComponent["TilingFactor"].as<float>();
+                            std::string texture = spriteComponent["Texture"].as<std::string>();
+                            if(texture != "None")
+                                sc.Texture = Render::Texture2D::Create(texture);
                         }
                         auto cameraComponent = entity["CameraComponent"];
                         if (cameraComponent)

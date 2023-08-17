@@ -1,0 +1,14 @@
+Scene: Untitled
+Entities:
+  - Entity: 1234
+    TagComponent:
+      Tag: VersaLogo
+    TransformComponent:
+      Transform: [5, 0, 0, 0, 0, 5, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [5, 5, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+      TilingFactor: 1
+      Texture: VersaEditor/assets/textures/versa_logo_blank.png

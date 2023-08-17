@@ -2,66 +2,6 @@ Scene: Untitled
 Entities:
   - Entity: 1234
     TagComponent:
-      Tag: Bottom
-    TransformComponent:
-      Transform: [0.70710057, -2.9802063e-08, -0.707100689, 0, 0.707105756, 2.38418224e-07, 0.707105577, 0, 8.9406079e-08, -0.999989986, 1.78812158e-07, 0, 0, -0.5, 0, 1]
-      Translation: [0, -0.5, 0]
-      Rotation: [1.57079613, 0.785398245, -4.21468513e-08]
-      Scale: [0.999991298, 0.99999851, 0.999990046]
-    SpriteRendererComponent:
-      Color: [0.250965238, 0.0116277365, 0.227863252, 1]
-  - Entity: 1234
-    TagComponent:
-      Tag: BackLeft
-    TransformComponent:
-      Transform: [0.70710665, 0, -0.707106769, 0, 0, 1, 0, 0, 0.707106769, 0, 0.70710665, 0, -0.353553414, 0, -0.353553355, 1]
-      Translation: [-0.353553414, 0, -0.353553355]
-      Rotation: [0, 0.785398245, 0]
-      Scale: [0.999999881, 1, 0.999999881]
-    SpriteRendererComponent:
-      Color: [0.552941203, 0.0156862754, 0.501960814, 1]
-  - Entity: 1234
-    TagComponent:
-      Tag: BackRight
-    TransformComponent:
-      Transform: [0.707106173, 0, 0.707107306, 0, 0, 1, 0, 0, -0.707107306, 0, 0.707106173, 0, 0.353553683, 0, -0.353553116, 1]
-      Translation: [0.353553683, 0, -0.353553116]
-      Rotation: [0, -0.78539896, 0]
-      Scale: [0.99999994, 1, 0.99999994]
-    SpriteRendererComponent:
-      Color: [0.552941203, 0.0156862754, 0.501960814, 1]
-  - Entity: 1234
-    TagComponent:
-      Tag: Top
-    TransformComponent:
-      Transform: [0.707106769, 0, -0.707106769, 0, 0.707106769, 1.1920929e-07, 0.707106709, 0, 0, -0.999999881, 1.1920929e-07, 0, 0, 0.5, 0, 1]
-      Translation: [0, 0.5, 0]
-      Rotation: [1.57079637, 0.785398185, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.874509811, 0, 0.835294127, 1]
-  - Entity: 1234
-    TagComponent:
-      Tag: Left
-    TransformComponent:
-      Transform: [0.707106054, 0, 0.707106173, 0, 0, 0.999999166, 0, 0, -0.707106829, 0, 0.707106709, 0, -0.356999993, 0, 0.349999994, 1]
-      Translation: [-0.356999993, 0, 0.349999994]
-      Rotation: [0, -0.785398245, 0]
-      Scale: [0.999999046, 0.999999166, 1]
-    SpriteRendererComponent:
-      Color: [1, 0, 0.949019611, 1]
-  - Entity: 1234
-    TagComponent:
-      Tag: Right
-    TransformComponent:
-      Transform: [0.707106709, 0, -0.707106829, 0, 0, 1, 0, 0, 0.707106829, 0, 0.707106709, 0, 0.349999994, 0, 0.349999994, 1]
-      Translation: [0.349999994, 0, 0.349999994]
-      Rotation: [0, 0.785398185, 0]
-      Scale: [1, 1, 1]
-    SpriteRendererComponent:
-      Color: [0.549019635, 0, 0.588235319, 1]
-  - Entity: 1234
-    TagComponent:
       Tag: Camera
     TransformComponent:
       Transform: [1, 0, 0, 0, 0, 0.919135332, -0.393941939, 0, 0, 0.393941939, 0.919135332, 0, 0, 1.70000005, 4, 1]
@@ -83,3 +23,75 @@ Entities:
         MoveSpeed: 0.00999999978
         RotateSpeed: 10
       Primary: true
+  - Entity: 1234
+    TagComponent:
+      Tag: Right
+    TransformComponent:
+      Transform: [0.707106709, 0, -0.707106829, 0, 0, 1, 0, 0, 0.707106829, 0, 0.707106709, 0, 0.349999994, 0, 0.349999994, 1]
+      Translation: [0.349999994, 0, 0.349999994]
+      Rotation: [0, 0.785398185, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.549019635, 0, 0.588235319, 1]
+      TilingFactor: 1
+      Texture: None
+  - Entity: 1234
+    TagComponent:
+      Tag: Left
+    TransformComponent:
+      Transform: [0.707106054, 0, 0.707106173, 0, 0, 0.999999166, 0, 0, -0.707106829, 0, 0.707106709, 0, -0.356999993, 0, 0.349999994, 1]
+      Translation: [-0.356999993, 0, 0.349999994]
+      Rotation: [0, -0.785398245, 0]
+      Scale: [0.999999046, 0.999999166, 1]
+    SpriteRendererComponent:
+      Color: [1, 0, 0.949019611, 1]
+      TilingFactor: 1
+      Texture: VersaEditor/assets/textures/Checkerboard.png
+  - Entity: 1234
+    TagComponent:
+      Tag: Top
+    TransformComponent:
+      Transform: [0.707106769, 0, -0.707106769, 0, 0.707106769, 1.1920929e-07, 0.707106709, 0, 0, -0.999999881, 1.1920929e-07, 0, 0, 0.5, 0, 1]
+      Translation: [0, 0.5, 0]
+      Rotation: [1.57079637, 0.785398185, 0]
+      Scale: [1, 1, 1]
+    SpriteRendererComponent:
+      Color: [0.874509811, 0, 0.835294127, 1]
+      TilingFactor: 1
+      Texture: None
+  - Entity: 1234
+    TagComponent:
+      Tag: BackRight
+    TransformComponent:
+      Transform: [0.707106173, 0, 0.707107306, 0, 0, 1, 0, 0, -0.707107306, 0, 0.707106173, 0, 0.353553683, 0, -0.353553116, 1]
+      Translation: [0.353553683, 0, -0.353553116]
+      Rotation: [0, -0.78539896, 0]
+      Scale: [0.99999994, 1, 0.99999994]
+    SpriteRendererComponent:
+      Color: [0.552941203, 0.0156862754, 0.501960814, 1]
+      TilingFactor: 1
+      Texture: None
+  - Entity: 1234
+    TagComponent:
+      Tag: BackLeft
+    TransformComponent:
+      Transform: [0.70710665, 0, -0.707106769, 0, 0, 1, 0, 0, 0.707106769, 0, 0.70710665, 0, -0.353553414, 0, -0.353553355, 1]
+      Translation: [-0.353553414, 0, -0.353553355]
+      Rotation: [0, 0.785398245, 0]
+      Scale: [0.999999881, 1, 0.999999881]
+    SpriteRendererComponent:
+      Color: [0.552941203, 0.0156862754, 0.501960814, 1]
+      TilingFactor: 1
+      Texture: None
+  - Entity: 1234
+    TagComponent:
+      Tag: Bottom
+    TransformComponent:
+      Transform: [0.70710057, -2.9802063e-08, -0.707100689, 0, 0.707105756, 2.38418224e-07, 0.707105577, 0, 8.9406079e-08, -0.999989986, 1.78812158e-07, 0, 0, -0.5, 0, 1]
+      Translation: [0, -0.5, 0]
+      Rotation: [1.57079613, 0.785398245, -4.21468513e-08]
+      Scale: [0.999991298, 0.99999851, 0.999990046]
+    SpriteRendererComponent:
+      Color: [0.250965238, 0.0116277365, 0.227863252, 1]
+      TilingFactor: 1
+      Texture: None
