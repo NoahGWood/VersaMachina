@@ -1,19 +1,21 @@
 #pragma once
 
-#include "Versa.h"
+#include "Render/Texture.h"
+
+#include <filesystem>
 
 namespace VersaMachina
 {
     class ContentBrowserPanel
     {
         public:
-            ContentBrowserPanel() = default;
-
-            void SetContext(const Ref<ECS::Scene>& scene);
+            ContentBrowserPanel();
 
             void OnImGuiRender();
         private:
-
+            std::filesystem::path m_CurrentDirectory;
+            Ref<Render::Texture2D> m_DirectoryIcon;
+            Ref<Render::Texture2D> m_FileIcon;
     };
 
 } // namespace VersaMachina

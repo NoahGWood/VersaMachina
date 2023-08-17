@@ -6,6 +6,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <filesystem>
 
 namespace VersaMachina
 {
@@ -116,8 +117,27 @@ namespace VersaMachina
         template <>
         void DrawComponent<SpriteRendererComponent>(Entity& e)
         {
-            DrawComponentUI<ECS::SpriteRendererComponent>("Sprite Renderer", e, [](auto &component)
-                                                        { ImGui::ColorEdit4("Color", glm::value_ptr(component.Color)); });
+            DrawComponentUI<ECS::SpriteRendererComponent>
+            ("Sprite Renderer", e, [](auto &component)
+            {
+                ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+                
+                ImGui::Button("Texture", ImVec2{100.0f, 0.0f});
+
+                if (ImGui::BeginDragDropTarget())
+        		{
+        			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+        			{
+                        // IDK why but you need to pass char*, even though this IS supposed to be wchar_t*
+                        std::filesystem::path path = (char*)payload->Data;
+                        auto ext = path.extension();
+                        if(ext == ".png")
+                            component.Texture = Render::Texture2D::Create(path.string());
+        			}
+        			ImGui::EndDragDropTarget();
+        		}
+                ImGui::DragFloat("Tiling Factor", &component.TilingFactor, 0.1f, 0.0f, 100.0f);
+            });
         }
         template <>
         void DrawComponent<CameraComponent>(Entity& e)

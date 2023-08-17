@@ -11,16 +11,18 @@ namespace VersaMachina
     namespace Render
     {
         OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
-            : m_Width(width), m_Height(height), m_InternalFormat(GL_RGBA8), m_DataFormat(GL_RGBA)
+            : m_Width(width), m_Height(height)
         {        
             VM_PROFILE_FUNCTION();
 
+            m_InternalFormat = GL_RGBA8;
+            m_DataFormat = GL_RGBA;
+
             glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
             glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
-        
 
             glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
             glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -63,9 +65,8 @@ namespace VersaMachina
             glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
             glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
         
-
             glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
             glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);

@@ -10,6 +10,8 @@
 
 namespace VersaMachina
 {
+	extern const std::filesystem::path g_AssetPath;
+
     EditorLayer::EditorLayer()
     : Layer("EditorLayer") { }
 
@@ -103,6 +105,8 @@ namespace VersaMachina
         m_SceneHierarchyPanel.OnImGuiRender();
         // Inspector Panel
         m_InspectorPanel.OnImGuiRender();
+        // Content Browser Panel
+        m_ContentBrowserPanel.OnImGuiRender();
         // Create console 
         ShowConsole();
 
@@ -207,7 +211,21 @@ namespace VersaMachina
             #pragma GCC diagnostic push
             #pragma GCC diagnostic ignored "-Wint-to-pointer-cast" // Ignore warning caused by pointer conversion of int
                 ImGui::Image((void*)textureID, viewportSize, ImVec2{0,1}, ImVec2{1,0});
-            #pragma GCC diagnostic pop      
+            #pragma GCC diagnostic pop
+
+            if (ImGui::BeginDragDropTarget())
+    		{
+    			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM"))
+    			{
+                    // IDK why but you need to pass char*, even though this IS supposed to be wchar_t*
+                    std::filesystem::path path = (char*)payload->Data;
+                    auto ext = path.extension();
+                    if(ext == ".versa" || ext == ".yaml")
+        				Open(path);
+    			}
+    			ImGui::EndDragDropTarget();
+    		}
+
             auto windowSize = ImGui::GetWindowSize();
             ImVec2 minBound = ImGui::GetWindowPos();
             minBound.x += viewportOffset.x;
@@ -271,9 +289,7 @@ namespace VersaMachina
         // Simulator
         ImGui::Begin("Simulator");
         ImGui::End();
-        // Inspector
-        ImGui::Begin("Project");
-        ImGui::End();
+        // Content Browser
         // Node Editor
         ImGui::Begin("Node Editor");
         if(ImGui::CollapsingHeader("Node Editor"))
@@ -379,6 +395,17 @@ namespace VersaMachina
             ECS::SceneSerializer serializer(m_Scene);
             serializer.Deserialize(out);
         }
+    }
+    void EditorLayer::Open(std::filesystem::path& path)
+    {       
+            VM_CORE_INFO("OPENING: {0}", path);
+            m_Scene = CreateRef<ECS::Scene>();
+            m_Scene->OnViewportResize(m_ViewportSize.x, m_ViewportSize.y);
+            *m_SelectedEntity = {};
+            m_SceneHierarchyPanel.SetContext(m_Scene, m_SelectedEntity);
+            m_InspectorPanel.SetContext(m_Scene, m_SelectedEntity);
+            ECS::SceneSerializer serializer(m_Scene);
+            serializer.Deserialize(path.string());
     }
     void EditorLayer::Save()
     {

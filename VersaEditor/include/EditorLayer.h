@@ -4,6 +4,7 @@
 #include "panels/SceneHierarchyPanel.h"
 #include "panels/InspectorPanel.h"
 #include "panels/EditorSettingsPanel.h"
+#include "panels/ContentBrowserPanel.h"
 
 #define VERSA_MACHINA
 #include <ImGuizmo/GraphEditor.h>
@@ -187,6 +188,7 @@ namespace VersaMachina
       SceneHierarchyPanel m_SceneHierarchyPanel;
       EditorSettingsPanel m_EditorSettingsPanel;
       InspectorPanel m_InspectorPanel;
+      ContentBrowserPanel m_ContentBrowserPanel;
       // Gizmos
       int m_ImGuizmoType = -1;
       // Node editor
@@ -200,6 +202,7 @@ namespace VersaMachina
       bool OnKeyPressed(VersaMachina::KeyPressedEvent &e);
       void NewScene();
       void Open();
+      void Open(std::filesystem::path& path);
       void Save();
       void SaveAs();
    };

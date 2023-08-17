@@ -250,7 +250,7 @@ namespace VersaMachina
         void Renderer2D::DrawSprite(const glm::mat4& transform, ECS::SpriteRendererComponent& src, int entityID)
         {
             Render::Renderer2D::DrawQuad(transform, {0,0,0}, src.Color,
-                {1,1}, {0,0,0}, src.Texture, 1.0f, entityID);
+                {1,1}, {0,0,0}, src.Texture, src.TilingFactor, entityID);
       
         }
 
