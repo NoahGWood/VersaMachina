@@ -1,0 +1,23 @@
+id: vehitech:front_fog_right_v1
+name: Front Right Fog Lamp
+version: 1.0.0
+
+tags:
+  domain: lighting
+  side: right
+  location: front
+  function: fog
+
+ports:
+  - id: fog_plus
+    name: Fog +
+    kind: Lamp
+    tags:
+      function: front_fog
+      max_current: 4A
+
+  - id: lamp_gnd
+    name: Lamp Ground
+    kind: Ground
+    tags:
+      ground_tag: gnd_front_right

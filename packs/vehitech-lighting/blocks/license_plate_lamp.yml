@@ -1,0 +1,22 @@
+id: vehitech:license_plate_lamp_v1
+name: License Plate Lamp Assembly
+version: 1.0.0
+
+tags:
+  domain: lighting
+  location: rear_center
+  function: plate
+
+ports:
+  - id: plate_plus
+    name: Plate +
+    kind: Lamp
+    tags:
+      function: plate
+      max_current: 1A
+
+  - id: lamp_gnd
+    name: Lamp Ground
+    kind: Ground
+    tags:
+      ground_tag: gnd_rear_center

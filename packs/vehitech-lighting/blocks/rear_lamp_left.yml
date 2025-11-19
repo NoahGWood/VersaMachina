@@ -1,0 +1,53 @@
+id: vehitech:rear_lamp_left_v1
+name: Rear Left Combination Lamp
+version: 1.0.0
+
+tags:
+  domain: lighting
+  side: left
+  location: rear
+
+ports:
+  - id: tail_plus
+    name: Tail/Running +
+    kind: Lamp
+    tags:
+      function: tail
+      max_current: 3A
+
+  - id: brake_plus
+    name: Brake +
+    kind: Lamp
+    tags:
+      function: brake
+      max_current: 4A
+
+  - id: turn_plus
+    name: Turn Signal +
+    kind: Lamp
+    tags:
+      function: turn
+      side: left
+      max_current: 3A
+
+  - id: reverse_plus
+    name: Reverse +
+    kind: Lamp
+    tags:
+      function: reverse
+      max_current: 3A
+      optional: true
+
+  - id: rear_fog_plus
+    name: Rear Fog +
+    kind: Lamp
+    tags:
+      function: rear_fog
+      max_current: 3A
+      optional: true
+
+  - id: lamp_gnd
+    name: Lamp Ground
+    kind: Ground
+    tags:
+      ground_tag: gnd_rear_left

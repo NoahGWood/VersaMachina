@@ -1,0 +1,24 @@
+Project: Test
+Version: 1
+Entities:
+  - Entity: 0
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Position: [0, 0]
+    HierarchyComponent:
+      Parent: "NULL"
+  - Entity: 1
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Position: [0, 0]
+    HierarchyComponent:
+      Parent: 0
+  - Entity: 2
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Position: [0, 0]
+    HierarchyComponent:
+      Parent: 1

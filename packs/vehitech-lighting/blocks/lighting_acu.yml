@@ -1,0 +1,49 @@
+id: vehitech:lighting_acu_v1
+name: VehiTech Lighting ACU v1
+version: 1.0.0
+
+tags:
+  domain: lighting
+  safety: C
+
+ports:
+  - id: batt_plus
+    name: Battery +12V
+    kind: Power
+    tags:
+      fuse_tag: lights_main
+
+  - id: gnd
+    name: Ground
+    kind: Ground
+    tags:
+      ground_tag: gnd_front
+
+  - id: can0
+    name: CAN Body
+    kind: CAN
+    tags:
+      bitrate: 500k
+
+  # Front outputs
+  - { id: fl_low_out,   name: FL Low Beam +,    kind: Lamp, tags: { function: low_beam,  side: left,  max_current: 6A, fuse_tag: fl_low } }
+  - { id: fr_low_out,   name: FR Low Beam +,    kind: Lamp, tags: { function: low_beam,  side: right, max_current: 6A, fuse_tag: fr_low } }
+  - { id: fl_turn_out,  name: FL Turn +,        kind: Lamp, tags: { function: turn,      side: left,  max_current: 3A, fuse_tag: fl_turn } }
+  - { id: fr_turn_out,  name: FR Turn +,        kind: Lamp, tags: { function: turn,      side: right, max_current: 3A, fuse_tag: fr_turn } }
+
+  # Rear outputs
+  - { id: rl_tail_out,  name: RL Tail +,        kind: Lamp, tags: { function: tail,      side: left,  max_current: 3A, fuse_tag: tails } }
+  - { id: rr_tail_out,  name: RR Tail +,        kind: Lamp, tags: { function: tail,      side: right, max_current: 3A, fuse_tag: tails } }
+  - { id: rl_brake_out, name: RL Brake +,       kind: Lamp, tags: { function: brake,     side: left,  max_current: 4A, fuse_tag: brakes } }
+  - { id: rr_brake_out, name: RR Brake +,       kind: Lamp, tags: { function: brake,     side: right, max_current: 4A, fuse_tag: brakes } }
+  - { id: chmsl_out,    name: CHMSL +,          kind: Lamp, tags: { function: brake,     location: rear_center, max_current: 3A, fuse_tag: brakes } }
+  - { id: plate_out,    name: License Plate +,  kind: Lamp, tags: { function: plate,     max_current: 1A, fuse_tag: plate } }
+
+signals:
+  requires:
+    - { id: LowBeamCommand,   type: bool, via_port: can0 }
+    - { id: HighBeamCommand,  type: bool, via_port: can0 }
+    - { id: TurnLeftCommand,  type: bool, via_port: can0 }
+    - { id: TurnRightCommand, type: bool, via_port: can0 }
+    - { id: BrakeLampCommand, type: bool, via_port: can0 }
+    - { id: TailLampCommand,  type: bool, via_port: can0 }

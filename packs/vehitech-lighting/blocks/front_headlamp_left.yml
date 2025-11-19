@@ -1,0 +1,52 @@
+id: vehitech:front_headlamp_left_v1
+name: Front Left Headlamp Assembly
+version: 1.0.0
+
+tags:
+  domain: lighting
+  side: left
+  location: front
+
+ports:
+  - id: low_beam_plus
+    name: Low Beam +
+    kind: Lamp
+    tags:
+      function: low_beam
+      max_current: 6A
+
+  - id: high_beam_plus
+    name: High Beam +
+    kind: Lamp
+    tags:
+      function: high_beam
+      max_current: 6A
+
+  - id: drl_plus
+    name: DRL +
+    kind: Lamp
+    tags:
+      function: drl
+      max_current: 3A
+      optional: true
+
+  - id: turn_plus
+    name: Turn Signal +
+    kind: Lamp
+    tags:
+      function: turn
+      side: left
+      max_current: 3A
+
+  - id: park_plus
+    name: Parking/Position +
+    kind: Lamp
+    tags:
+      function: park
+      max_current: 2A
+
+  - id: lamp_gnd
+    name: Lamp Ground
+    kind: Ground
+    tags:
+      ground_tag: gnd_front_left

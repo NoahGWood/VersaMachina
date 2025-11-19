@@ -1,0 +1,18 @@
+Project: New Project
+Version: 1
+Entities:
+  - Entity: 2
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Position: [0, 0]
+  - Entity: 1
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Position: [0, 0]
+  - Entity: 0
+    TagComponent:
+      Tag: New Entity
+    TransformComponent:
+      Position: [0, 0]

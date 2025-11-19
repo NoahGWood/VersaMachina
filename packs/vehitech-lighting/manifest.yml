@@ -1,0 +1,23 @@
+vendor: vehitech
+package: base_exterior_lighting
+version: 0.1.0
+
+metadata:
+  description: "VehiTech base exterior lighting (front, rear, turn signals)"
+  website: "https://github.com/VehiTech"
+
+blocks:
+  - file: blocks/lighting_acu.yml
+  - file: blocks/front_headlamp_left.yml
+  - file: blocks/front_headlamp_right.yml
+  - file: blocks/rear_headlamp_left.yml
+  - file: blocks/rear_headlamp_right.yml
+  - file: blocks/chmsl.yml
+  - file: blocks/front_fog_left.yml
+  - file: blocks/front_fog_right.yml
+  - file: blocks/side_marker_left.yml
+  - file: blocks/side_marker_right.yml
+  - file: blocks/license_plate_lamp.yml
+
+troubleshooting:
+  - file: troubleshooting/lighting_acu.yml

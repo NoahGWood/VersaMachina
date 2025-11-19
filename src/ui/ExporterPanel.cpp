@@ -1,0 +1,13 @@
+#include <VM.h>
+#include <ui/Panels/ExporterPanel.h>
+
+namespace VM
+{
+
+    void ExporterPanel::Render(){
+        if(ImGui::Begin(m_Name.c_str(), &m_IsOpen)){
+
+        }
+        ImGui::End();
+    }
+} // namespace VM

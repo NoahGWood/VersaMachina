@@ -1,0 +1,168 @@
+id: vehitech:lighting_acu_v1
+
+troubleshooting:
+  - id: fl_low_inoperative
+    symptom: "Front left low beam inoperative"
+    preconditions:
+      - ignition_state == "ON"
+      - battery_voltage >= 11.5
+      - LowBeamCommand == true
+
+    entry_points:
+      - type: port_voltage
+        port: fl_low_out
+        expected: ">= 11V"
+        description: "Measure voltage at Lighting ACU FL low-beam output."
+
+    checks:
+      - id: fuse_ok
+        type: fuse_continuity
+        fuse_tag: fl_low
+        description: "Check FL low-beam fuse continuity."
+
+      - id: ground_ok
+        type: ground_resistance
+        ground_tag: gnd_front_left
+        expected: "< 0.5Ω"
+        description: "Check ground at front-left lamp to battery negative."
+
+      - id: command_present
+        type: signal_presence
+        signal: LowBeamCommand
+        via_port: can0
+        description: "Verify low-beam command present on CAN bus."
+
+      - id: harness_ok
+        type: harness_continuity
+        from_port: fl_low_out
+        to_component_tag: front_headlamp_left_v1
+        description: "Check harness continuity ACU → FL headlamp low beam."
+
+    probable_causes:
+      - when: [ "fuse_ok == false" ]
+        cause: "Blown FL low-beam fuse"
+        category: electrical_supply
+
+      - when: [ "ground_ok == false" ]
+        cause: "Poor ground at front-left lamp"
+        category: grounding
+
+      - when: [ "command_present == false" ]
+        cause: "No low-beam command (switch/stalk/CAN issue)"
+        category: input
+
+      - when: [ "harness_ok == false" ]
+        cause: "Open circuit between ACU and FL low-beam"
+        category: wiring
+
+      - when:
+          - "fuse_ok == true"
+          - "ground_ok == true"
+          - "command_present == true"
+          - "harness_ok == true"
+        cause: "Lighting ACU FL low-beam driver fault"
+        category: module
+
+  - id: rl_brake_inoperative
+    symptom: "Rear left brake lamp inoperative"
+    preconditions:
+      - ignition_state in ["ON", "RUN"]
+      - BrakeLampCommand == true
+
+    entry_points:
+      - type: port_voltage
+        port: rl_brake_out
+        expected: ">= 11V"
+        description: "Measure voltage at RL brake output."
+
+    checks:
+      - id: brake_fuse_ok
+        type: fuse_continuity
+        fuse_tag: brakes
+        description: "Check brake-lamp fuse continuity."
+
+      - id: rear_ground_ok
+        type: ground_resistance
+        ground_tag: gnd_rear_left
+        expected: "< 0.5Ω"
+        description: "Check rear-left ground to battery negative."
+
+      - id: brake_cmd_present
+        type: signal_presence
+        signal: BrakeLampCommand
+        via_port: can0
+        description: "Verify brake-lamp command present on CAN."
+
+      - id: brake_harness_ok
+        type: harness_continuity
+        from_port: rl_brake_out
+        to_component_tag: rear_lamp_left_v1
+        description: "Check harness continuity ACU → RL lamp brake input."
+
+    probable_causes:
+      - when: [ "brake_fuse_ok == false" ]
+        cause: "Blown brake-lamp fuse"
+        category: electrical_supply
+      - when: [ "rear_ground_ok == false" ]
+        cause: "Rear-left ground fault"
+        category: grounding
+      - when: [ "brake_cmd_present == false" ]
+        cause: "No brake command from pedal/switch/CAN"
+        category: input
+      - when: [ "brake_harness_ok == false" ]
+        cause: "Open circuit ACU → RL brake lamp"
+        category: wiring
+      - when:
+          - "brake_fuse_ok == true"
+          - "rear_ground_ok == true"
+          - "brake_cmd_present == true"
+          - "brake_harness_ok == true"
+        cause: "Lighting ACU RL brake driver fault"
+        category: module
+
+  - id: plate_lamps_inoperative
+    symptom: "License plate illumination inoperative"
+    preconditions:
+      - ignition_state in ["ON", "RUN"]
+      - TailLampCommand == true
+
+    entry_points:
+      - type: port_voltage
+        port: plate_out
+        expected: ">= 11V"
+        description: "Measure voltage at license plate output."
+
+    checks:
+      - id: plate_fuse_ok
+        type: fuse_continuity
+        fuse_tag: plate
+        description: "Check plate lamp fuse continuity."
+
+      - id: rear_center_ground_ok
+        type: ground_resistance
+        ground_tag: gnd_rear_center
+        expected: "< 0.5Ω"
+        description: "Check rear-center ground."
+
+      - id: plate_harness_ok
+        type: harness_continuity
+        from_port: plate_out
+        to_component_tag: license_plate_lamp_v1
+        description: "Check harness ACU → license plate lamp."
+
+    probable_causes:
+      - when: [ "plate_fuse_ok == false" ]
+        cause: "Blown license plate lamp fuse"
+        category: electrical_supply
+      - when: [ "rear_center_ground_ok == false" ]
+        cause: "License plate ground fault"
+        category: grounding
+      - when: [ "plate_harness_ok == false" ]
+        cause: "Open circuit ACU → license plate lamp"
+        category: wiring
+      - when:
+          - "plate_fuse_ok == true"
+          - "rear_center_ground_ok == true"
+          - "plate_harness_ok == true"
+        cause: "Lighting ACU plate driver fault or lamp element failure"
+        category: module

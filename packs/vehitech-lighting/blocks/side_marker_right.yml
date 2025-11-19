@@ -1,0 +1,22 @@
+id: vehitech:side_marker_right_v1
+name: Right Side Marker Lamp
+version: 1.0.0
+
+tags:
+  domain: lighting
+  side: right
+  location: side
+
+ports:
+  - id: marker_plus
+    name: Marker +
+    kind: Lamp
+    tags:
+      function: side_marker
+      max_current: 1A
+
+  - id: lamp_gnd
+    name: Lamp Ground
+    kind: Ground
+    tags:
+      ground_tag: gnd_front_right

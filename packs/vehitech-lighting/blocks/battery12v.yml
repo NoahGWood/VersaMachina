@@ -1,0 +1,18 @@
+id: vehitech:battery12v
+name: 12V Starter Battery
+version: 1.0.0
+
+tags:
+  domain: power
+
+ports:
+  - id: pos
+    name: Battery +
+    kind: Power
+    tags:
+      nominal_voltage: 12
+      max_current: 200A
+
+  - id: neg
+    name: Battery -
+    kind: Ground
